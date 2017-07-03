@@ -1,26 +1,31 @@
+import qs from 'qs'
 import { setStore, removeStore } from '@/utils/storage'
 const state = {
-    token: null,
-    accountNo: null,
+    auth: {
+        token: null,
+        accountNo: null,
+    },
     userInfo: {}
 }
 
 const actions = {
-    ['getToken']({ commit }, token) {
-        commit('token', token)
+    ['getAuth']({ commit }, auth) {
+        commit('auth', auth)
     }
 }
 
 const mutations = {
-    ['token'](state, { token }) {
-        state.token = { token }
-        setStore('token', token)
+    ['auth'](state, { token, accountNo }) {
+        state.auth = { token, accountNo }
+        setStore('auth', qs.stringify({ token, accountNo }))
     },
     ['logout'](state) {
-        state.token = null
-        state.accountNo = null
-        state.userInfo =  {}
-        removeStore('token')
+        state.auth = {
+            token: null,
+            accountNo: null
+        }
+        state.userInfo = {}
+        removeStore('auth')
     },
 
 }

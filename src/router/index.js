@@ -50,7 +50,7 @@ router.beforeEach(({ meta, path }, from, next) => {
   bar.start()
   let { auth = true } = meta
   if (auth) {
-    var token = Boolean(store.state.global.token) //true用户已登录， false用户未登录
+    var token = Boolean(store.state.global.auth.token) //true用户已登录， false用户未登录
     if (auth && !token && path !== '/Login') {
       return next({
         path: '/Login',
