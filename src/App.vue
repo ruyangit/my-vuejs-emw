@@ -1,17 +1,20 @@
 <template>
     <div id="app">
-        <header>
-            <nav>
-                <router-link to="/" exact>
-                    <img class="logo" src="/static/images/logo.png" alt="logo">
-                </router-link>
-                <div v-if="isLogin">
-                    <router-link :to="item.url" v-for="(item,index) in array" :key="index" v-text="item.text"></router-link>
-                </div>
-            </nav>
-        </header>
+        <div class="top clear">
+            <header class="layout">
+                <img src="/static/images/logo.png" alt="">
+                <h1>企业监测预警系统</h1>
+                <nav class="menu">
+                    <ul class="nav" v-if="isLogin">
+                        <li v-for="(item,index) in array" :key="index">
+                            <router-link :to="item.url" v-text="item.text" tag="a"></router-link>
+                        </li>
+                    </ul>
+                </nav>
+            </header>
+        </div>
         <transition name="fade" mode="out-in">
-            <router-view class="view"></router-view>
+            <router-view :key="key"></router-view>
         </transition>
     </div>
 </template>
@@ -27,7 +30,7 @@ export default {
                 url: '/WarningConsole'
             }, {
                 text: '关注企业',
-                url: '/ConcernEnterprise'
+                url: '/FollowCompany'
             }, {
                 text: '帮助中心',
                 url: '/HelpCenter'
@@ -54,7 +57,7 @@ export default {
         'global.auth.token'() {
             if (this.global.auth.token) {
                 this.isLogin = true
-            }else{
+            } else {
                 this.isLogin = false
             }
         }
@@ -67,6 +70,6 @@ export default {
 }
 
 .router-link-exact-active {
-    color: red
+    border-bottom: 2px solid #49a0d5;
 }
 </style>

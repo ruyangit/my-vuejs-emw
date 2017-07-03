@@ -7,7 +7,7 @@ import ProgressBar from '@/components/ProgressBar'
 
 const Login = r => require.ensure([], () => r(require('@/views/Login')), 'chunk-login')
 const WarningConsole = r => require.ensure([], () => r(require('@/views/WarningConsole')), 'chunk-warningconsole')
-const ConcernEnterprise = r => require.ensure([], () => r(require('@/views/ConcernEnterprise')), 'chunk-concernenterprise')
+const FollowCompany = r => require.ensure([], () => r(require('@/views/FollowCompany')), 'chunk-followcompany')
 const HelpCenter = r => require.ensure([], () => r(require('@/views/HelpCenter')), 'chunk-helpcenter')
 const MyAccount = r => require.ensure([], () => r(require('@/views/MyAccount')), 'chunk-myaccount')
 
@@ -37,7 +37,7 @@ const router = new VueRouter({
     { name: 'Login', path: '/Login', component: Login, meta: { auth: false } },
 
     { name: 'WarningConsole', path: '/WarningConsole', component: WarningConsole, meta: { scrollToTop: true } },
-    { name: 'ConcernEnterprise', path: '/ConcernEnterprise', component: ConcernEnterprise, meta: { scrollToTop: true } },
+    { name: 'FollowCompany', path: '/FollowCompany', component: FollowCompany, meta: { scrollToTop: true } },
     { name: 'HelpCenter', path: '/HelpCenter', component: HelpCenter, meta: { scrollToTop: true } },
     { name: 'MyAccount', path: '/MyAccount', component: MyAccount, meta: { scrollToTop: true } },
 
