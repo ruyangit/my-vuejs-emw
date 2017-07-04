@@ -4,10 +4,8 @@ import qs from 'qs'
 import store from '@/store'
 import { baseUrl } from './env'
 
-// const bar = Vue.prototype.$bar
-
 axios.interceptors.request.use(config => {
-    // bar.start();
+    store.dispatch("global/gProgress", 0)
     return config
 }, error => {
     return Promise.reject(error)
@@ -16,7 +14,7 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(response => response, error => Promise.resolve(error.response))
 
 function checkStatus(response) {
-    // bar.finish()
+    store.dispatch("global/gProgress", 100)
     if (response && (response.status === 200 || response.status === 304)) {
         return response
     }
@@ -32,7 +30,8 @@ function checkStatus(response) {
 function checkCode(res) {
     if (res.data.status !== 200) {
         alert('服务器请求失败！');
-        
+        store.commit("global/logout")
+        window.location.href = "/"
     }
     return res
 }

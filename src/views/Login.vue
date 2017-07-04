@@ -44,19 +44,14 @@ export default {
             const { data: { status, message } } = await api.get('/user/login')
             if (status === 200) {
                 // //登录成功获取用户信息
-                // const { data: { status, data } } = await api.get('/user/info')
-                // if (status === 200) {
-                //     this.$store.commit("global/userInfo", data)
-                //     let redirect = decodeURIComponent(this.$route.query.redirect || '/');
-                //     this.$router.push({
-                //         path: redirect
-                //     })
-                // }
+                this.$store.commit("global/isLogin", 'true')
                 this.$store.dispatch("global/getUserInfo")
                 let redirect = decodeURIComponent(this.$route.query.redirect || '/');
                 this.$router.push({
                     path: redirect
                 })
+            }else{
+                alert('用户名密码输入有误！')
             }
         }
     },

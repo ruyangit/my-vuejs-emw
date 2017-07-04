@@ -50,13 +50,13 @@ router.beforeEach(({ meta, path }, from, next) => {
   bar.start()
   let { auth = true } = meta
   if (auth) {
-    // var userInfo = store.state.global.userInfo
-    // if (auth && !userInfo && path !== '/Login') {
-    //   return next({
-    //     path: '/Login',
-    //     query: { redirect: path }  // 将跳转的路由path作为参数，登录成功后跳转到该路由
-    //   })
-    // }
+    var isLogin = Boolean(store.state.global.isLogin)
+    if (auth && !isLogin && path !== '/Login') {
+      return next({
+        path: '/Login',
+        query: { redirect: path }  // 将跳转的路由path作为参数，登录成功后跳转到该路由
+      })
+    }
   }
   next()
 })

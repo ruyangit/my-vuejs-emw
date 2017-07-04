@@ -16,23 +16,11 @@ Vue.config.productionTip = false
 Vue.use(Meta)
 
 sync(store, router)
-
-//页面刷新时重新赋值
-// const auth = getStore('auth')
-// if (auth) {
-//   //获取用户信息
-//   const authJs = qs.parse(auth)
-//   store.commit('global/auth', authJs)
-//}
-// api.get('/user/info').then(response => {
-// if(response&&response.status==200)
-// })
-// if (status === 200) {
-//   this.$store.commit("global/userInfo", data)
-// }
-store.dispatch("global/getUserInfo")
-
-
+let isLogin = Boolean(getStore('isLogin'))
+if(isLogin){
+    store.commit("global/isLogin", 'true')
+    store.dispatch("global/getUserInfo")
+}
 
 const app = new Vue({
   router,
