@@ -229,15 +229,26 @@ a{
 }
 .login-box label{
   display: block;
-  line-height: 30px;
+  /*line-height: 30px;*/
   color: #999;
   padding: 10px 0;
 }
-.login-box input{
+.login-box input[type='text'],
+.login-box input[type='tel'],
+.login-box input[type='password']{
   border:0;
   border-bottom: 1px solid #bbb;
   width: 100%;
-  line-height: 50px;
+  line-height: 35px;
+  padding-left: 10px;
+}
+.login-box .el-input__inner{
+  border-radius: 0px;
+  height: 40px;
+  font-size: 14px;
+}
+.login-box .el-form-item__label{
+  font-size: 16px;
 }
 .login-box button{
   width: 100%;
