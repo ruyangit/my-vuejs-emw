@@ -9,7 +9,7 @@ import { getStore } from './utils/storage'
 
 import { sync } from 'vuex-router-sync'
 
-import qs from 'qs'
+// import qs from 'qs'
 
 Vue.config.productionTip = false
 
@@ -18,12 +18,21 @@ Vue.use(Meta)
 sync(store, router)
 
 //页面刷新时重新赋值
-const auth = getStore('auth')
-if (auth) {
-  //获取用户信息
-  const authJs = qs.parse(auth)
-  store.commit('global/auth', authJs)
-}
+// const auth = getStore('auth')
+// if (auth) {
+//   //获取用户信息
+//   const authJs = qs.parse(auth)
+//   store.commit('global/auth', authJs)
+//}
+// api.get('/user/info').then(response => {
+// if(response&&response.status==200)
+// })
+// if (status === 200) {
+//   this.$store.commit("global/userInfo", data)
+// }
+store.dispatch("global/getUserInfo")
+
+
 
 const app = new Vue({
   router,

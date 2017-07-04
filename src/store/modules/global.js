@@ -1,31 +1,23 @@
-import qs from 'qs'
-import { setStore, removeStore } from '@/utils/storage'
+import api from '@api'
 const state = {
-    auth: {
-        token: null,
-        accountNo: null,
-    },
-    userInfo: {}
+    userInfo: null
 }
 
 const actions = {
-    ['getAuth']({ commit }, auth) {
-        commit('auth', auth)
+    async['getUserInfo']({ commit }) {
+        const { data: { status, data } } = await api.get('/user/info')
+        if (status === 200) {
+            commit('userInfo', data)
+        }
     }
 }
 
 const mutations = {
-    ['auth'](state, { token, accountNo }) {
-        state.auth = { token, accountNo }
-        setStore('auth', qs.stringify({ token, accountNo }))
+    ['userInfo'](state, data) {
+        state.userInfo = data
     },
     ['logout'](state) {
-        state.auth = {
-            token: null,
-            accountNo: null
-        }
-        state.userInfo = {}
-        removeStore('auth')
+        state.userInfo = null
     },
 
 }

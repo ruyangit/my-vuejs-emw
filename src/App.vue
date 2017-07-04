@@ -49,13 +49,13 @@ export default {
         }
     },
     mounted() {
-        if (this.global.auth.token) {
+        if (this.global.userInfo) {
             this.isLogin = true
         }
     },
     watch: {
-        'global.auth.token'() {
-            if (this.global.auth.token) {
+        'global.userInfo'() {
+            if (this.global.userInfo) {
                 this.isLogin = true
             } else {
                 this.isLogin = false
