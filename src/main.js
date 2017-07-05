@@ -9,25 +9,30 @@ import { getStore } from './utils/storage'
 
 import { sync } from 'vuex-router-sync'
 
-import { 
-  Dialog,
-  Form,
-  FormItem,
-  Table,
-  TableColumn,
-  Input
-} from 'element-ui'
+// import { 
+//   Dialog,
+//   Form,
+//   FormItem,
+//   Table,
+//   TableColumn,
+//   Input
+// } from 'element-ui'
 
-Vue.use(Dialog)
-Vue.use(Form)
-Vue.use(FormItem)
-Vue.use(Table)
-Vue.use(TableColumn)
-Vue.use(Input)
+// Vue.use(Dialog)
+// Vue.use(Form)
+// Vue.use(FormItem)
+// Vue.use(Table)
+// Vue.use(TableColumn)
+// Vue.use(Input)
+
+
+import iView from 'iview'
+import 'iview/dist/styles/iview.css'
 
 Vue.config.productionTip = false
 
 Vue.use(Meta)
+Vue.use(iView)
 
 sync(store, router)
 let isLogin = Boolean(getStore('isLogin'))
