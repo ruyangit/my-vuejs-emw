@@ -103,10 +103,6 @@ export default {
 }
 </script>
 <style lang="less">
-* {
-    box-sizing: inherit;
-}
-
 .router-link-exact-active {
     border-bottom: 2px solid #49a0d5;
 }

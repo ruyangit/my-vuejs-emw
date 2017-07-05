@@ -8,7 +8,7 @@
         </div>
         <div class="company-list layout">
             <div class="company-title">
-                <a href="javascript:void(0)" class="addcompany" @click="dialogTableVisible = true">新增关注</a>
+                <a href="javascript:void(0)" class="addcompany" @click="searchVisible = true">新增关注</a>
                 <h1>当前关注企业</h1>
             </div>
             <table class="list">
@@ -22,145 +22,110 @@
                         <th>风险事件</th>
                         <th>&nbsp;&nbsp;&nbsp;&nbsp;</th>
                     </tr>
-                    <!--<tr>
-                                                                                                                            <td class="text-l">国轩高科股份有限公司</td>
-                                                                                                                            <td>2017/06/20</td>
-                                                                                                                            <td>2017/06/20</td>
-                                                                                                                            <td>3</td>
-                                                                                                                            <td>--</td>
-                                                                                                                            <td>5</td>
-                                                                                                                            <td>
-                                                                                                                                <a href="javascript:void(0)">取消关注</a>
-                                                                                                                            </td>
-                                                                                                                        </tr>
-                                                                                                                        <tr>
-                                                                                                                            <td class="text-l">荣盛地产开发股份有限公司</td>
-                                                                                                                            <td>2017/06/20</td>
-                                                                                                                            <td>2017/06/20</td>
-                                                                                                                            <td>--</td>
-                                                                                                                            <td>--</td>
-                                                                                                                            <td>5</td>
-                                                                                                                            <td>
-                                                                                                                                <a href="javascript:void(0)">取消关注</a>
-                                                                                                                            </td>
-                                                                                                                        </tr>
-                                                                                                                        <tr>
-                                                                                                                            <td class="text-l">荣盛地产开发股份有限公司</td>
-                                                                                                                            <td>2017/06/20</td>
-                                                                                                                            <td>2017/06/20</td>
-                                                                                                                            <td>5</td>
-                                                                                                                            <td>--</td>
-                                                                                                                            <td>5</td>
-                                                                                                                            <td>
-                                                                                                                                <a href="javascript:void(0)">取消关注</a>
-                                                                                                                            </td>
-                                                                                                                        </tr>-->
+                    <tr v-for="(item,index) in followCompanys" :key="index">
+                        <td class="text-l" v-text="item.companyName"></td>
+                        <td>2017/06/20</td>
+                        <td>2017/06/20</td>
+                        <td>3</td>
+                        <td>--</td>
+                        <td>5</td>
+                        <td>
+                            <a href="javascript:void(0)" @click="cancelFollow(item)">取消关注</a>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
-            <div class="nocompany">
+            <div class="nocompany" v-if="followCompanyNoData">
                 <img src="/static/images/notFollewed.png">
             </div>
         </div>
-        <Modal width="950" :footerHide="footerHide" v-model="dialogTableVisible" title="添加企业关注" :mask-closable="false">
-            <Input placeholder="请输入..." class="ModalSearch">
-            <span slot="append">搜索公司</span>
-            </Input>
-            <Table height="300" :columns="searchColumns" :data="searchDatas" :noDataText="noFocusDataText"></Table>
-            <div class="ivu-modal-footer">
-                <a href="javascript:;">点击查看更多</a>
+        <SearchCompany v-model="searchVisible" @follow="follow"></SearchCompany>
+        <LayerBox v-model="confirmFollowVisible" isClose='false'>
+            <h3>添加企业关注</h3>
+            <p>确认关注企业信息</p>
+            <div class="search-list-title clear">
+                <div class="span-320">企业名称</div>
+                <div class="span-220">法定代表人</div>
+                <div class="span-220">注册资金</div>
             </div>
-        </Modal>
+            <div class="search-list" style="height:100px">
+                <div class="search-list-line clear">
+                    <div class="span-320 pd27" v-text="followCompany.companyName"></div>
+                    <div class="span-220 pd27" v-text="followCompany.legalPerson"></div>
+                    <div class="span-220 pd27" v-text="followCompany.regCapital"></div>
+                </div>
+            </div>
+            <p>关注时间：</p>
+            <p>关注后和可获取该企业信息，同时从关注日起开始按月计费。</p>
+            <div class="model-footer">
+                <button class="return" style="background-color:white" @click="backSearchFollow()">返回上一页</button>
+                <button class="btn" @click="confirmFollow()">确认关注</button>
+            </div>
+        </LayerBox>
+        <LayerBox v-model="cancelFollowVisible" isClose='false'>
+            <h3>取消企业关注</h3>
+            <p>确认取消企业关注：
+                <span v-text="followCompany.companyName"></span>
+            </p>
+            <p>取消时间：</p>
+            <p>取消关注将无法及时获取该企业的最新信息，同时下月将取消计费。</p>
+            <button class="btn" @click="confirmCancelFollow()">确认取消</button>
+        </LayerBox>
     </div>
 </template>
 <script> 
+import SearchCompany from '@/components/SearchCompany'
+import LayerBox from '@/components/LayerBox'
 export default {
     data() {
         return {
-
-            dialogTableVisible: false,
-            noDataPic: "<img src='/static/images/notFollewed.png'>",
-            noFocusDataText: "请在上方输入您想要搜索的企业名称",
-            footerHide: true,
-            searchColumns: [
-                {
-                    title: "企业名称",
-                    key: "companyName"
-                },
-                {
-                    title: "注册资本",
-                    key: "regCapital",
-                    align: "right",
-                },
-                {
-                    title: "法定代表人",
-                    key: "legalPerson"
-                },
-                {
-                    title: "成立时间",
-                    key: "foundDt",
-                    align: "center",
-                },
-                {
-                    title: '选择关注',
-                    key: 'choiceToFocus',
-                    width: "auto",
-                    align: "center",
-                    render: (h, params) => {
-                        return h('Button', {
-                            props: {
-                                type: 'primary',
-                                size: 'small'
-                            },
-                            on: {
-                                click: () => {
-                                    this.index = params.index; //索引值传递
-                                    //console.log(params.row);
-                                    //this.newFocusContent=params.row;
-                                    // this.addFocus(params.row);
-                                }
-                            }
-                        }, '关注')
-                    }
-                }
-
-            ],
-            searchDatas: []
+            searchVisible: false,
+            confirmFollowVisible: false,
+            cancelFollowVisible: false,
+            followCompany: {},
+            followCompanys: [],
+            followCompanyNoData: true
         }
     },
+    components: {
+        SearchCompany,
+        LayerBox
+    },
     mounted() {
-        for (var i = 1; i <= 30; i++) {
-            this.searchDatas.push({
-                companyName: '企业名称',
-                regCapital: '1000.0' + i,
-                legalPerson: '--',
-                foundDt: '成立时间',
-                id: i
+
+    },
+    methods: {
+        follow(e) {
+            this.followCompany = e
+            this.confirmFollowVisible = true
+
+        },
+        backSearchFollow() {
+            this.confirmFollowVisible = false
+            this.searchVisible = true
+        },
+        confirmFollow() {
+            this.confirmFollowVisible = false
+            this.followCompanyNoData = false
+            this.followCompanys.push({
+                companyName: this.followCompany.companyName,
             })
+        },
+        cancelFollow(e) {
+            this.followCompany = e
+            this.cancelFollowVisible = true
+        },
+        confirmCancelFollow() {
+            this.cancelFollowVisible = false
+            this.followCompanys = []
+            if (this.followCompanys.length <= 0) {
+                this.followCompanyNoData = true
+            }
         }
     }
 
 }
 </script>
 <style>
-.ivu-modal-header-inner {
-    text-align: center;
-    font-size: 16px;
-}
 
-.ModalSearch {
-    margin-bottom: 10px;
-}
-
-.ivu-modal-footer {
-    border-top: 0px;
-    text-align: center;
-}
-
-.ivu-input-group-append,
-.ivu-input-group-prepend {
-    background: #49a0d5;
-    color: #fff;
-    border: 1px solid #49a0d5;
-    cursor: pointer;
-}
 </style>

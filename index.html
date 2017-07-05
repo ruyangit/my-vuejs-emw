@@ -1,10 +1,167 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 
 <head>
+  <style>
+    .ie_dialog {
+      position: fixed;
+      z-index: 10000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: #FAFAFA !important;
+      display: none;
+    }
+
+    .ie_notice .logo_osc {
+      display: block;
+      margin: 0 auto;
+      padding-bottom: 24px;
+    }
+
+    .ie_notice h2,
+    .ie_notice h4 {
+      margin: 0;
+      text-align: center;
+    }
+
+    .ie_notice .title {
+      font-size: 28px;
+      color: #4A4A4A;
+    }
+
+    .ie_notice .subtitle {
+      font-size: 20px;
+      color: #9B9B9B;
+      font-weight: normal;
+    }
+
+    .ie_notice .ie_box {
+      width: 560px;
+      ;
+      margin: 24px auto;
+      ;
+      background: #FFFFFF;
+      border: 1px solid #E6E6E6;
+      box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.10);
+      border-radius: 4px;
+      display: table !important;
+    }
+
+    .ie_notice .ie_box .desc {
+      font-size: 14px;
+      color: #6D6D6D;
+      line-height: 22px;
+      padding: 20px;
+    }
+
+    .ie_notice .ie_box a {
+      display: inline-block;
+      width: 30%;
+      text-align: center;
+    }
+
+    .ie_notice .ie_box .go {
+      width: 100%;
+      background: #F6F6F6;
+      font-size: 16px;
+      color: #9B9B9B;
+      padding: 16px 0;
+      text-align: center;
+      border: none;
+      margin-top: 20px;
+      text-decoration: none;
+    }
+
+    .ie_notice .ie_box a img {
+      border: none;
+    }
+  </style>
+  <center class="ie_dialog" id="incompatible_tip">
+    <div>
+      <br>
+      <table class="ie_notice" style="border:0">
+        <tr>
+          <td>
+            <img class="logo_osc" src="/static/images/logo.png" alt="开源中国" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <h2 class="title">我们不支持 IE 10 及以下版本浏览器</h2>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <h4 class="subtitle">It appears you’re using an unsupported browser</h4>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="ie_box">
+              <div class="desc">为了获得更好的浏览体验，我们强烈建议您使用较新版本的 Chrome、 Firefox、 Safari 等，或者升级到最新版本的IE浏览器。 如果您使用的是 IE 11 或以上版本，请关闭“兼容性视图”。
+              </div>
+              <div class="logos">
+                <a href="http://www.google.cn/chrome/browser/desktop/index.html" target="_blank" title="下载Chrome浏览器">
+                              Chrome浏览器
+                            </a>
+                <a href="http://www.firefox.com.cn" target="_blank" title="下载Firefox浏览器">
+                               Firefox浏览器
+                            </a>
+                <a href="http://windows.microsoft.com/zh-cn/internet-explorer/download-ie" target="_blank" title="升级IE浏览器">
+                                IE浏览器
+                            </a>
+              </div>
+              <div>
+                <a href="javascript:void(0);" onclick="document.getElementById('incompatible_tip').style.cssText = 'display:none;';" class="go">继续访问</a>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </center>
+
+  <script>
+    var isIE = (function () {
+      var browser = {};
+      return function (ver, c) {
+        var key = ver ? (c ? "is" + c + "IE" + ver : "isIE" + ver) : "isIE";
+        var v = browser[key];
+        if (typeof (v) != "undefined") {
+          return v;
+        }
+        if (!ver) {
+          v = (navigator.userAgent.indexOf('MSIE') !== -1 || navigator.appVersion.indexOf('Trident/') > 0);
+        } else {
+          var match = navigator.userAgent.match(/(?:MSIE |Trident\/.*; rv:|Edge\/)(\d+)/);
+          if (match) {
+            var v1 = parseInt(match[1]);
+            v = c ? (c == 'lt' ? v1 < ver : (c == 'gt' ? v1 > ver : undefined)) : v1 == ver;
+          } else if (ver <= 9) {
+            var b = document.createElement('b')
+            var s = '<!--[if ' + (c ? c : '') + ' IE ' + ver + ']><i></i><![endif]-->';
+            b.innerHTML = s;
+            v = b.getElementsByTagName('i').length === 1;
+          } else {
+            v = undefined;
+          }
+        }
+        browser[key] = v;
+        return v;
+      };
+    }());
+
+    if (isIE(11, 'lt')) {
+      console.log("fvck ie");
+      document.getElementById('incompatible_tip').style.cssText = 'display:block;';
+    }
+  </script>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="Content-Language" content="zh-CN">
   <title>企业监测预警系统（Enterprise monitoring and warning）</title>
   <link rel="icon" href="/static/vuejs.png" type="image/x-icon">
   <link rel="stylesheet" href="/static/css/style.css">

@@ -5,21 +5,13 @@
         </div>
         <div class="login layout clear">
             <div class="login-box ">
-                <Form ref="formValidate" :model="formValidate" :rules="ruleValidate">
-                    <h1>签约企业登录</h1>
-                    <Form-item label="账号" prop="mobile">
-                        <Input placeholder="请输入您的手机号码" v-model="formValidate.mobile"></Input>
-                    </Form-item>
-                    <!--<label for="">账号</label>
-                            <input type="tel" placeholder="">-->
-                    <!--<label for="">密码</label>
-                            <input type="password" placeholder="请输入您的账号密码">-->
-                    <Form-item label="密码" prop="password">
-                        <Input placeholder="请输入您的账号密码" v-model="formValidate.password"></Input>
-                    </Form-item>
-                    <button type="button" @click="handleSubmit('formValidate')">登录</button>
-                    <a href="javascript:void(0)">忘记密码</a>
-                </Form>
+                <h1>签约企业登录</h1>
+                <label for="">账号</label>
+                <input type="tel" placeholder="请输入您的手机号码" v-model="myFrom.mobile">
+                <label for="">密码</label>
+                <input type="password" placeholder="请输入您的账号密码" v-model="myFrom.password">
+                <button type="button" @click="handleSubmit()">登录</button>
+                <a href="javascript:void(0)">忘记密码</a>
             </div>
         </div>
         <div class="service layout">
@@ -44,34 +36,18 @@ import api from '@api'
 export default {
     data() {
         return {
-            formValidate: {
+            myFrom: {
                 mobile: '',
                 password: ''
-            },
-            ruleValidate: {
-                mobile: [
-                    { required: true, message: '请输入手机号码' },
-                ],
-                password: [
-                    { required: true, message: '请输入账号密码' }
-                ]
             }
         }
     },
     methods: {
-        handleSubmit(name) {
-            this.$refs[name].validate((valid) => {
-                if (valid) {
-                    this.execLogin()
-                } else {
-                    // this.$Notice.error('请输入完整的表单信息！');
-                    // this.$Notice.error({
-                    //     title: '请输入完整的表单信息！'
-                    // });
-                }
-            });
-        },
-        async execLogin() {
+        async handleSubmit() {
+            if (!this.myFrom.mobile || !this.myFrom.password) {
+                alert('请输入用户名和密码!')
+                return
+            }
             const { data: { status, message } } = await api.get('/user/login', this.ruleForm)
             if (status === 200) {
                 // //登录成功获取用户信息
@@ -82,23 +58,12 @@ export default {
                     path: redirect
                 })
             } else {
-                this.$Message.error('用户名密码输入有误！');
+                alert('用户名密码输入有误!')
             }
         }
     }
 }
 </script>
 <style>
-.ivu-form .ivu-form-item-label {
-    font-size: 14px;
-}
 
-.ivu-input {
-    border-radius: 0px;
-}
-
-.ivu-form-item-error .ivu-input {
-    border: 0px;
-    border-bottom: 1px solid #ed3f14;
-}
 </style>
