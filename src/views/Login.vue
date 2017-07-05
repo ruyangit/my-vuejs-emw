@@ -5,17 +5,13 @@
         </div>
         <div class="login layout clear">
             <div class="login-box ">
-                <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
-                    <h1>签约企业登录</h1>
-                    <el-form-item label="帐号" prop="mobile">
-                        <el-input v-model="ruleForm.mobile" placeholder="请输入手机号码"></el-input>
-                    </el-form-item>
-                    <el-form-item label="密码" prop="password">
-                        <el-input v-model="ruleForm.password" placeholder="请输入账号密码"></el-input>
-                    </el-form-item>
-                    <button type="button" @click="submitForm('ruleForm')">登录</button>
-                    <a href="javascript:void(0)">忘记密码</a>
-                </el-form>
+                <h1>签约企业登录</h1>
+                <label for="">账号</label>
+                <input type="tel" placeholder="请输入您的手机号码" v-model="myFrom.mobile">
+                <label for="">密码</label>
+                <input type="password" placeholder="请输入您的账号密码" v-model="myFrom.password">
+                <button type="button" @click="handleSubmit()">登录</button>
+                <a href="javascript:void(0)">忘记密码</a>
             </div>
         </div>
         <div class="service layout">
@@ -40,34 +36,19 @@ import api from '@api'
 export default {
     data() {
         return {
-            ruleForm: {
+            myFrom: {
                 mobile: '',
                 password: ''
-            },
-            rules: {
-                mobile: [
-                    { required: true, message: '请输入手机号码', trigger: 'blur' },
-                ],
-                password: [
-                    { required: true, message: '请输入账号密码', trigger: 'blur' }
-                ]
             }
         }
     },
     methods: {
-        submitForm(formName) {
-            this.$refs[formName].validate((valid) => {
-                if (valid) {
-                    this.execLogin()
-                } else {
-                    console.log('error submit!!');
-                    return false;
-                }
-            });
-
-        },
-        async execLogin() {
-            const { data: { status, message } } = await api.get('/user/login',this.ruleForm)
+        async handleSubmit() {
+            if (!this.myFrom.mobile || !this.myFrom.password) {
+                alert('请输入用户名和密码!')
+                return
+            }
+            const { data: { status, message } } = await api.get('/user/login', this.ruleForm)
             if (status === 200) {
                 // //登录成功获取用户信息
                 this.$store.commit("global/isLogin", 'true')
@@ -77,9 +58,12 @@ export default {
                     path: redirect
                 })
             } else {
-                alert('用户名密码输入有误！')
+                alert('用户名密码输入有误!')
             }
         }
     }
 }
 </script>
+<style>
+
+</style>

@@ -9,22 +9,6 @@ import { getStore } from './utils/storage'
 
 import { sync } from 'vuex-router-sync'
 
-import { 
-  Dialog,
-  Form,
-  FormItem,
-  Table,
-  TableColumn,
-  Input
-} from 'element-ui'
-
-Vue.use(Dialog)
-Vue.use(Form)
-Vue.use(FormItem)
-Vue.use(Table)
-Vue.use(TableColumn)
-Vue.use(Input)
-
 Vue.config.productionTip = false
 
 Vue.use(Meta)

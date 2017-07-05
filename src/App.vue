@@ -3,7 +3,7 @@
         <div class="top clear">
             <header class="layout">
                 <img src="/static/images/logo.png" alt="" class="logo">
-                <h1>企业监测预警系统</h1>
+                <span class="ml15">企业监测预警系统</span>
                 <nav class="menu">
                     <ul class="nav" v-if="isLogin">
                         <li v-for="(item,index) in array" :key="index">
@@ -11,7 +11,7 @@
                         </li>
                         <li id="pop" @mouseover="isLayer=true" @mouseout="isLayer=false">
                             <router-link to="/MyAccount" class="my-accout" tag="a">
-                                <i></i>
+                                <i class="t"></i>
                                 <span>我的账户</span>
                                 <div id="accout-layer" v-show="isLayer" v-if="userInfo">
                                     <div class="accout-layer">
@@ -37,7 +37,7 @@
                 </nav>
             </header>
         </div>
-        <transition name="fade" mode="out-in">
+        <transition>
             <router-view :key="key"></router-view>
         </transition>
     </div>
@@ -106,7 +106,6 @@ export default {
 .router-link-exact-active {
     border-bottom: 2px solid #49a0d5;
 }
-
 
 
 

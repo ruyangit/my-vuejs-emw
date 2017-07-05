@@ -43,6 +43,9 @@ a{
     width: 1200px;
     margin: 0 auto;
 }
+.ml15{
+  margin-left: 15px;
+}
 
 /*头部*/
 .top{
@@ -55,11 +58,13 @@ a{
     border-right: 1px solid #bbb;
     padding-right: 20px;
 }
-.top h1{
+.top span{
   line-height: 59px;
   color: #333;
-  margin-left: 20px; 
   float: left;
+}
+.ml{
+  margin-left: 15px;
 }
 .menu{
   float: right;
@@ -95,7 +100,7 @@ a{
   float: left;
 }
 
-.menu .nav li a.my-accout i{
+.menu .nav li a.my-accout i.t{
   background-image :url(../images/icon-accout.png);
   background-position: 0 0;
   width: 22px;
@@ -109,18 +114,22 @@ a{
 .menu .nav li a.my-accout:hover,
 .menu .nav li a.my-accout.active{
   background: #49a0d5;
-  color: #fff;
   border-bottom:0;
 }
 .menu .nav li a.my-accout:hover i,
 .menu .nav li a.my-accout.active i{
   background-position: 0 -22px; 
 }
+.menu .nav li a.my-accout:hover span,
+.menu .nav li a.my-accout.active span{
+  color: #fff;
+}
 
 .menu .nav li a.my-accout #accout-layer{
 	position: absolute;
   right: 0;
   top: 57px;
+  /*display: none;*/
   z-index: 100;
 }
 .menu .nav li a.my-accout .accout-layer{
@@ -229,26 +238,16 @@ a{
 }
 .login-box label{
   display: block;
-  /*line-height: 30px;*/
+  line-height: 30px;
   color: #999;
   padding: 10px 0;
 }
-.login-box input[type='text'],
-.login-box input[type='tel'],
-.login-box input[type='password']{
+.login-box input{
   border:0;
   border-bottom: 1px solid #bbb;
   width: 100%;
-  line-height: 35px;
-  padding-left: 10px;
-}
-.login-box .el-input__inner{
-  border-radius: 0px;
-  height: 40px;
-  font-size: 14px;
-}
-.login-box .el-form-item__label{
-  font-size: 16px;
+  line-height: 50px;
+  height: 50px;
 }
 .login-box button{
   width: 100%;
@@ -259,6 +258,7 @@ a{
   margin:40px 0 20px 0;
   color: #fff;
   cursor: pointer;
+  font-size: 18px;
 }
 .login-box a{
   text-align: center;
@@ -465,7 +465,7 @@ a{
   }
   /*弹层*/
 .event-layer{
-  display: none;
+  /*display: none;*/
 }
 .cover{
   position: fixed;
@@ -482,6 +482,8 @@ a{
   left: 50%;
   transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
   width: 1140px;
   border-radius: 3px;
   background: #fff;
@@ -544,6 +546,10 @@ button.btn{
   cursor: pointer;
   font-size: 18px;
 }
+.model-footer{width: 785px;margin: 0 auto}
+.model-footer button{display: inline-block}
+.model-footer .return{border: 1px solid #49a0d5;color:#49a0d5;width: 385px;
+  height: 60px;margin-right: 5px;border-radius: 5px;cursor: pointer;font-size: 18px;}
 .event-con a.close{
   float: right;
   color: #333;
@@ -590,29 +596,41 @@ button.btn{
 .span-290{
   width: 290px;
 }
+.span-150{
+  width: 150px;
+}
+.span-180{
+  width: 180px;
+}
 .span-200{
   width: 200px;
+}
+.span-220{
+  width: 220px;
+}
+.span-320{
+  width: 320px;
 }
 .event-con .search-list{
   height:365px;
   overflow-y: auto;
 }
+.event-con .search-list-line .pd27{padding: 28px 0 28px 10px;}
+.event-con .search-list-line .pd20{padding: 20px 0 20px 10px}
 .event-con .search-list-line div{
   float: left;
-  padding-left: 10px;
   border-bottom: 1px dotted #bbb;
-  height: 72px;
-  line-height: 72px;
   font-size: 14px;
 }
 .event-con .search-list-line div button{
   width: 110px;
-  height: 32px;
+  height: 35px;
   background: #49a0d5;
   border: none;
   cursor: pointer;
   color: #fff;
   border-radius: 5px;
+  
 }
 .event-con .search-list-line div button.followed{
   background: #bbb;
@@ -740,6 +758,11 @@ table.list td a{
 }
 .company-list .nocompany img{
   width: 201px;
+  margin: 120px auto;
+  display: block;
+}
+.search-list .nocompany{
+  width: 280px;
   margin: 120px auto;
   display: block;
 }
