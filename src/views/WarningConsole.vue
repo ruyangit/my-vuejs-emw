@@ -6,133 +6,158 @@
                 <h2>Overview</h2>
             </div>
         </div>
-        <div class="dataall layout clear">
-            <div class="data">
-                <div class="titleline clear">
-                    <p class="title">今日</p>
-                    <p class="extra" v-text="monitorSummary.summary.today">--</p>
-                </div>
-                <div class="content clear">
-                    <dl class="infochange">
-                        <dt v-text="monitorSummary.summary.changeToday">--</dt>
-                        <dd>信息变更</dd>
-                    </dl>
-                    <dl class="track">
-                        <dt v-text="monitorSummary.summary.riskToday">--</dt>
-                        <dd>舆情跟踪</dd>
-                    </dl>
-                    <dl class="risk">
-                        <dt v-text="monitorSummary.summary.sentimentToday">--</dt>
-                        <dd>预警风险</dd>
-                    </dl>
-                </div>
-            </div>
-            <div class="data">
-                <div class="titleline clear">
-                    <p class="title">近30天</p>
-                    <p class="extra" v-text="monitorSummary.summary.thirty">--</p>
-                </div>
-    
-                <div class="content">
-                    <dl class="infochange clear">
-                        <dt v-text="monitorSummary.summary.changeThirty">--</dt>
-                        <dd>信息变更</dd>
-                    </dl>
-                    <dl class="track">
-                        <dt v-text="monitorSummary.summary.riskThirty">--</dt>
-                        <dd>舆情跟踪</dd>
-                    </dl>
-                    <dl class="risk">
-                        <dt v-text="monitorSummary.summary.sentimentThirty">--</dt>
-                        <dd>预警风险</dd>
-                    </dl>
-                </div>
-            </div>
-            <div class="data">
-                <div class="titleline clear">
-                    <p class="title">近90天</p>
-                    <p class="extra" v-text="monitorSummary.summary.ninety">--</p>
-                </div>
-                <div class="content">
-                    <dl class="infochange clear">
-                        <dt v-text="monitorSummary.summary.changeNinety">--</dt>
-                        <dd>信息变更</dd>
-                    </dl>
-                    <dl class="track">
-                        <dt v-text="monitorSummary.summary.riskNinety">--</dt>
-                        <dd>舆情跟踪</dd>
-                    </dl>
-                    <dl class="risk">
-                        <dt v-text="monitorSummary.summary.sentimentNinety">--</dt>
-                        <dd>预警风险</dd>
-                    </dl>
-                </div>
+        <div v-if="warningNoData">
+            <div class="nowarn-mes layout">
+                <ul class="clear">
+                    <li>
+                        <i></i>
+                        <h1>目标企业快速关注</h1>
+                        <p>支持同时关注多家企业</p>
+                    </li>
+                    <li>
+                        <i></i>
+                        <h1>动态信息自动推送</h1>
+                        <p>实时掌握企业重大事项</p>
+                    </li>
+                    <li>
+                        <i></i>
+                        <h1>风险事件及时预警</h1>
+                        <p>第一时间采取保全措施</p>
+                    </li>
+                </ul>
+                <h3>关注企业，查看最新动态</h3>
+                <button class="btn add" @click="followCompany()">新增关注</button>
             </div>
         </div>
-        <div class="list layout">
-            <div class="rowList clear" v-for="(item,index) in monitorSummary.changeList" :key="index">
-                <div class="left event">
-                    信息变更
+        <div v-if="!warningNoData">
+            <div class="dataall layout clear">
+                <div class="data">
+                    <div class="titleline clear">
+                        <p class="title">今日</p>
+                        <p class="extra" v-text="monitorSummary.summary.today">--</p>
+                    </div>
+                    <div class="content clear">
+                        <dl class="infochange">
+                            <dt v-text="monitorSummary.summary.changeToday">--</dt>
+                            <dd>信息变更</dd>
+                        </dl>
+                        <dl class="track">
+                            <dt v-text="monitorSummary.summary.riskToday">--</dt>
+                            <dd>舆情跟踪</dd>
+                        </dl>
+                        <dl class="risk">
+                            <dt v-text="monitorSummary.summary.sentimentToday">--</dt>
+                            <dd>预警风险</dd>
+                        </dl>
+                    </div>
                 </div>
-                <div class="left eventDetails">
-                    <dl>
-                        <dt>
-                            <a href="javascript:;" @click="detail(item,'change')" v-text="item.companyName"></a>
-                        </dt>
-                        <!--<dd v-text="item.changeItem"></dd>-->
-                        <dd>变更后：
-                            <span v-text="item.changeAfter"></span>
-                        </dd>
-                        <dd class="lightThis">变更前：
-                            <span v-text="item.changeBefore"></span>
-                        </dd>
-                    </dl>
-                    <div class="date">
-                        <span>05/01</span>
-                        <br>
-                        <label v-text="item.changeDate"></label>
+                <div class="data">
+                    <div class="titleline clear">
+                        <p class="title">近30天</p>
+                        <p class="extra" v-text="monitorSummary.summary.thirty">--</p>
+                    </div>
+    
+                    <div class="content">
+                        <dl class="infochange clear">
+                            <dt v-text="monitorSummary.summary.changeThirty">--</dt>
+                            <dd>信息变更</dd>
+                        </dl>
+                        <dl class="track">
+                            <dt v-text="monitorSummary.summary.riskThirty">--</dt>
+                            <dd>舆情跟踪</dd>
+                        </dl>
+                        <dl class="risk">
+                            <dt v-text="monitorSummary.summary.sentimentThirty">--</dt>
+                            <dd>预警风险</dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="data">
+                    <div class="titleline clear">
+                        <p class="title">近90天</p>
+                        <p class="extra" v-text="monitorSummary.summary.ninety">--</p>
+                    </div>
+                    <div class="content">
+                        <dl class="infochange clear">
+                            <dt v-text="monitorSummary.summary.changeNinety">--</dt>
+                            <dd>信息变更</dd>
+                        </dl>
+                        <dl class="track">
+                            <dt v-text="monitorSummary.summary.riskNinety">--</dt>
+                            <dd>舆情跟踪</dd>
+                        </dl>
+                        <dl class="risk">
+                            <dt v-text="monitorSummary.summary.sentimentNinety">--</dt>
+                            <dd>预警风险</dd>
+                        </dl>
                     </div>
                 </div>
             </div>
-            <div class="rowList clear" v-for="(item,index) in monitorSummary.riskList" :key="index">
-                <div class="left event risk">
-                    风险事件
-                </div>
-                <div class="left eventDetails">
-                    <dl>
-                        <dt>
-                            <a href="javascript:;" @click="detail(item,'risk')" v-text="item.companyName"></a>
-                        </dt>
-                        <dd v-text="item.riskItem"></dd>
-                        <dd class="lightThis" v-text="item.riskContent"></dd>
-                    </dl>
-                    <div class="date">
-                        <span>05/01</span>
-                        <br>
-                        <label v-text="item.riskDate"></label>
+            <div class="list layout">
+                <div class="rowList clear" v-for="(item,index) in monitorSummary.changeList" :key="index">
+                    <div class="left event">
+                        信息变更
+                    </div>
+                    <div class="left eventDetails">
+                        <dl>
+                            <dt>
+                                <a href="javascript:;" @click="detail(item,'change')" v-text="item.companyName"></a>
+                            </dt>
+                            <!--<dd v-text="item.changeItem"></dd>-->
+                            <dd>变更后：
+                                <span v-text="item.changeAfter"></span>
+                            </dd>
+                            <dd class="lightThis">变更前：
+                                <span v-text="item.changeBefore"></span>
+                            </dd>
+                        </dl>
+                        <div class="date">
+                            <span>05/01</span>
+                            <br>
+                            <label v-text="item.changeDate"></label>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="rowList clear" v-for="(item,index) in monitorSummary.sentimentList" :key="index">
-                <div class="left event track">
-                    舆情变化
-                </div>
-                <div class="left eventDetails">
-                    <dl>
-                        <dt>
-                            <a href="javascript:;" @click="detail(item,'track')" v-text="item.companyName"></a>
-                        </dt>
-                        <dd v-text="item.sentimentItem"></dd>
-                        <dd class="lightThis" v-text="item.sentimentContent"></dd>
-                    </dl>
-                    <div class="date">
-                        <span>05/01</span>
-                        <br>
-                        <label v-text="item.sentimentDate"></label>
+                <div class="rowList clear" v-for="(item,index) in monitorSummary.riskList" :key="index">
+                    <div class="left event risk">
+                        风险事件
+                    </div>
+                    <div class="left eventDetails">
+                        <dl>
+                            <dt>
+                                <a href="javascript:;" @click="detail(item,'risk')" v-text="item.companyName"></a>
+                            </dt>
+                            <dd v-text="item.riskItem"></dd>
+                            <dd class="lightThis" v-text="item.riskContent"></dd>
+                        </dl>
+                        <div class="date">
+                            <span>05/01</span>
+                            <br>
+                            <label v-text="item.riskDate"></label>
+                        </div>
                     </div>
                 </div>
+                <div class="rowList clear" v-for="(item,index) in monitorSummary.sentimentList" :key="index">
+                    <div class="left event track">
+                        舆情变化
+                    </div>
+                    <div class="left eventDetails">
+                        <dl>
+                            <dt>
+                                <a href="javascript:;" @click="detail(item,'track')" v-text="item.companyName"></a>
+                            </dt>
+                            <dd v-text="item.sentimentItem"></dd>
+                            <dd class="lightThis" v-text="item.sentimentContent"></dd>
+                        </dl>
+                        <div class="date">
+                            <span>05/01</span>
+                            <br>
+                            <label v-text="item.sentimentDate"></label>
+                        </div>
+                    </div>
+                </div>
+                <a href="javascript:void(0);" class="more">点击加载更多</a>
             </div>
-            <a href="javascript:void(0);" class="more">点击加载更多</a>
         </div>
         <LayerBox v-model="warningDetailVisible">
             <div class="texttip">
@@ -155,7 +180,8 @@ export default {
     data() {
         return {
             warningDetailVisible: false,
-            detailConfig: {}
+            detailConfig: {},
+            warningNoData: true
         }
     },
     computed: {
@@ -173,7 +199,7 @@ export default {
     },
     methods: {
         detail(e, type) {
-            
+
             if ('risk' == type) {
                 this.detailConfig = {
                     className: 'textrisk',
@@ -191,6 +217,9 @@ export default {
                 }
             }
             this.warningDetailVisible = true
+        },
+        followCompany() {
+            this.$router.push({ path: "/FollowCompany" })
         }
     },
 }
