@@ -411,6 +411,12 @@ a{
   font-size: 32px; 
   padding: 12px 15px;
 }
+.list .event.risk{ 
+  background: #e96e74;
+}
+.list .event.track{ 
+  background: #e3894e;
+}
 .list .eventDetails{ 
   padding: 10px 20px; 
   color: #333;
@@ -422,12 +428,15 @@ a{
 .ivu-col:nth-child(2){
    margin: 0 5%;
 }
-.list .rowList:nth-child(2) .event{ 
+/*.list .rowList:nth-child(3n+2) .event{ 
   background: #e96e74;
 }
-.list .rowList:nth-child(3) .event{ 
+.list .rowList:nth-child(3n+0) .event{ 
   background: #e3894e;
 }
+.list .rowList:nth-child(3n+1) .event{ 
+  background: #00c1de;
+}*/
 .list .eventDetails dt{ 
   font-size: 24px; 
   height: 50px; 
@@ -530,9 +539,25 @@ a{
 }
 .event-con .texttip .texttrack{
   background: #e3894e;
+  color: #fff;
+  transform:rotate(45deg);
+  height: 42px;
+  line-height: 42px;
+  text-align: center;
+  margin-top: 30px;
+  width: 200px;
+  font-size: 24px
 }
 .event-con .texttip .textrisk{
   background: #e96e74;
+  color: #fff;
+  transform:rotate(45deg);
+  height: 42px;
+  line-height: 42px;
+  text-align: center;
+  margin-top: 30px;
+  width: 200px;
+  font-size: 24px
 }
 button.btn{
   width: 385px;
@@ -863,10 +888,11 @@ table.list td a{
 }
 .user .user-modal .modal-line input{
   width: 480px;
-  height: 48px;
+  height: 38px;
   border: 1px solid #bbb;
   margin-left:10px;
   border-radius: 2px;
+  padding-left: 10px;
 }
 .user .user-modal button{
   width: 385px;
@@ -886,4 +912,8 @@ table.list td a{
   color: #49a0d5;
   text-decoration: underline;
   margin-left: 5px;
+}
+.user .user-modal button{
+  margin-top: 35px;
+  margin-bottom: 35px;
 }

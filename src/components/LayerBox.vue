@@ -5,7 +5,7 @@
         <div class="cover"></div>
         <div class="event-con" :style="'width:'+width+'px'">
             <slot></slot>
-            <button v-if="!isClose" class="btn btn-cancel" @click="close()">关闭</button>
+            <button v-if="isClose" class="btn btn-cancel" @click="close()">关闭</button>
         </div>
     </div>
 </template>
@@ -15,8 +15,8 @@ export default {
     name: 'LayerBox',
     props: {
         isClose: {
-            type: String,
-            default: 'true'
+            type: Boolean,
+            default: true
         },
         value: {
             type: Boolean,
@@ -29,8 +29,7 @@ export default {
     },
     data() {
         return {
-            layerBoxVisible: this.value,
-            isCloseB: Boolean(this.isClose)
+            layerBoxVisible: this.value
         }
     },
     watch: {

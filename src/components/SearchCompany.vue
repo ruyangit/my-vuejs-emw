@@ -91,6 +91,12 @@ export default {
                 alert("请输入您想要搜索的企业名称")
                 return
             }
+
+            if (this.searchDatas.length > 0) {
+                this.searchVlidate()
+                return
+            }
+
             for (var i = 1; i <= 30; i++) {
                 this.searchDatas.push({
                     companyName: '辉山乳业（安徽）有限公司',
@@ -105,6 +111,7 @@ export default {
             }
         },
         searchMore() {
+            
             for (var i = 30; i <= 60; i++) {
                 this.searchDatas.push({
                     companyName: '辉山乳业（安徽）有限公司',
@@ -114,6 +121,10 @@ export default {
                     id: i
                 })
             }
+        },
+        searchVlidate(){
+            this.$emit("searchVlidate")
+            this.close()
         },
         follow(e) {
             this.$emit("follow", e)
