@@ -35,7 +35,7 @@ export default {
         return {
             status: true,
             myForm: {
-                type: 'mobile',
+                type: 'password',
                 oldValue: '',
                 newValue: '',
                 validValue: ''

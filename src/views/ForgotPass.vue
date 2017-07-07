@@ -50,6 +50,7 @@ export default {
             status: true,
             mobileDisabled: false,
             forgontPassForm: {
+                type: 'password',
                 mobile: '',
                 validValue: '',
                 newValue: '',
