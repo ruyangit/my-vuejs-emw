@@ -4,15 +4,27 @@
             <img src="/static/images/bg.jpg">
         </div>
         <div class="login layout clear">
-            <div class="login-box ">
-                <h1>签约企业登录</h1>
-                <label for="">账号</label>
-                <input type="tel" placeholder="请输入您的手机号码" v-model="myFrom.mobile">
-                <label for="">密码</label>
-                <input type="password" placeholder="请输入您的账号密码" v-model="myFrom.password">
-                <button type="button" @click="handleSubmit()">登录</button>
-                <a href="javascript:void(0)">忘记密码</a>
-            </div>
+            <form @submit.prevent="validateSubmit('loginForm')" data-vv-scope="loginForm">
+                <div class="login-box ">
+                    <h1>签约企业登录</h1>
+                    <div class="form-item">
+                        <label for="">账号</label>
+                        <div class="form-item-content">
+                            <input :class="{'input': true, 'is-danger': errors.has('loginForm.mobile') }" type="tel" placeholder="请输入您的手机号码" v-validate="'required'" v-model="loginForm.mobile" name="mobile">
+                            <span v-show="errors.has('loginForm.mobile')" class="help-tip is-danger">手机号码不能为空</span>
+                        </div>
+                    </div>
+                    <div class="form-item">
+                        <label for="">密码</label>
+                        <div class="form-item-content">
+                            <input :class="{'input': true, 'is-danger': errors.has('loginForm.password') }" type="password" placeholder="请输入您的账号密码" v-validate="'required'" v-model="loginForm.password" name="password">
+                            <span v-show="errors.has('loginForm.password')" class="help-tip is-danger">账号密码不能为空</span>
+                        </div>
+                    </div>
+                    <button type="submit">登录</button>
+                    <router-link to="/ForgotPass" tag="a">忘记密码</router-link>
+                </div>
+            </form>
         </div>
         <div class="service layout">
             <div class="service-process">
@@ -36,19 +48,29 @@ import api from '@api'
 export default {
     data() {
         return {
-            myFrom: {
+            loginForm: {
                 mobile: '',
                 password: ''
             }
         }
     },
+    computed: {
+        // formDirty() {
+        //     return Object.keys(this.fields).some(key => this.fields[key].dirty);
+        // }
+    },
     methods: {
+        validateSubmit(name) {
+            this.$validator.validateAll(name).then(result => {
+                if (result) {
+                    // eslint-disable-next-line
+                    this.handleSubmit();
+                    return;
+                }
+            });
+        },
         async handleSubmit() {
-            if (!this.myFrom.mobile || !this.myFrom.password) {
-                alert('请输入用户名和密码!')
-                return
-            }
-            const { data: { status, message } } = await api.get('/user/login', this.ruleForm)
+            const { data: { status, message } } = await api.get('/user/login', this.loginForm)
             if (status === 200) {
                 // //登录成功获取用户信息
                 this.$store.commit("global/isLogin", 'true')
@@ -65,5 +87,41 @@ export default {
 }
 </script>
 <style>
+.login-box .form-item {
+    margin-bottom: 24px;
+    vertical-align: top;
+    zoom: 1;
+}
 
+.login-box .form-item:after {
+    clear: both;
+    visibility: hidden;
+    font-size: 0;
+    height: 0;
+}
+
+.login-box .form-item:after,
+.login-box .form-item:before {
+    content: "";
+    display: table
+}
+
+.login-box .form-item .form-item-content {
+    position: relative;
+    line-height: 35px;
+    font-size: 14px;
+}
+
+.login-box .is-danger {
+    border-color: red;
+}
+
+.login-box .help-tip {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    line-height: 1;
+    margin: 10px auto;
+    color: #ed3f14;
+}
 </style>

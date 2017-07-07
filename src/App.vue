@@ -43,6 +43,7 @@
     </div>
 </template>
 <script>
+import './utils/validator.js'
 import { mapGetters } from 'vuex'
 export default {
     name: 'app',

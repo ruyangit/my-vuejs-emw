@@ -6,6 +6,7 @@ import store from '@/store'
 import ProgressBar from '@/components/ProgressBar'
 
 const Login = r => require.ensure([], () => r(require('@/views/Login')), 'chunk-login')
+const ForgotPass = r => require.ensure([], () => r(require('@/views/ForgotPass')), 'chunk-login')
 const WarningConsole = r => require.ensure([], () => r(require('@/views/WarningConsole')), 'chunk-warningconsole')
 const FollowCompany = r => require.ensure([], () => r(require('@/views/FollowCompany')), 'chunk-followcompany')
 const HelpCenter = r => require.ensure([], () => r(require('@/views/HelpCenter')), 'chunk-helpcenter')
@@ -41,6 +42,7 @@ const router = new VueRouter({
   scrollBehavior,
   routes: [
     { name: 'Login', path: '/Login', component: Login, meta: { auth: false } },
+    { name: 'ForgotPass', path: '/ForgotPass', component: ForgotPass, meta: { auth: false } },
 
     { name: 'WarningConsole', path: '/WarningConsole', component: WarningConsole, meta: { scrollToTop: true } },
     { name: 'FollowCompany', path: '/FollowCompany', component: FollowCompany, meta: { scrollToTop: true } },

@@ -10,9 +10,10 @@
             </div>
             <div class="search-bar clear">
                 <div class="search-text">
-                    <input type="text" v-model="searchText">
+                    <input type="text" v-model="searchText" :class="{'input': true, 'is-danger': errors.has('searchText') }" v-validate="'required|shlth:2'" name="searchText">
                 </div>
                 <button class="search" @click="search()">搜索公司</button>
+                <span v-show="errors.has('searchText')" class="help-tip">{{errors.first('searchText')}}</span>
             </div>
             <div class="search-list-title clear">
                 <div class="span-290">企业名称</div>
@@ -87,31 +88,37 @@ export default {
             this.$emit('input', false)
         },
         search() {
-            if (!this.searchText) {
-                alert("请输入您想要搜索的企业名称")
-                return
-            }
+            // if (!this.searchText) {
+            //     alert("请输入您想要搜索的企业名称")
+            //     return
+            // }
+            this.$validator.validate('searchText', this.searchText).then(result => {
+                console.log(result)
+                if (result) {
 
-            if (this.searchDatas.length > 0) {
-                this.searchVlidate()
-                return
-            }
+                    if (this.searchDatas.length > 0) {
+                        this.searchVlidate()
+                        return
+                    }
 
-            for (var i = 1; i <= 30; i++) {
-                this.searchDatas.push({
-                    companyName: '辉山乳业（安徽）有限公司',
-                    regCapital: '1000.0' + i,
-                    legalPerson: '--',
-                    foundDt: '2017/06/20',
-                    id: i
-                })
-            }
-            if (this.searchDatas.length > 0) {
-                this.searchNoText = ""
-            }
+                    for (var i = 1; i <= 30; i++) {
+                        this.searchDatas.push({
+                            companyName: '辉山乳业（安徽）有限公司',
+                            regCapital: '1000.0' + i,
+                            legalPerson: '--',
+                            foundDt: '2017/06/20',
+                            id: i
+                        })
+                    }
+                    if (this.searchDatas.length > 0) {
+                        this.searchNoText = ""
+                    }
+                }
+            });
+
         },
         searchMore() {
-            
+
             for (var i = 30; i <= 60; i++) {
                 this.searchDatas.push({
                     companyName: '辉山乳业（安徽）有限公司',
@@ -122,7 +129,7 @@ export default {
                 })
             }
         },
-        searchVlidate(){
+        searchVlidate() {
             this.$emit("searchVlidate")
             this.close()
         },
