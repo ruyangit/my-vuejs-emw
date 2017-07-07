@@ -10,7 +10,7 @@
                             <router-link :to="item.url" v-text="item.text" tag="a"></router-link>
                         </li>
                         <li id="pop" @mouseover="isLayer=true" @mouseout="isLayer=false">
-                            <router-link to="/MyAccount" class="my-accout" tag="a">
+                            <router-link to="/MyAccount/Profile" class="my-accout" tag="a">
                                 <i class="t"></i>
                                 <span>我的账户</span>
                                 <div id="accout-layer" v-show="isLayer" v-if="userInfo">
@@ -43,6 +43,7 @@
     </div>
 </template>
 <script>
+import './utils/validator.js'
 import { mapGetters } from 'vuex'
 export default {
     name: 'app',

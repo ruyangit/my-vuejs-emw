@@ -6,126 +6,221 @@
                 <h2>Overview</h2>
             </div>
         </div>
-        <div class="dataall layout clear">
-            <div class="data">
-                <div class="titleline clear">
-                    <p class="title">今日</p>
-                    <p class="extra">5/20</p>
-                </div>
-                <div class="content clear">
-                    <dl class="infochange">
-                        <dt>1</dt>
-                        <dd>信息变更</dd>
-                    </dl>
-                    <dl class="track">
-                        <dt>--</dt>
-                        <dd>舆情跟踪</dd>
-                    </dl>
-                    <dl class="risk">
-                        <dt>--</dt>
-                        <dd>预警风险</dd>
-                    </dl>
-                </div>
+        <div v-if="warningNoData">
+            <div class="nowarn-mes layout">
+                <ul class="clear">
+                    <li>
+                        <i></i>
+                        <h1>目标企业快速关注</h1>
+                        <p>支持同时关注多家企业</p>
+                    </li>
+                    <li>
+                        <i></i>
+                        <h1>动态信息自动推送</h1>
+                        <p>实时掌握企业重大事项</p>
+                    </li>
+                    <li>
+                        <i></i>
+                        <h1>风险事件及时预警</h1>
+                        <p>第一时间采取保全措施</p>
+                    </li>
+                </ul>
+                <h3>关注企业，查看最新动态</h3>
+                <button class="btn add" @click="followCompany()">新增关注</button>
             </div>
-            <div class="data">
-                <div class="titleline clear">
-                    <p class="title">近30天</p>
-                    <p class="extra">04/23-05/22</p>
+        </div>
+        <div v-if="!warningNoData">
+            <div class="dataall layout clear">
+                <div class="data">
+                    <div class="titleline clear">
+                        <p class="title">今日</p>
+                        <p class="extra" v-text="monitorSummary.summary.today">--</p>
+                    </div>
+                    <div class="content clear">
+                        <dl class="infochange">
+                            <dt v-text="monitorSummary.summary.changeToday">--</dt>
+                            <dd>信息变更</dd>
+                        </dl>
+                        <dl class="track">
+                            <dt v-text="monitorSummary.summary.riskToday">--</dt>
+                            <dd>舆情跟踪</dd>
+                        </dl>
+                        <dl class="risk">
+                            <dt v-text="monitorSummary.summary.sentimentToday">--</dt>
+                            <dd>预警风险</dd>
+                        </dl>
+                    </div>
                 </div>
+                <div class="data">
+                    <div class="titleline clear">
+                        <p class="title">近30天</p>
+                        <p class="extra" v-text="monitorSummary.summary.thirty">--</p>
+                    </div>
     
-                <div class="content">
-                    <dl class="infochange clear">
-                        <dt>2</dt>
-                        <dd>信息变更</dd>
-                    </dl>
-                    <dl class="track">
-                        <dt>--</dt>
-                        <dd>舆情跟踪</dd>
-                    </dl>
-                    <dl class="risk">
-                        <dt>5</dt>
-                        <dd>预警风险</dd>
-                    </dl>
+                    <div class="content">
+                        <dl class="infochange clear">
+                            <dt v-text="monitorSummary.summary.changeThirty">--</dt>
+                            <dd>信息变更</dd>
+                        </dl>
+                        <dl class="track">
+                            <dt v-text="monitorSummary.summary.riskThirty">--</dt>
+                            <dd>舆情跟踪</dd>
+                        </dl>
+                        <dl class="risk">
+                            <dt v-text="monitorSummary.summary.sentimentThirty">--</dt>
+                            <dd>预警风险</dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="data">
+                    <div class="titleline clear">
+                        <p class="title">近90天</p>
+                        <p class="extra" v-text="monitorSummary.summary.ninety">--</p>
+                    </div>
+                    <div class="content">
+                        <dl class="infochange clear">
+                            <dt v-text="monitorSummary.summary.changeNinety">--</dt>
+                            <dd>信息变更</dd>
+                        </dl>
+                        <dl class="track">
+                            <dt v-text="monitorSummary.summary.riskNinety">--</dt>
+                            <dd>舆情跟踪</dd>
+                        </dl>
+                        <dl class="risk">
+                            <dt v-text="monitorSummary.summary.sentimentNinety">--</dt>
+                            <dd>预警风险</dd>
+                        </dl>
+                    </div>
                 </div>
             </div>
-            <div class="data">
-                <div class="titleline clear">
-                    <p class="title">近90天</p>
-                    <p class="extra">02/23-05/22</p>
+            <div class="list layout">
+                <div class="rowList clear" v-for="(item,index) in monitorSummary.changeList" :key="index">
+                    <div class="left event">
+                        信息变更
+                    </div>
+                    <div class="left eventDetails">
+                        <dl>
+                            <dt>
+                                <a href="javascript:;" @click="detail(item,'change')" v-text="item.companyName"></a>
+                            </dt>
+                            <!--<dd v-text="item.changeItem"></dd>-->
+                            <dd>变更后：
+                                <span v-text="item.changeAfter"></span>
+                            </dd>
+                            <dd class="lightThis">变更前：
+                                <span v-text="item.changeBefore"></span>
+                            </dd>
+                        </dl>
+                        <div class="date">
+                            <span>05/01</span>
+                            <br>
+                            <label v-text="item.changeDate"></label>
+                        </div>
+                    </div>
                 </div>
-                <div class="content">
-                    <dl class="infochange clear">
-                        <dt>12</dt>
-                        <dd>信息变更</dd>
-                    </dl>
-                    <dl class="track">
-                        <dt>--</dt>
-                        <dd>舆情跟踪</dd>
-                    </dl>
-                    <dl class="risk">
-                        <dt>20</dt>
-                        <dd>预警风险</dd>
-                    </dl>
+                <div class="rowList clear" v-for="(item,index) in monitorSummary.riskList" :key="index">
+                    <div class="left event risk">
+                        风险事件
+                    </div>
+                    <div class="left eventDetails">
+                        <dl>
+                            <dt>
+                                <a href="javascript:;" @click="detail(item,'risk')" v-text="item.companyName"></a>
+                            </dt>
+                            <dd v-text="item.riskItem"></dd>
+                            <dd class="lightThis" v-text="item.riskContent"></dd>
+                        </dl>
+                        <div class="date">
+                            <span>05/01</span>
+                            <br>
+                            <label v-text="item.riskDate"></label>
+                        </div>
+                    </div>
                 </div>
+                <div class="rowList clear" v-for="(item,index) in monitorSummary.sentimentList" :key="index">
+                    <div class="left event track">
+                        舆情变化
+                    </div>
+                    <div class="left eventDetails">
+                        <dl>
+                            <dt>
+                                <a href="javascript:;" @click="detail(item,'track')" v-text="item.companyName"></a>
+                            </dt>
+                            <dd v-text="item.sentimentItem"></dd>
+                            <dd class="lightThis" v-text="item.sentimentContent"></dd>
+                        </dl>
+                        <div class="date">
+                            <span>05/01</span>
+                            <br>
+                            <label v-text="item.sentimentDate"></label>
+                        </div>
+                    </div>
+                </div>
+                <a href="javascript:void(0);" class="more">点击加载更多</a>
             </div>
         </div>
-        <div class="list layout">
-            <div class="rowList clear">
-                <div class="left event">
-                    信息变更
-                </div>
-                <div class="left eventDetails">
-                    <dl>
-                        <dt>
-                            <a href="javascript:void(0)" id="btn-modal">国轩高科股份有限公司</a>
-                        </dt>
-                        <dd>变更后：注册资本变更为12，345.00万元</dd>
-                        <dd class="lightThis">变更前：注册资本变更为10，000.00万元</dd>
-                    </dl>
-                    <div class="date">
-                        <span>05/01</span>
-                        <br>2017
-                    </div>
-                </div>
+        <LayerBox v-model="warningDetailVisible">
+            <div class="texttip">
+                <div :class="detailConfig.className" v-text="detailConfig.text"></div>
             </div>
-            <div class="rowList clear">
-                <div class="left event">
-                    风险事件
-                </div>
-                <div class="left eventDetails">
-                    <dl>
-                        <dt>荣盛房地产开发股份有限公司</dt>
-                        <dd>被告赵东海给付原告李子兵货款44880元，于判决生效后执行，如被告未按判决时间履行给付金额义务，应当按照…</dd>
-                        <dd class="lightThis">变更前：注册资本变更为10，000.00万元</dd>
-                    </dl>
-                    <div class="date">
-                        <span>05/01</span>
-                        <br>2017
-                    </div>
-                </div>
-            </div>
-            <div class="rowList clear">
-                <div class="left event">
-                    舆情变化
-                </div>
-                <div class="left eventDetails">
-                    <dl>
-                        <dt>辉山乳业（中国）有限公司</dt>
-                        <dd>据本报此前报道，3月27号上午，杨凯曾约见家债权人谈话，要点一为“辉山乳业正在计划进行内部重组，计划引进国内顶级…”</dd>
-                        <dd class="lightThis">变更前：注册资本变更为10，000.00万元</dd>
-                    </dl>
-                    <div class="date">
-                        <span>05/01</span>
-                        <br>2017
-                    </div>
-                </div>
-            </div>
-            <a href="javascript:void(0);" class="more">点击加载更多</a>
-        </div>
+            <h3>国轩高科股份有限公司</h3>
+            <h6>预警时间：2017/06/20</h6>
+            <p>该公司位于地址江苏省南通市通州区十总镇东源大道1号欢迎实地了解具体业务,公司主要经营或服务范围是锂离子电池及其材料、电池、电机及整车控制系统的研发、制造与销售;锂离子电池应急电源、储能电池、电动工具电池的研发、制造与销售;高、低压开关及成套设备,数字化电器设备,配网智能化设备及元器件,三箱产品的研发、制造、销售、承装;太阳能、风能等可再生能源设备的研发、制造、销售与承装;节能环保电器及设备、船舶电器及设备的研发、制造、销售和安装;变压器、变电站、大型充电设备、车载充电机及车载高压箱的研发、制造、销售;自营和代理各类商品及技术的进出口业务(国家限定企业经营或禁止进出口的商品和技术除外);城市.... 您如果想进一步了解可以电话联系该公司。
+            </p>
+        </LayerBox>
     </div>
 </template>
 <script> 
+import LayerBox from '@/components/LayerBox'
+import { mapGetters } from 'vuex'
+const fetchInitialData = async (store) => {
+    await store.dispatch('frontend/main/getMonitorSummary')
+}
 export default {
+    data() {
+        return {
+            warningDetailVisible: false,
+            detailConfig: {},
+            warningNoData: true
+        }
+    },
+    computed: {
+        ...mapGetters({
+            monitorSummary: 'frontend/main/getMonitorSummary'
+        })
+    },
+    components: {
+        LayerBox
+    },
+    mounted() {
+        if (this.monitorSummary.changeList.length <= 0 && this.monitorSummary.riskList.length <= 0 && this.monitorSummary.sentimentList.length <= 0) {
+            fetchInitialData(this.$store)
+        }
+    },
+    methods: {
+        detail(e, type) {
 
+            if ('risk' == type) {
+                this.detailConfig = {
+                    className: 'textrisk',
+                    text: '风险事件'
+                }
+            } else if ('track' == type) {
+                this.detailConfig = {
+                    className: 'texttrack',
+                    text: '舆情变化'
+                }
+            } else {
+                this.detailConfig = {
+                    className: 'textinfo',
+                    text: '信息变更'
+                }
+            }
+            this.warningDetailVisible = true
+        },
+        followCompany() {
+            this.$router.push({ path: "/FollowCompany" })
+        }
+    },
 }
 </script>
