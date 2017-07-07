@@ -59,27 +59,32 @@ export default {
     methods: {
         sendCode() {
             //前面发送ajax请求成功之后调用this.start = true开始短信倒计时
-            // this.$validator.validate('forgontPassForm.mobile', this.forgontPassForm.mobile).then(result => {
+            // this.$validator.validate('myForm.newValue', this.myForm.newValue).then(result => {
             //     if (result && !this.start) {
 
             //         //发送短信验证码接口
             //         // this.shortMessage()
             //     }
-            // });
+            // // });
             this.start = true
         },
         sendNewCode() {
             //前面发送ajax请求成功之后调用this.start = true开始短信倒计时
-            // this.$validator.validate('forgontPassForm.mobile', this.forgontPassForm.mobile).then(result => {
-            //     if (result && !this.start) {
+             this.$validator.validate('myForm.newValue', this.myForm.newValue).then(result => {
+                if (result && !this.newstart) {
 
-            //         //发送短信验证码接口
-            //         // this.shortMessage()
-            //     }
-            // });
-            this.newstart = true
-            this.oldValidDisabled = true
-            this.newMobileDisabled = true
+                    //发送短信验证码接口
+                    // this.shortMessage()
+                    this.newstart = true
+                    this.oldValidDisabled = true
+                    this.newMobileDisabled = true
+                }
+            });
+            // var faa = this.$validator.validate('myForm.newValue', this.myForm.newValue)
+            // var fab = this.$validator.validate('myForm.newValue', this.myForm.newValue)
+            // this.newstart = true
+            // this.oldValidDisabled = true
+            // this.newMobileDisabled = true
         },
         backIndex() {
             this.$router.push({ path: '/' })
