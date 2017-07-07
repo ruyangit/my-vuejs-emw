@@ -24,7 +24,7 @@
             <router-link to="/MyAccount/ResetEmail">修改</router-link>
         </div>
         <div class="user-line">
-            <label for="">绑定邮箱</label>
+            <label for="">创建时间</label>
             <span>2017/06/20 12:30:21</span>
         </div>
     </div>
