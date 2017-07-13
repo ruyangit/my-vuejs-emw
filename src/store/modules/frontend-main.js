@@ -1,56 +1,94 @@
 import api from '@api'
 
 const state = {
-    monitorSummary: {
+    monitorSummaryLists: {
         summary: {},
         changeList: [],
         riskList: [],
         sentimentList: [],
         pageNo: 1,
-        count: 5
+        totalPage: 0,
+        totalRecord: 0,
+        path: ''
     },
-    monitorSummaryDetail: {}
+    monitorSummaryDetail: {},
+    searchCompanyLists: {
+        companyList: [],
+        pageNo: 1,
+        totalPage: 0,
+        totalRecord: 0,
+        path: ''
+    },
+    followCompanyLists: {
+        companyList: [],
+        pageNo: 1,
+        totalPage: 0,
+        totalRecord: 0,
+        path: ''
+    },
+    companyDetailItems: {
+        companyDetail: {},
+        path: ''
+    }
+
 }
 
 const actions = {
-    async['getMonitorSummary']({ commit, state }, config) {
-        // const path = fullPath
-        // if (state.lists.data.length > 0 && path === state.lists.path && config.page === 1) {
-        //     global.progress = 100
-        //     return
-        // }
-        const { data: { status, data } } = await api.get('/monitor/summary', { ...config })
-        if (data && status === 200) {
-            commit('receiveMonitorSummary', {
+    async['getMonitorSummaryLists']({ commit, state, rootState: { global, route: { fullPath } } }, config) {
+        const path = fullPath
+        const { data: { status, data } } = await api.post('/monitor/getSummary.do', { ...config })
+        console.log(data)
+        if (data && status === 'success') {
+            commit('receiveMonitorSummaryLists', {
                 ...config,
-                ...data
+                ...data,
+                path
             })
         }
     },
-    // async ['getArticleItem']({ commit, state, rootState: {route: { path, params: { id }}} }) {
-    //     if (path === state.item.path) {
-    //         global.progress = 100
-    //         return
-    //     }
-    //     const { data: { data, code} } = await api.get('frontend/article/item', { id, markdown: 1, cache: true })
-    //     if (data && code === 200) {
-    //         commit('receiveArticleItem', {
-    //             data,
-    //             path
-    //         })
-    //     }
-    // },
-    // async ['getTrending']({ commit, state }) {
-    //     if (state.trending.length) return
-    //     const { data: { data, code} } = await api.get('frontend/trending', { cache: true})
-    //     if (data && code === 200) {
-    //         commit('receiveTrending', data)
-    //     }
-    // }
+    async['getSearchCompanyLists']({ commit, state, rootState: { global, route: { fullPath } } }, config) {
+        const path = fullPath
+        // console.log(path)
+        // if (state.searchCompany.companyList.length > 0 && path === state.searchCompany.path && config.page === 1) {
+        //     global.progress = 100
+        //     return
+        // }
+        const { data: { status, data } } = await api.post('/follow/searchCompany.do', { ...config })
+        if (data && status === 'success') {
+            commit('receiveSearchCompanyLists', {
+                ...config,
+                ...data,
+                path
+            })
+        }
+    },
+    async['getFollowCompanyLists']({ commit, state, rootState: { global, route: { fullPath } } }, config) {
+        const path = fullPath
+        const { data: { status, data } } = await api.post('/follow/companyList.do', { ...config })
+        // console.log(data)
+        if (data && status === 'success') {
+            commit('receiveFollowCompanyLists', {
+                ...config,
+                ...data,
+                path
+            })
+        }
+    },
+    async['getCompanyDetailItems']({ commit, state, rootState: { global, route: { fullPath } } }, config) {
+        const path = fullPath
+        const { data: { status, data } } = await api.post('/follow/getCompanyDetail.do', { ...config })
+        if (data && status === 'success') {
+            commit('receiveCompanyDetailItems', {
+                ...config,
+                ...data,
+                path
+            })
+        }
+    }
 }
 
 const mutations = {
-    ['receiveMonitorSummary'](state, { summary, changeList, riskList, sentimentList }) {
+    ['receiveMonitorSummaryLists'](state, { summary, changeList, riskList, sentimentList, path }) {
         let date = new Date()
         let month = (date.getMonth() + 1)
         if (month < 10) month = '0' + month
@@ -69,14 +107,33 @@ const mutations = {
         day = date.getDate()
         if (day < 10) day = '0' + day
         summary.ninety = month + '/' + day + '-' + summary.today
-        state.monitorSummary = { summary, changeList, riskList, sentimentList }
-        // console.log(state.monitorSummary);
+        
+        state.monitorSummaryLists = {
+            summary,
+            changeList,
+            riskList,
+            sentimentList,
+            path
+        }
     },
-    // ['receiveArticleItem'](state, {data, path}) {
-    //     state.item = {
-    //         data, path, isLoad: true
-    //     }
-    // },
+    ['receiveSearchCompanyLists'](state, { companyList, path }) {
+        state.searchCompanyLists = {
+            companyList,
+            path
+        }
+    },
+    ['receiveFollowCompanyLists'](state, { companyList, path }) {
+        state.followCompanyLists = {
+            companyList,
+            path
+        }
+    },
+    ['receiveCompanyDetailItems'](state, { companyDetail, path }) {
+        state.companyDetailItems = {
+            companyDetail,
+            path
+        }
+    },
     // ['receiveTrending'](state, data) {
     //     state.trending = data.list
     // },
@@ -96,12 +153,18 @@ const mutations = {
 }
 
 const getters = {
-    ['getMonitorSummary'](state) {
-        return state.monitorSummary
+    ['getMonitorSummaryLists'](state) {
+        return state.monitorSummaryLists
     },
-    // ['getArticleItem'](state) {
-    //     return state.item
-    // },
+    ['getSearchCompanyLists'](state) {
+        return state.searchCompanyLists
+    },
+    ['getFollowCompanyLists'](state) {
+        return state.followCompanyLists
+    },
+    ['getCompanyDetailItems'](state) {
+        return state.companyDetailItems
+    },
     // ['getTrending'](state) {
     //     return state.trending
     // }

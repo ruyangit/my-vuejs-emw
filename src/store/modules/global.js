@@ -1,7 +1,10 @@
 import api from '@api'
+import toastr from 'toastr'
+import { inBrowser } from '@/utils'
 import { setStore, removeStore } from '@/utils/storage'
+toastr.options.positionClass = 'toast-bottom-left'
 const state = {
-    progress: -1,
+    progress: 0,
     isLogin: false,
     userInfo: null
 }
@@ -10,9 +13,23 @@ const actions = {
     ['gProgress']({ commit }, payload) {
         commit('progress', payload)
     },
+    ['showMsg']({ commit }, config) {
+        let content, type
+        if (typeof config === 'string') {
+            content = config
+            type = 'error'
+        } else {
+            content = config.content
+            type = config.type
+        }
+        if (inBrowser) toastr[type](content)
+    },
+    ['hideMsg']() {
+        toastr.clear()
+    },
     async['getUserInfo']({ commit }) {
-        const { data: { status, data } } = await api.get('/user/info')
-        if (status === 200) {
+        const { data: { status, data } } = await api.post('/user/info.do')
+        if (status === 'success') {
             commit('userInfo', data.userInfo)
         }
     }

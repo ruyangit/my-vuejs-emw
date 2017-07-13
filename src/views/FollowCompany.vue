@@ -22,22 +22,22 @@
                         <th>成立时间</th>
                         <th>&nbsp;&nbsp;&nbsp;&nbsp;</th>
                     </tr>
-                    <tr v-for="(item,index) in followCompanys" :key="index">
+                    <tr v-for="(item,index) in followCompanyLists.companyList" :key="index">
                         <td class="text-l">
                             <a href="javascript:;" @click="detailCompany(item)" v-text="item.companyName"></a>
                         </td>
-                        <td>2017/06/20</td>
-                        <td>2017/06/20</td>
-                        <td>3</td>
-                        <td>--</td>
-                        <td>5</td>
+                        <td v-text="item.followDt">--</td>
+                        <td v-text="item.monitorDt">--</td>
+                        <td v-text="item.regCapital">--</td>
+                        <td v-text="item.legalPerson">--</td>
+                        <td v-text="item.foundDt">--</td>
                         <td>
                             <a href="javascript:void(0)" @click="cancelFollow(item)">取消关注</a>
                         </td>
                     </tr>
                 </tbody>
             </table>
-            <div class="nocompany" v-if="followCompanyNoData">
+            <div class="nocompany" v-if="followCompanyLists.companyList.length==0">
                 <img src="/static/images/notFollewed.png">
             </div>
         </div>
@@ -57,7 +57,9 @@
                     <div class="span-220 pd27" v-text="followCompany.regCapital"></div>
                 </div>
             </div>
-            <p>关注时间：</p>
+            <p>关注时间：
+                <label v-text="followDate"></label>
+            </p>
             <p>关注后和可获取该企业信息，同时从关注日起开始按月计费。</p>
             <div class="model-footer">
                 <button class="return" style="background-color:white" @click="backSearchFollow()">返回上一页</button>
@@ -70,7 +72,9 @@
             <p>确认取消企业关注：
                 <span v-text="followCompany.companyName"></span>
             </p>
-            <p>取消时间：</p>
+            <p>取消时间：
+                <label v-text="followDate"></label>
+            </p>
             <p>取消关注将无法及时获取该企业的最新信息，同时下月将取消计费。</p>
             <button class="btn" @click="confirmCancelFollow()">确认取消</button>
         </LayerBox>
@@ -83,7 +87,8 @@
                     <input type="tel">
                 </div>
                 <div class="validate">
-                    <img ><a href="#" >看不清？换一张</a>
+                    <img>
+                    <a href="#">看不清？换一张</a>
                 </div>
             </div>
             <button class="btn" @click="confirmSearchValidate()">确认</button>
@@ -94,43 +99,43 @@
                 <tbody>
                     <tr>
                         <td class="thr">企业名称</td>
-                        <td class="tdr"></td>
+                        <td class="tdr" v-text="companyDetailItems.companyDetail.companyName"></td>
                         <td class="thr">组织机构代码</td>
-                        <td class="tdr"></td>
+                        <td class="tdr" v-text="companyDetailItems.companyDetail.orgNo"></td>
                     </tr>
                     <tr>
                         <td class="thr">统一信用社会代码</td>
-                        <td></td>
+                        <td v-text="companyDetailItems.companyDetail.creditNo"></td>
                         <td class="thr">经营状态</td>
-                        <td></td>
+                        <td v-text="companyDetailItems.companyDetail.orgNo"></td>
                     </tr>
                     <tr>
                         <td class="thr">注册号</td>
-                        <td></td>
+                        <td v-text="companyDetailItems.companyDetail.regNo"></td>
                         <td class="thr">成立日期</td>
-                        <td></td>
+                        <td v-text="companyDetailItems.companyDetail.foundedDt"></td>
                     </tr>
                     <tr>
                         <td class="thr">公司类型</td>
-                        <td></td>
+                        <td v-text="companyDetailItems.companyDetail.enterpriseProperty"></td>
                         <td class="thr">营业期限</td>
-                        <td></td>
+                        <td v-text="companyDetailItems.companyDetail.operateTime"></td>
                     </tr>
                     <tr>
                         <td class="thr">注册资金</td>
-                        <td></td>
+                        <td v-text="companyDetailItems.companyDetail.registeredCapital"></td>
                         <td class="thr">发照日期</td>
-                        <td></td>
+                        <td v-text="companyDetailItems.companyDetail.orgNo"></td>
                     </tr>
                     <tr>
                         <td class="thr">登记机关</td>
-                        <td></td>
+                        <td v-text="companyDetailItems.companyDetail.regAuthority"></td>
                         <td class="thr">企业地址</td>
-                        <td></td>
+                        <td v-text="companyDetailItems.companyDetail.address"></td>
                     </tr>
                     <tr>
                         <td class="thr">经营范围</td>
-                        <td colspan="3"></td>
+                        <td colspan="3" v-text="companyDetailItems.companyDetail.bizScope"></td>
                     </tr>
                 </tbody>
             </table>
@@ -138,8 +143,15 @@
     </div>
 </template>
 <script> 
+import { getDate } from '@/utils'
 import SearchCompany from '@/components/SearchCompany'
 import LayerBox from '@/components/LayerBox'
+import { mapGetters } from 'vuex'
+import api from '@api'
+const fetchInitialData = async (store, config = { pageNo: 1 }) => {
+    const base = { ...config, pageSize: 10 }
+    await store.dispatch('frontend/main/getFollowCompanyLists', base)
+}
 export default {
     data() {
         return {
@@ -150,26 +162,34 @@ export default {
             confirmFollowVisible: false,
             cancelFollowVisible: false,
             followCompany: {},
-            followCompanys: [],
-            followCompanyNoData: true
+            followDate: getDate()
         }
+    },
+    computed: {
+        ...mapGetters({
+            followCompanyLists: 'frontend/main/getFollowCompanyLists',
+            companyDetailItems: 'frontend/main/getCompanyDetailItems',
+        })
     },
     components: {
         SearchCompany,
         LayerBox
     },
     mounted() {
-
+        fetchInitialData(this.$store, { pageNo: 1 })
     },
     methods: {
-        detailCompany(e) {
-            this.followCompany = e
+        async detailCompany(e) {
+            //this.followCompany = e
             this.detailCompanyVisible = true
+
+            const base = { respondentCode: e.respondentCode }
+            
+            await this.$store.dispatch('frontend/main/getCompanyDetailItems', base)
         },
         follow(e) {
             this.followCompany = e
             this.confirmFollowVisible = true
-
         },
         searchVlidate() {
             this.searchValidateVisible = true
@@ -182,22 +202,39 @@ export default {
             this.confirmFollowVisible = false
             this.searchVisible = true
         },
-        confirmFollow() {
+        async confirmFollow() {
             this.confirmFollowVisible = false
-            this.followCompanyNoData = false
-            this.followCompanys.push({
-                companyName: this.followCompany.companyName,
-            })
+            const config = {
+                respondentCode: this.followCompany.respondentCode,
+                respondentName: this.followCompany.companyName
+            }
+            const { data: { status, data } } = await api.post('/follow/followCompany.do', { ...config })
+            if (status === 'success') {
+                this.$store.dispatch('global/showMsg', {
+                    type: 'success',
+                    content: '关注成功'
+                })
+                fetchInitialData(this.$store, { pageNo: 1 })
+            }
+
         },
         cancelFollow(e) {
             this.followCompany = e
             this.cancelFollowVisible = true
         },
-        confirmCancelFollow() {
+        async confirmCancelFollow() {
             this.cancelFollowVisible = false
-            this.followCompanys = []
-            if (this.followCompanys.length <= 0) {
-                this.followCompanyNoData = true
+            const config = {
+                respondentCode: this.followCompany.respondentCode,
+                respondentName: this.followCompany.companyName
+            }
+            const { data: { status, data } } = await api.post('/follow/abandonCompany.do', { ...config })
+            if (status === 'success') {
+                this.$store.dispatch('global/showMsg', {
+                    type: 'success',
+                    content: '取消成功'
+                })
+                fetchInitialData(this.$store, { pageNo: 1 })
             }
         }
     }
@@ -232,10 +269,6 @@ table.company tr td.thr {
     /*padding-left: 50px;*/
 }
 
-.search-validate .modal-line {
-    /*margin: 20px 0;*/
-}
-
 .search-validate .modal-line label {
     width: 150px;
     text-align: right;
@@ -255,12 +288,14 @@ table.company tr td.thr {
     padding-left: 163px;
     margin-top: 30px;
 }
-.search-validate .validate img{
+
+.search-validate .validate img {
     width: 120px;
     height: 60px;
     background-color: #e5e5e5;
 }
-.search-validate .validate a{
+
+.search-validate .validate a {
     margin-left: 15px;
 }
 </style>

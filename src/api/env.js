@@ -6,7 +6,7 @@
  * 
  */
 
-let baseUrl = '/api';
+let baseUrl = 'http://10.166.2.188:18080/credit-monitor';
 let routerMode = 'history';
 
 if (process.env.NODE_ENV == 'development') {

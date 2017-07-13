@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import { routerMode } from '@api/env'
 import { inBrowser } from '@/utils'
 import store from '@/store'
-import ProgressBar from '@/components/ProgressBar'
+// import ProgressBar from '@/components/ProgressBar'
 
 const Login = r => require.ensure([], () => r(require('@/views/Login')), 'chunk-login')
 const ForgotPass = r => require.ensure([], () => r(require('@/views/ForgotPass')), 'chunk-login')
@@ -19,9 +19,9 @@ const ResetEmail = r => require.ensure([], () => r(require('@/views/myaccount/ch
 
 
 Vue.use(VueRouter)
-const bar = Vue.prototype.$bar = new Vue(ProgressBar).$mount()
+// const bar = Vue.prototype.$bar = new Vue(ProgressBar).$mount()
 
-document.body.appendChild(bar.$el)
+// document.body.appendChild(bar.$el)
 
 const scrollBehavior = to => {
   const position = {}
@@ -65,7 +65,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach(({ meta, path }, from, next) => {
-  bar.start()
+  store.dispatch('global/gProgress', 0)
   let { auth = true } = meta
   if (auth) {
     var isLogin = Boolean(store.state.global.isLogin)
@@ -80,7 +80,7 @@ router.beforeEach(({ meta, path }, from, next) => {
 })
 
 router.afterEach((to, from, next) => {
-  bar.finish()
+  store.dispatch('global/gProgress', 100)
 });
 
 

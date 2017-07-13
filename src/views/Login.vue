@@ -10,18 +10,18 @@
                     <div class="form-item">
                         <label for="">账号</label>
                         <div class="form-item-content">
-                            <input :class="{'input': true, 'is-danger': errors.has('loginForm.mobile') }" type="tel" placeholder="请输入您的手机号码" v-validate="'required'" v-model="loginForm.mobile" name="mobile">
-                            <span v-show="errors.has('loginForm.mobile')" class="help-tip is-danger">手机号码不能为空</span>
+                            <input :class="{'input': true, 'is-danger': errors.has('loginForm.userName') }" type="tel" placeholder="请输入您的手机号码" v-validate="'required'" v-model="loginForm.userName" name="userName">
+                            <span v-show="errors.has('loginForm.userName')" class="help-tip is-danger">手机号码不能为空</span>
                         </div>
                     </div>
                     <div class="form-item">
                         <label for="">密码</label>
                         <div class="form-item-content">
-                            <input :class="{'input': true, 'is-danger': errors.has('loginForm.password') }" type="password" placeholder="请输入您的账号密码" v-validate="'required'" v-model="loginForm.password" name="password">
-                            <span v-show="errors.has('loginForm.password')" class="help-tip is-danger">账号密码不能为空</span>
+                            <input :class="{'input': true, 'is-danger': errors.has('loginForm.passWord') }" type="passWord" placeholder="请输入您的账号密码" v-validate="'required'" v-model="loginForm.passWord" name="passWord">
+                            <span v-show="errors.has('loginForm.passWord')" class="help-tip is-danger">账号密码不能为空</span>
                         </div>
                     </div>
-                    <button type="submit">登录</button>
+                    <button type="submit" :disabled="btnDisabled">登录</button>
                     <router-link to="/ForgotPass" tag="a">忘记密码</router-link>
                 </div>
             </form>
@@ -48,9 +48,10 @@ import api from '@api'
 export default {
     data() {
         return {
+            btnDisabled: false,
             loginForm: {
-                mobile: '',
-                password: ''
+                userName: '',
+                passWord: ''
             }
         }
     },
@@ -64,14 +65,16 @@ export default {
             this.$validator.validateAll(name).then(result => {
                 if (result) {
                     // eslint-disable-next-line
+                    this.btnDisabled = true
                     this.handleSubmit();
                     return;
                 }
+                this.btnDisabled = false
             });
         },
         async handleSubmit() {
-            const { data: { status, message } } = await api.get('/user/login', this.loginForm)
-            if (status === 200) {
+            const { data: { status, message } } = await api.post('/user/login.do', this.loginForm)
+            if (status === 'success') {
                 // //登录成功获取用户信息
                 this.$store.commit("global/isLogin", 'true')
                 this.$store.dispatch("global/getUserInfo")
@@ -79,9 +82,8 @@ export default {
                 this.$router.push({
                     path: redirect
                 })
-            } else {
-                alert('用户名密码输入有误!')
             }
+            this.btnDisabled = false
         }
     }
 }

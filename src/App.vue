@@ -37,14 +37,15 @@
                 </nav>
             </header>
         </div>
-        <transition>
-            <router-view :key="key"></router-view>
+        <transition name="fade" mode="out-in">
+            <router-view :key="key" class="router"></router-view>
         </transition>
     </div>
 </template>
 <script>
 import './utils/validator.js'
 import { mapGetters } from 'vuex'
+import NProgress from 'nprogress'
 export default {
     name: 'app',
     data() {
@@ -63,9 +64,6 @@ export default {
             }]
         }
     },
-    created() {
-        // this.$store.dispatch("global/getUserInfo")
-    },
     computed: {
         ...mapGetters({
             global: 'global/getGlobal',
@@ -80,14 +78,15 @@ export default {
     },
     watch: {
         'global.progress'(val) {
+            // NProgress.configure({ showSpinner: false })
             if (val === 0) {
-                this.$bar.set(0)
-                this.$bar.start()
+                NProgress.set(0)
+                NProgress.start()
             } else if (val === 100) {
-                this.$bar.finish()
+                NProgress.done()
             } else {
-                this.$bar.set(val / 100)
-                this.$bar.start()
+                NProgress.set(val / 100)
+                NProgress.start()
             }
         },
         'global.isLogin'() {
@@ -103,21 +102,13 @@ export default {
     }
 }
 </script>
-<style lang="less">
+<style>
 .router-link-exact-active {
     border-bottom: 2px solid #49a0d5;
 }
 
-
-
-/*过渡淡入淡出动画*/
-
-// .fade-enter-active,
-// .fade-leave-active {
-//     transition: opacity .2s
-// }
-// .fade-enter,
-// .fade-leave-active {
-//     opacity: 0
-// }
+div.toast-message {
+    font-size: 14px;
+    color: #fff;
+}
 </style>

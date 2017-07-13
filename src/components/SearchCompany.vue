@@ -23,7 +23,7 @@
                 <div class="span-200">选择关注</div>
             </div>
             <div class="search-list">
-                <div v-show="!searchNoText" class="search-list-line clear" v-for="(item,index) in searchDatas" :key="index">
+                <div v-show="searchCompanyLists.companyList" class="search-list-line clear" v-for="(item,index) in searchCompanyLists.companyList" :key="index">
                     <div class="span-290 pd27" v-text="item.companyName"></div>
                     <div class="span-200 pd27" v-text="item.regCapital"></div>
                     <div class="span-200 pd27" v-text="item.legalPerson"></div>
@@ -32,7 +32,7 @@
                         <button class="follow" @click="follow(item)">关注</button>
                     </div>
                 </div>
-                <div v-show="searchDatas" v-text="searchNoText" class="nocompany"></div>
+                <div v-show="searchCompanyLists.companyList.length==0" class="nocompany">请在上方输入您想要搜索的企业名称</div>
             </div>
             <a class="click-more" @click="searchMore()">点击查看更多</a>
         </div>
@@ -43,7 +43,12 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import LayerBox from '@/components/LayerBox'
+const fetchInitialData = async (store, config = { pageNo: 1 }) => {
+    const base = { ...config, pageSize: 10 }
+    await store.dispatch('frontend/main/getSearchCompanyLists', base)
+}
 export default {
     name: 'SearchCompany',
     props: {
@@ -52,19 +57,29 @@ export default {
             default: false
         }
     },
+    computed: {
+        ...mapGetters({
+            searchCompanyLists: 'frontend/main/getSearchCompanyLists',
+        })
+    },
     data() {
         return {
             visible: false,
             layerBoxVisible: false,
             searchText: "",
-            searchNoText: "请在上方输入您想要搜索的企业名称",
-            searchDatas: []
         }
     },
     components: {
         LayerBox
     },
+    mounted() {
+        //fetchInitialData(this.$store, { page: 1 })
+    },
     watch: {
+        'searchCompanyLists.companyList'() {
+            console.log('searchCompanyLists.companyList')
+            //fetchInitialData(this.$store, { page: 1 })
+        },
         value(val) {
             this.visible = val
             // 在显示时去掉body滚动条，防止出现双滚动条
@@ -95,39 +110,26 @@ export default {
             this.$validator.validate('searchText', this.searchText).then(result => {
                 console.log(result)
                 if (result) {
-
-                    if (this.searchDatas.length > 0) {
-                        this.searchVlidate()
-                        return
-                    }
-
-                    for (var i = 1; i <= 30; i++) {
-                        this.searchDatas.push({
-                            companyName: '辉山乳业（安徽）有限公司',
-                            regCapital: '1000.0' + i,
-                            legalPerson: '--',
-                            foundDt: '2017/06/20',
-                            id: i
-                        })
-                    }
-                    if (this.searchDatas.length > 0) {
-                        this.searchNoText = ""
-                    }
+                    fetchInitialData(this.$store, { pageNo: 1, companyName: this.searchText })
+                    // if (this.searchDatas.length > 0) {
+                    //     this.searchVlidate()
+                    //     return
+                    // }
                 }
             });
 
         },
         searchMore() {
 
-            for (var i = 30; i <= 60; i++) {
-                this.searchDatas.push({
-                    companyName: '辉山乳业（安徽）有限公司',
-                    regCapital: '1000.0' + i,
-                    legalPerson: '--',
-                    foundDt: '2017/06/20',
-                    id: i
-                })
-            }
+            // for (var i = 30; i <= 60; i++) {
+            //     this.searchDatas.push({
+            //         companyName: '辉山乳业（安徽）有限公司',
+            //         regCapital: '1000.0' + i,
+            //         legalPerson: '--',
+            //         foundDt: '2017/06/20',
+            //         id: i
+            //     })
+            // }
         },
         searchVlidate() {
             this.$emit("searchVlidate")

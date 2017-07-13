@@ -5,13 +5,17 @@ import store from '@/store'
 import { baseUrl } from './env'
 
 axios.interceptors.request.use(config => {
-    store.dispatch("global/gProgress", 0)
+    store.dispatch("global/gProgress", 50)
     return config
 }, error => {
     return Promise.reject(error)
 })
 
-axios.interceptors.response.use(response => response, error => Promise.resolve(error.response))
+axios.interceptors.response.use(response => response, error => {
+    var response = error.response
+    console.error(error)
+    return Promise.resolve(error)
+})
 
 function checkStatus(response) {
     store.dispatch("global/gProgress", 100)
@@ -28,10 +32,11 @@ function checkStatus(response) {
 }
 
 function checkCode(res) {
-    if (res.data.status !== 200) {
-        alert('服务器请求失败！');
+    if (res.data.status != 'success') {
+        console.warn(res.data.message || '系统繁忙，请稍后再试')
+        store.dispatch('global/showMsg', res.data.message || '系统繁忙，请稍后再试')
         store.commit("global/logout")
-        window.location.href = "/"
+        //window.location.href = "/"
     }
     return res
 }
@@ -39,25 +44,27 @@ function checkCode(res) {
 export default {
     post(url, data) {
         return axios({
-            method: 'post',
+            method: 'POST',
             url: baseUrl + url,
             data: qs.stringify(data),
             timeout: 30000,
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-            }
+            //服务端不支持
+            // headers: {
+            // 'X-Requested-With': 'XMLHttpRequest',
+            // 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            // }
         }).then(checkStatus).then(checkCode)
     },
     get(url, params) {
         return axios({
-            method: 'get',
+            method: 'GET',
             url: baseUrl + url,
             params,
             timeout: 30000,
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
+            //服务端不支持
+            // headers: {
+            //     'X-Requested-With': 'XMLHttpRequest'
+            // }
         }).then(checkStatus).then(checkCode)
     }
 }

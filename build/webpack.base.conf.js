@@ -1,15 +1,22 @@
 var path = require('path')
+const webpack = require('webpack')
 var utils = require('./utils')
 var config = require('../config')
 var vueLoaderConfig = require('./vue-loader.conf')
+
+const isProd = process.env.NODE_ENV === 'production'
 
 function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
 
 module.exports = {
+  performance: {
+    maxEntrypointSize: 300000,
+    hints: isProd ? 'warning' : false
+  },
   entry: {
-    app: ["babel-polyfill", "./src/main.js"]
+    app: ['babel-polyfill', './src/main.js']
   },
   output: {
     path: config.build.assetsRoot,
@@ -18,6 +25,9 @@ module.exports = {
       ? config.build.assetsPublicPath
       : config.dev.assetsPublicPath
   },
+  // externals: {
+  //   'jquery': 'jQuery'
+  // },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
@@ -55,5 +65,16 @@ module.exports = {
         }
       }
     ]
-  }
+  },
+  plugins: [
+    new webpack.ProvidePlugin({ $: 'jquery', jQuery: 'jquery', 'window.jQuery': 'jquery' }),
+    new webpack.LoaderOptionsPlugin({
+      minimize: isProd,
+      options: {
+        context: __dirname,
+        vue: vueLoaderConfig,
+      }
+    }),
+  ]
+
 }

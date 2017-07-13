@@ -173,8 +173,9 @@
 <script> 
 import LayerBox from '@/components/LayerBox'
 import { mapGetters } from 'vuex'
-const fetchInitialData = async (store) => {
-    await store.dispatch('frontend/main/getMonitorSummary')
+const fetchInitialData = async (store, config = { pageNo: 1 }) => {
+    const base = { ...config, pageSize: 10 }
+    await store.dispatch('frontend/main/getMonitorSummaryLists', base)
 }
 export default {
     data() {
@@ -186,16 +187,31 @@ export default {
     },
     computed: {
         ...mapGetters({
-            monitorSummary: 'frontend/main/getMonitorSummary'
+            monitorSummaryLists: 'frontend/main/getMonitorSummaryLists'
         })
     },
     components: {
         LayerBox
     },
     mounted() {
-        if (this.monitorSummary.changeList.length <= 0 && this.monitorSummary.riskList.length <= 0 && this.monitorSummary.sentimentList.length <= 0) {
-            fetchInitialData(this.$store)
-        }
+        fetchInitialData(this.$store, { pageNo: 1 })
+    },
+    watch: {
+        'monitorSummaryLists.changeList'() {
+            if (this.monitorSummaryLists.changeList.length > 0) {
+                this.warningNoData = false
+            }
+        },
+        'monitorSummaryLists.riskList'() {
+            if (this.monitorSummaryLists.riskList.length > 0) {
+                this.warningNoData = false
+            }
+        },
+        'monitorSummaryLists.sentimentList'() {
+            if (this.monitorSummaryLists.sentimentList.length > 0) {
+                this.warningNoData = false
+            }
+        },
     },
     methods: {
         detail(e, type) {
