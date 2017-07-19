@@ -34,19 +34,19 @@
                 <div class="data">
                     <div class="titleline clear">
                         <p class="title">今日</p>
-                        <p class="extra" v-text="monitorSummary.summary.today">--</p>
+                        <p class="extra" v-text="monitorSummaryLists.summary.today">--</p>
                     </div>
                     <div class="content clear">
                         <dl class="infochange">
-                            <dt v-text="monitorSummary.summary.changeToday">--</dt>
+                            <dt v-text="monitorSummaryLists.summary.changeToday">--</dt>
                             <dd>信息变更</dd>
                         </dl>
                         <dl class="track">
-                            <dt v-text="monitorSummary.summary.riskToday">--</dt>
+                            <dt v-text="monitorSummaryLists.summary.riskToday">--</dt>
                             <dd>舆情跟踪</dd>
                         </dl>
                         <dl class="risk">
-                            <dt v-text="monitorSummary.summary.sentimentToday">--</dt>
+                            <dt v-text="monitorSummaryLists.summary.sentimentToday">--</dt>
                             <dd>预警风险</dd>
                         </dl>
                     </div>
@@ -54,20 +54,20 @@
                 <div class="data">
                     <div class="titleline clear">
                         <p class="title">近30天</p>
-                        <p class="extra" v-text="monitorSummary.summary.thirty">--</p>
+                        <p class="extra" v-text="monitorSummaryLists.summary.thirty">--</p>
                     </div>
     
                     <div class="content">
                         <dl class="infochange clear">
-                            <dt v-text="monitorSummary.summary.changeThirty">--</dt>
+                            <dt v-text="monitorSummaryLists.summary.changeThirty">--</dt>
                             <dd>信息变更</dd>
                         </dl>
                         <dl class="track">
-                            <dt v-text="monitorSummary.summary.riskThirty">--</dt>
+                            <dt v-text="monitorSummaryLists.summary.riskThirty">--</dt>
                             <dd>舆情跟踪</dd>
                         </dl>
                         <dl class="risk">
-                            <dt v-text="monitorSummary.summary.sentimentThirty">--</dt>
+                            <dt v-text="monitorSummaryLists.summary.sentimentThirty">--</dt>
                             <dd>预警风险</dd>
                         </dl>
                     </div>
@@ -75,26 +75,26 @@
                 <div class="data">
                     <div class="titleline clear">
                         <p class="title">近90天</p>
-                        <p class="extra" v-text="monitorSummary.summary.ninety">--</p>
+                        <p class="extra" v-text="monitorSummaryLists.summary.ninety">--</p>
                     </div>
                     <div class="content">
                         <dl class="infochange clear">
-                            <dt v-text="monitorSummary.summary.changeNinety">--</dt>
+                            <dt v-text="monitorSummaryLists.summary.changeNinety">--</dt>
                             <dd>信息变更</dd>
                         </dl>
                         <dl class="track">
-                            <dt v-text="monitorSummary.summary.riskNinety">--</dt>
+                            <dt v-text="monitorSummaryLists.summary.riskNinety">--</dt>
                             <dd>舆情跟踪</dd>
                         </dl>
                         <dl class="risk">
-                            <dt v-text="monitorSummary.summary.sentimentNinety">--</dt>
+                            <dt v-text="monitorSummaryLists.summary.sentimentNinety">--</dt>
                             <dd>预警风险</dd>
                         </dl>
                     </div>
                 </div>
             </div>
             <div class="list layout">
-                <div class="rowList clear" v-for="(item,index) in monitorSummary.changeList" :key="index">
+                <div class="rowList clear" v-for="(item,index) in monitorSummaryLists.changeList" :key="index">
                     <div class="left event">
                         信息变更
                     </div>
@@ -118,7 +118,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="rowList clear" v-for="(item,index) in monitorSummary.riskList" :key="index">
+                <div class="rowList clear" v-for="(item,index) in monitorSummaryLists.riskList" :key="index">
                     <div class="left event risk">
                         风险事件
                     </div>
@@ -137,7 +137,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="rowList clear" v-for="(item,index) in monitorSummary.sentimentList" :key="index">
+                <div class="rowList clear" v-for="(item,index) in monitorSummaryLists.sentimentList" :key="index">
                     <div class="left event track">
                         舆情变化
                     </div>
@@ -195,25 +195,21 @@ export default {
     },
     mounted() {
         fetchInitialData(this.$store, { pageNo: 1 })
+        this.showData()
     },
     watch: {
-        'monitorSummaryLists.changeList'() {
-            if (this.monitorSummaryLists.changeList.length > 0) {
-                this.warningNoData = false
-            }
-        },
-        'monitorSummaryLists.riskList'() {
-            if (this.monitorSummaryLists.riskList.length > 0) {
-                this.warningNoData = false
-            }
-        },
-        'monitorSummaryLists.sentimentList'() {
-            if (this.monitorSummaryLists.sentimentList.length > 0) {
-                this.warningNoData = false
-            }
-        },
+        'monitorSummaryLists.totalRecord'() {
+            this.showData()
+        }
     },
     methods: {
+        showData(){
+            if (this.monitorSummaryLists.totalRecord > 0) {
+                this.warningNoData = false
+            }else{
+                this.warningNoData = true
+            }
+        },
         detail(e, type) {
 
             if ('risk' == type) {

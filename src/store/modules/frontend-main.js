@@ -6,7 +6,8 @@ const state = {
         changeList: [],
         riskList: [],
         sentimentList: [],
-        pageNo: 1,
+        pageNo: 0,
+        pageSize: 0,
         totalPage: 0,
         totalRecord: 0,
         path: ''
@@ -14,14 +15,16 @@ const state = {
     monitorSummaryDetail: {},
     searchCompanyLists: {
         companyList: [],
-        pageNo: 1,
+        pageNo: 0,
+        pageSize: 0,
         totalPage: 0,
         totalRecord: 0,
         path: ''
     },
     followCompanyLists: {
         companyList: [],
-        pageNo: 1,
+        pageNo: 0,
+        pageSize: 0,
         totalPage: 0,
         totalRecord: 0,
         path: ''
@@ -88,43 +91,79 @@ const actions = {
 }
 
 const mutations = {
-    ['receiveMonitorSummaryLists'](state, { summary, changeList, riskList, sentimentList, path }) {
-        let date = new Date()
-        let month = (date.getMonth() + 1)
-        if (month < 10) month = '0' + month
-        let day = date.getDate()
-        if (day < 10) day = '0' + day
-        summary.today = month + '/' + day
-        date = new Date(date - 1000 * 60 * 60 * 24 * 30)//30天前
-        month = (date.getMonth() + 1)
-        if (month < 10) month = '0' + month
-        day = date.getDate()
-        if (day < 10) day = '0' + day
-        summary.thirty = month + '/' + day + '-' + summary.today
-        date = new Date(date - 1000 * 60 * 60 * 24 * 60)//+60天前=90天前
-        month = (date.getMonth() + 1)
-        if (month < 10) month = '0' + month
-        day = date.getDate()
-        if (day < 10) day = '0' + day
-        summary.ninety = month + '/' + day + '-' + summary.today
-        
+    ['receiveMonitorSummaryLists'](state, {
+        summary,
+        changeList,
+        riskList,
+        sentimentList,
+        pageNo,
+        pageSize,
+        totalPage,
+        totalRecord,
+        path
+    }) {
+        // let date = new Date()
+        // let month = (date.getMonth() + 1)
+        // if (month < 10) month = '0' + month
+        // let day = date.getDate()
+        // if (day < 10) day = '0' + day
+        // summary.today = month + '/' + day
+        // date = new Date(date - 1000 * 60 * 60 * 24 * 30)//30天前
+        // month = (date.getMonth() + 1)
+        // if (month < 10) month = '0' + month
+        // day = date.getDate()
+        // if (day < 10) day = '0' + day
+        // summary.thirty = month + '/' + day + '-' + summary.today
+        // date = new Date(date - 1000 * 60 * 60 * 24 * 60)//+60天前=90天前
+        // month = (date.getMonth() + 1)
+        // if (month < 10) month = '0' + month
+        // day = date.getDate()
+        // if (day < 10) day = '0' + day
+        // summary.ninety = month + '/' + day + '-' + summary.today
+
         state.monitorSummaryLists = {
             summary,
             changeList,
             riskList,
             sentimentList,
+            pageNo,
+            pageSize,
+            totalPage,
+            totalRecord,
             path
         }
     },
-    ['receiveSearchCompanyLists'](state, { companyList, path }) {
+    ['receiveSearchCompanyLists'](state, {
+        companyList,
+        pageNo,
+        pageSize,
+        totalPage,
+        totalRecord,
+        path
+    }) {
         state.searchCompanyLists = {
             companyList,
+            pageNo,
+            pageSize,
+            totalPage,
+            totalRecord,
             path
         }
     },
-    ['receiveFollowCompanyLists'](state, { companyList, path }) {
+    ['receiveFollowCompanyLists'](state, {
+        companyList,
+        pageNo,
+        pageSize,
+        totalPage,
+        totalRecord,
+        path
+    }) {
         state.followCompanyLists = {
             companyList,
+            pageNo,
+            pageSize,
+            totalPage,
+            totalRecord,
             path
         }
     },

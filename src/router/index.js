@@ -5,6 +5,7 @@ import { inBrowser } from '@/utils'
 import store from '@/store'
 // import ProgressBar from '@/components/ProgressBar'
 
+const HtmlSit = r => require.ensure([], () => r(require('@/components/HtmlSit')), 'chunk-html')
 const Login = r => require.ensure([], () => r(require('@/views/Login')), 'chunk-login')
 const ForgotPass = r => require.ensure([], () => r(require('@/views/ForgotPass')), 'chunk-login')
 const WarningConsole = r => require.ensure([], () => r(require('@/views/WarningConsole')), 'chunk-warningconsole')
@@ -41,6 +42,7 @@ const router = new VueRouter({
   base: __dirname,
   scrollBehavior,
   routes: [
+    { name: 'HtmlSit', path: '/html/:file', component: HtmlSit, meta: { auth: false } },
     { name: 'Login', path: '/Login', component: Login, meta: { auth: false } },
     { name: 'ForgotPass', path: '/ForgotPass', component: ForgotPass, meta: { auth: false } },
 

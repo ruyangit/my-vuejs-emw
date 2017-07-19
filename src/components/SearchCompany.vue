@@ -17,17 +17,17 @@
             </div>
             <div class="search-list-title clear">
                 <div class="span-290">企业名称</div>
-                <div class="span-200">注册资本</div>
                 <div class="span-200">法定代表人</div>
                 <div class="span-200">成立时间</div>
+                <div class="span-200">登记状态</div>
                 <div class="span-200">选择关注</div>
             </div>
             <div class="search-list">
                 <div v-show="searchCompanyLists.companyList" class="search-list-line clear" v-for="(item,index) in searchCompanyLists.companyList" :key="index">
-                    <div class="span-290 pd27" v-text="item.companyName"></div>
-                    <div class="span-200 pd27" v-text="item.regCapital"></div>
+                    <div class="span-290 pd27" v-text="item.respondentName"></div>
                     <div class="span-200 pd27" v-text="item.legalPerson"></div>
-                    <div class="span-200 pd27" v-text="item.foundDt"></div>
+                    <div class="span-200 pd27" v-text="item.foundedDt"></div>
+                    <div class="span-200 pd27" v-text="item.entStatus"></div>
                     <div class="span-180 pd20">
                         <button class="follow" @click="follow(item)">关注</button>
                     </div>
@@ -76,8 +76,8 @@ export default {
         //fetchInitialData(this.$store, { page: 1 })
     },
     watch: {
-        'searchCompanyLists.companyList'() {
-            console.log('searchCompanyLists.companyList')
+        'searchCompanyLists.needValid'() {
+            console.log(this.searchCompanyLists.needValid)
             //fetchInitialData(this.$store, { page: 1 })
         },
         value(val) {
@@ -111,6 +111,8 @@ export default {
                 console.log(result)
                 if (result) {
                     fetchInitialData(this.$store, { pageNo: 1, companyName: this.searchText })
+
+                    
                     // if (this.searchDatas.length > 0) {
                     //     this.searchVlidate()
                     //     return

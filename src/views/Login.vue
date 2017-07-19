@@ -23,6 +23,7 @@
                     </div>
                     <button type="submit" :disabled="btnDisabled">登录</button>
                     <router-link to="/ForgotPass" tag="a">忘记密码</router-link>
+                    <!--<router-link to="/html/a.html" tag="a">test</router-link>-->
                 </div>
             </form>
         </div>

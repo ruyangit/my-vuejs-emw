@@ -24,13 +24,13 @@
                     </tr>
                     <tr v-for="(item,index) in followCompanyLists.companyList" :key="index">
                         <td class="text-l">
-                            <a href="javascript:;" @click="detailCompany(item)" v-text="item.companyName"></a>
+                            <a href="javascript:;" @click="detailCompany(item)" v-text="item.respondentName"></a>
                         </td>
                         <td v-text="item.followDt">--</td>
                         <td v-text="item.monitorDt">--</td>
-                        <td v-text="item.regCapital">--</td>
+                        <td v-text="item.registeredCapital">--</td>
                         <td v-text="item.legalPerson">--</td>
-                        <td v-text="item.foundDt">--</td>
+                        <td v-text="item.foundedDt">--</td>
                         <td>
                             <a href="javascript:void(0)" @click="cancelFollow(item)">取消关注</a>
                         </td>
@@ -48,13 +48,13 @@
             <div class="search-list-title clear">
                 <div class="span-320">企业名称</div>
                 <div class="span-220">法定代表人</div>
-                <div class="span-220">注册资金</div>
+                <div class="span-220">登记状态</div>
             </div>
             <div class="search-list" style="height:100px">
                 <div class="search-list-line clear">
-                    <div class="span-320 pd27" v-text="followCompany.companyName"></div>
+                    <div class="span-320 pd27" v-text="followCompany.respondentName"></div>
                     <div class="span-220 pd27" v-text="followCompany.legalPerson"></div>
-                    <div class="span-220 pd27" v-text="followCompany.regCapital"></div>
+                    <div class="span-220 pd27" v-text="followCompany.entStatus"></div>
                 </div>
             </div>
             <p>关注时间：
@@ -70,7 +70,7 @@
             <a href="javascript:void(0)" class="close" @click="cancelFollowVisible=false">×</a>
             <h3>取消企业关注</h3>
             <p>确认取消企业关注：
-                <span v-text="followCompany.companyName"></span>
+                <span v-text="followCompany.respondentName"></span>
             </p>
             <p>取消时间：
                 <label v-text="followDate"></label>
@@ -99,7 +99,7 @@
                 <tbody>
                     <tr>
                         <td class="thr">企业名称</td>
-                        <td class="tdr" v-text="companyDetailItems.companyDetail.companyName"></td>
+                        <td class="tdr" v-text="companyDetailItems.companyDetail.respondentName"></td>
                         <td class="thr">组织机构代码</td>
                         <td class="tdr" v-text="companyDetailItems.companyDetail.orgNo"></td>
                     </tr>
@@ -119,7 +119,7 @@
                         <td class="thr">公司类型</td>
                         <td v-text="companyDetailItems.companyDetail.enterpriseProperty"></td>
                         <td class="thr">营业期限</td>
-                        <td v-text="companyDetailItems.companyDetail.operateTime"></td>
+                        <td v-text="companyDetailItems.companyDetail.operatingPeriodBegin"></td>
                     </tr>
                     <tr>
                         <td class="thr">注册资金</td>
@@ -206,7 +206,7 @@ export default {
             this.confirmFollowVisible = false
             const config = {
                 respondentCode: this.followCompany.respondentCode,
-                respondentName: this.followCompany.companyName
+                respondentName: this.followCompany.respondentName
             }
             const { data: { status, data } } = await api.post('/follow/followCompany.do', { ...config })
             if (status === 'success') {
@@ -226,7 +226,7 @@ export default {
             this.cancelFollowVisible = false
             const config = {
                 respondentCode: this.followCompany.respondentCode,
-                respondentName: this.followCompany.companyName
+                respondentName: this.followCompany.respondentName
             }
             const { data: { status, data } } = await api.post('/follow/abandonCompany.do', { ...config })
             if (status === 'success') {
