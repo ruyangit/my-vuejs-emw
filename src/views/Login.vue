@@ -1,7 +1,7 @@
 <template>
     <div>
         <div id="bg">
-            <img src="/static/images/bg.jpg">
+            <img src="static/images/bg.jpg">
         </div>
         <div class="login layout clear">
             <form @submit.prevent="validateSubmit('loginForm')" data-vv-scope="loginForm">
@@ -21,9 +21,16 @@
                             <span v-show="errors.has('loginForm.passWord')" class="help-tip is-danger">账号密码不能为空</span>
                         </div>
                     </div>
+                    <div class="form-item" v-if="loginCode">
+                        <label for="">验证码</label>
+                        <div class="form-item-content">
+                            <img @click="verifCode()" :src="imageCode" style="width:80px;height:30px;position: absolute;right:0px;top:2px;">
+                            <input :class="{'input': true, 'is-danger': errors.has('loginForm.loginCode') }" type="tel" placeholder="请输入您的验证码" v-validate="'required'" v-model="loginForm.loginCode" name="loginCode">
+                            <span v-show="errors.has('loginForm.loginCode')" class="help-tip is-danger">验证码不能为空</span>
+                        </div>
+                    </div>
                     <button type="submit" :disabled="btnDisabled">登录</button>
                     <router-link to="/ForgotPass" tag="a">忘记密码</router-link>
-                    <!--<router-link to="/html/a.html" tag="a">test</router-link>-->
                 </div>
             </form>
         </div>
@@ -45,14 +52,17 @@
 </template>
 <script>
 import api from '@api'
-
+import { baseUrl } from '@api/env'
 export default {
     data() {
         return {
             btnDisabled: false,
+            loginCode: false,
+            imageCode: '',
             loginForm: {
                 userName: '',
-                passWord: ''
+                passWord: '',
+                loginCode:''
             }
         }
     },
@@ -60,6 +70,9 @@ export default {
         // formDirty() {
         //     return Object.keys(this.fields).some(key => this.fields[key].dirty);
         // }
+    },
+    mounted() {
+        this.verifCode()
     },
     methods: {
         validateSubmit(name) {
@@ -73,16 +86,25 @@ export default {
                 this.btnDisabled = false
             });
         },
+        verifCode() {
+            this.imageCode = baseUrl + '/user/getCheckCodeImage.do?checkType=login&userName=' + this.loginForm.userName+'&_t='+ new Date().getTime();
+        },
         async handleSubmit() {
-            const { data: { status, message } } = await api.post('/user/login.do', this.loginForm)
+            console.log(this.loginForm)
+            const { data: { status, message, data } } = await api.post('/user/login.do', this.loginForm)
             if (status === 'success') {
-                // //登录成功获取用户信息
+                //登录成功获取用户信息
                 this.$store.commit("global/isLogin", 'true')
                 this.$store.dispatch("global/getUserInfo")
                 let redirect = decodeURIComponent(this.$route.query.redirect || '/');
                 this.$router.push({
                     path: redirect
                 })
+            } else {
+                this.verifCode()
+                if (data && data.needValid == 'true') {
+                    this.loginCode = true
+                }
             }
             this.btnDisabled = false
         }

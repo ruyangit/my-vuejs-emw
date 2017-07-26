@@ -3,16 +3,23 @@ import api from '@api'
 const state = {
     monitorSummaryLists: {
         summary: {},
-        changeList: [],
-        riskList: [],
-        sentimentList: [],
+        monitorList: [],
+        // changeList: [],
+        // riskList: [],
+        // sentimentList: [],
         pageNo: 0,
         pageSize: 0,
         totalPage: 0,
         totalRecord: 0,
         path: ''
     },
-    monitorSummaryDetail: {},
+    monitorSummaryDetailItems: {
+        change: {},
+        bond: {},
+        dishonest: {},
+        penalty: {},
+        path: ''
+    },
     searchCompanyLists: {
         companyList: [],
         pageNo: 0,
@@ -40,7 +47,6 @@ const actions = {
     async['getMonitorSummaryLists']({ commit, state, rootState: { global, route: { fullPath } } }, config) {
         const path = fullPath
         const { data: { status, data } } = await api.post('/monitor/getSummary.do', { ...config })
-        console.log(data)
         if (data && status === 'success') {
             commit('receiveMonitorSummaryLists', {
                 ...config,
@@ -49,13 +55,19 @@ const actions = {
             })
         }
     },
+    async['getMonitorSummaryMoreLists']({ commit, state, rootState: { global, route: { fullPath } } }, config) {
+        const path = fullPath
+        const { data: { status, data } } = await api.post('/monitor/getSummaryMore.do', { ...config })
+        if (data && status === 'success') {
+            commit('receiveMonitorSummaryMoreLists', {
+                ...config,
+                ...data,
+                path
+            })
+        }
+    },
     async['getSearchCompanyLists']({ commit, state, rootState: { global, route: { fullPath } } }, config) {
         const path = fullPath
-        // console.log(path)
-        // if (state.searchCompany.companyList.length > 0 && path === state.searchCompany.path && config.page === 1) {
-        //     global.progress = 100
-        //     return
-        // }
         const { data: { status, data } } = await api.post('/follow/searchCompany.do', { ...config })
         if (data && status === 'success') {
             commit('receiveSearchCompanyLists', {
@@ -68,7 +80,6 @@ const actions = {
     async['getFollowCompanyLists']({ commit, state, rootState: { global, route: { fullPath } } }, config) {
         const path = fullPath
         const { data: { status, data } } = await api.post('/follow/companyList.do', { ...config })
-        // console.log(data)
         if (data && status === 'success') {
             commit('receiveFollowCompanyLists', {
                 ...config,
@@ -87,15 +98,27 @@ const actions = {
                 path
             })
         }
+    },
+    async['getMonitorSummaryDetailItems']({ commit, state, rootState: { global, route: { fullPath } } }, config) {
+        const path = fullPath
+        const { data: { status, data } } = await api.post('/monitor/getSummaryDetail.do', { ...config })
+        if (data && status === 'success') {
+            commit('receiveMonitorSummaryDetailItems', {
+                ...config,
+                ...data,
+                path
+            })
+        }
     }
 }
 
 const mutations = {
     ['receiveMonitorSummaryLists'](state, {
         summary,
-        changeList,
-        riskList,
-        sentimentList,
+        monitorList,
+        // changeList,
+        // riskList,
+        // sentimentList,
         pageNo,
         pageSize,
         totalPage,
@@ -123,9 +146,39 @@ const mutations = {
 
         state.monitorSummaryLists = {
             summary,
-            changeList,
-            riskList,
-            sentimentList,
+            monitorList,
+            // changeList,
+            // riskList,
+            // sentimentList,
+            pageNo,
+            pageSize,
+            totalPage,
+            totalRecord,
+            path
+        }
+
+        // console.log(state.monitorSummaryLists.summary)
+    },
+    ['receiveMonitorSummaryMoreLists'](state, {
+        // summary,
+        monitorList,
+        pageNo,
+        pageSize,
+        totalPage,
+        totalRecord,
+        path
+    }) {
+        //  console.log(state.monitorSummaryLists.summary)
+
+        if (pageNo === 1) {
+            monitorList = [].concat(monitorList)
+        } else {
+            monitorList = state.monitorSummaryLists.monitorList.concat(monitorList)
+        }
+
+        state.monitorSummaryLists = {
+            summary: state.monitorSummaryLists.summary,
+            monitorList,
             pageNo,
             pageSize,
             totalPage,
@@ -141,6 +194,13 @@ const mutations = {
         totalRecord,
         path
     }) {
+        // console.log(pageNo)
+        if (pageNo === 1) {
+            companyList = [].concat(companyList)
+        } else {
+            companyList = state.searchCompanyLists.companyList.concat(companyList)
+        }
+        // console.log(companyList)
         state.searchCompanyLists = {
             companyList,
             pageNo,
@@ -173,22 +233,22 @@ const mutations = {
             path
         }
     },
-    // ['receiveTrending'](state, data) {
-    //     state.trending = data.list
-    // },
-    // ['modifyLikeStatus'](state, {id, status}) {
-    //     if (state.item.data._id === id) {
-    //         if (status) state.item.data.like++
-    //         else  state.item.data.like--
-    //         state.item.data.like_status = status
-    //     }
-    //     const obj = state.lists.data.find(item => item._id === id)
-    //     if (obj) {
-    //         if (status) obj.like++
-    //         else  obj.like--
-    //         obj.like_status = status
-    //     }
-    // }
+    ['receiveMonitorSummaryDetailItems'](state, {
+        change,
+        bond,
+        dishonest,
+        penalty,
+        path
+     }) {
+        state.monitorSummaryDetailItems = {
+            change,
+            bond,
+            dishonest,
+            penalty,
+            path
+        }
+    },
+
 }
 
 const getters = {
@@ -204,9 +264,9 @@ const getters = {
     ['getCompanyDetailItems'](state) {
         return state.companyDetailItems
     },
-    // ['getTrending'](state) {
-    //     return state.trending
-    // }
+    ['getMonitorSummaryDetailItems'](state) {
+        return state.monitorSummaryDetailItems
+    }
 }
 
 export default {

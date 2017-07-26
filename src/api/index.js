@@ -32,11 +32,14 @@ function checkStatus(response) {
 }
 
 function checkCode(res) {
+    console.info(res.data)
     if (res.data.status != 'success') {
         console.warn(res.data.message || '系统繁忙，请稍后再试')
         store.dispatch('global/showMsg', res.data.message || '系统繁忙，请稍后再试')
-        store.commit("global/logout")
-        //window.location.href = "/"
+        if(res.data.message === 'session_out_time'){
+            store.commit("global/logout")
+            window.location.href = "/index.html"
+        }
     }
     return res
 }

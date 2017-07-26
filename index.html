@@ -1,7 +1,15 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 
 <head>
+  
+  <!-- <meta charset="UTF-8"> -->
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"> -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <!-- <meta http-equiv="Content-Language" content="zh-CN"> -->
+  <title>企业监测预警系统（Enterprise monitoring and warning）</title>
+  <!-- <link rel="icon" href="/static/vuejs.png" type="image/x-icon"> -->
   <style>
     .ie_dialog {
       position: fixed;
@@ -84,7 +92,7 @@
       <table class="ie_notice" style="border:0">
         <tr>
           <td>
-            <img class="logo_osc" src="/static/images/logo.png" alt="开源中国" />
+            <img class="logo_osc" src="./static/images/logo.png"  />
           </td>
         </tr>
         <tr>
@@ -154,17 +162,11 @@
     }());
 
     if (isIE(11, 'lt')) {
-      console.log("fvck ie");
+      // console.log("fvck ie");
       document.getElementById('incompatible_tip').style.cssText = 'display:block;';
     }
   </script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta http-equiv="Content-Language" content="zh-CN">
-  <title>企业监测预警系统（Enterprise monitoring and warning）</title>
-  <link rel="icon" href="/static/vuejs.png" type="image/x-icon">
-  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="./static/css/style.css">
 </head>
 
 <body>

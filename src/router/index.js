@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import { routerMode } from '@api/env'
+import { routerMode, productPath } from '@api/env'
 import { inBrowser } from '@/utils'
 import store from '@/store'
 // import ProgressBar from '@/components/ProgressBar'
 
-const HtmlSit = r => require.ensure([], () => r(require('@/components/HtmlSit')), 'chunk-html')
+const VHtml = r => require.ensure([], () => r(require('@/components/_vhtml')), 'chunk-html')
 const Login = r => require.ensure([], () => r(require('@/views/Login')), 'chunk-login')
 const ForgotPass = r => require.ensure([], () => r(require('@/views/ForgotPass')), 'chunk-login')
 const WarningConsole = r => require.ensure([], () => r(require('@/views/WarningConsole')), 'chunk-warningconsole')
@@ -36,13 +36,14 @@ const scrollBehavior = to => {
   return position
 }
 
-
+// console.warn('-------------------------------------------')
+// console.log(__dirname + productPath)
 const router = new VueRouter({
   mode: routerMode,
-  base: __dirname,
+  base: productPath,
   scrollBehavior,
   routes: [
-    { name: 'HtmlSit', path: '/html/:file', component: HtmlSit, meta: { auth: false } },
+    { name: 'VHtml', path: '/html/:file', component: VHtml, meta: { auth: false } },
     { name: 'Login', path: '/Login', component: Login, meta: { auth: false } },
     { name: 'ForgotPass', path: '/ForgotPass', component: ForgotPass, meta: { auth: false } },
 
@@ -54,10 +55,10 @@ const router = new VueRouter({
       path: '/MyAccount',
       component: MyAccount,
       children: [
-        { name: 'Profile',path: 'Profile',component: Profile,},
-        { name: 'ResetPass',path: 'ResetPass',component: ResetPass,},
-        { name: 'ResetPhone',path: 'ResetPhone',component: ResetPhone,},
-        { name: 'ResetEmail',path: 'ResetEmail',component: ResetEmail,}
+        { name: 'Profile', path: 'Profile', component: Profile, },
+        { name: 'ResetPass', path: 'ResetPass', component: ResetPass, },
+        { name: 'ResetPhone', path: 'ResetPhone', component: ResetPhone, },
+        { name: 'ResetEmail', path: 'ResetEmail', component: ResetEmail, }
       ]
     },
 
@@ -66,14 +67,18 @@ const router = new VueRouter({
   ]
 })
 
-router.beforeEach(({ meta, path }, from, next) => {
+router.beforeEach(({ meta, name, path }, from, next) => {
   store.dispatch('global/gProgress', 0)
+  // console.log(meta)
   let { auth = true } = meta
   if (auth) {
     var isLogin = Boolean(store.state.global.isLogin)
-    if (auth && !isLogin && path !== '/Login') {
+    // console.warn('-------------------------------------------')
+    // console.log(name)
+    // console.log(path)
+    if (auth && !isLogin && path !== 'Login') {
       return next({
-        path: '/Login',
+        name: 'Login',
         query: { redirect: path }  // 将跳转的路由path作为参数，登录成功后跳转到该路由
       })
     }

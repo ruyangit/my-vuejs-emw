@@ -30,168 +30,244 @@
             </div>
         </div>
         <div v-if="!warningNoData">
-            <div class="dataall layout clear">
-                <div class="data">
-                    <div class="titleline clear">
-                        <p class="title">今日</p>
-                        <p class="extra" v-text="monitorSummaryLists.summary.today">--</p>
-                    </div>
-                    <div class="content clear">
-                        <dl class="infochange">
-                            <dt v-text="monitorSummaryLists.summary.changeToday">--</dt>
-                            <dd>信息变更</dd>
-                        </dl>
-                        <dl class="track">
-                            <dt v-text="monitorSummaryLists.summary.riskToday">--</dt>
-                            <dd>舆情跟踪</dd>
-                        </dl>
-                        <dl class="risk">
-                            <dt v-text="monitorSummaryLists.summary.sentimentToday">--</dt>
-                            <dd>预警风险</dd>
-                        </dl>
-                    </div>
-                </div>
-                <div class="data">
-                    <div class="titleline clear">
-                        <p class="title">近30天</p>
-                        <p class="extra" v-text="monitorSummaryLists.summary.thirty">--</p>
-                    </div>
-    
-                    <div class="content">
-                        <dl class="infochange clear">
-                            <dt v-text="monitorSummaryLists.summary.changeThirty">--</dt>
-                            <dd>信息变更</dd>
-                        </dl>
-                        <dl class="track">
-                            <dt v-text="monitorSummaryLists.summary.riskThirty">--</dt>
-                            <dd>舆情跟踪</dd>
-                        </dl>
-                        <dl class="risk">
-                            <dt v-text="monitorSummaryLists.summary.sentimentThirty">--</dt>
-                            <dd>预警风险</dd>
-                        </dl>
-                    </div>
-                </div>
-                <div class="data">
-                    <div class="titleline clear">
-                        <p class="title">近90天</p>
-                        <p class="extra" v-text="monitorSummaryLists.summary.ninety">--</p>
-                    </div>
-                    <div class="content">
-                        <dl class="infochange clear">
-                            <dt v-text="monitorSummaryLists.summary.changeNinety">--</dt>
-                            <dd>信息变更</dd>
-                        </dl>
-                        <dl class="track">
-                            <dt v-text="monitorSummaryLists.summary.riskNinety">--</dt>
-                            <dd>舆情跟踪</dd>
-                        </dl>
-                        <dl class="risk">
-                            <dt v-text="monitorSummaryLists.summary.sentimentNinety">--</dt>
-                            <dd>预警风险</dd>
-                        </dl>
-                    </div>
-                </div>
-            </div>
+            <v-summary :data="monitorSummaryLists.summary"></v-summary>
             <div class="list layout">
-                <div class="rowList clear" v-for="(item,index) in monitorSummaryLists.changeList" :key="index">
-                    <div class="left event">
+                <div class="rowList clear" v-for="(item,index) in monitorSummaryLists.monitorList" :key="index">
+                    <div class="left event" v-if="item.dataType=='change'">
                         信息变更
                     </div>
-                    <div class="left eventDetails">
-                        <dl>
-                            <dt>
-                                <a href="javascript:;" @click="detail(item,'change')" v-text="item.companyName"></a>
-                            </dt>
-                            <!--<dd v-text="item.changeItem"></dd>-->
-                            <dd>变更后：
-                                <span v-text="item.changeAfter"></span>
-                            </dd>
-                            <dd class="lightThis">变更前：
-                                <span v-text="item.changeBefore"></span>
-                            </dd>
-                        </dl>
-                        <div class="date">
-                            <span>05/01</span>
-                            <br>
-                            <label v-text="item.changeDate"></label>
-                        </div>
-                    </div>
-                </div>
-                <div class="rowList clear" v-for="(item,index) in monitorSummaryLists.riskList" :key="index">
-                    <div class="left event risk">
+                    <div class="left event risk" v-else-if="item.dataType=='bond'||item.dataType=='dishonest'||item.dataType=='penalty'">
                         风险事件
                     </div>
-                    <div class="left eventDetails">
-                        <dl>
-                            <dt>
-                                <a href="javascript:;" @click="detail(item,'risk')" v-text="item.companyName"></a>
-                            </dt>
-                            <dd v-text="item.riskItem"></dd>
-                            <dd class="lightThis" v-text="item.riskContent"></dd>
-                        </dl>
-                        <div class="date">
-                            <span>05/01</span>
-                            <br>
-                            <label v-text="item.riskDate"></label>
-                        </div>
-                    </div>
-                </div>
-                <div class="rowList clear" v-for="(item,index) in monitorSummaryLists.sentimentList" :key="index">
-                    <div class="left event track">
+                    <div class="left event track" v-else-if="item.dataType=='track'">
                         舆情变化
                     </div>
                     <div class="left eventDetails">
                         <dl>
                             <dt>
-                                <a href="javascript:;" @click="detail(item,'track')" v-text="item.companyName"></a>
+                                <a href="javascript:;" @click="detail(item)" v-text="item.respondentName"></a>
                             </dt>
-                            <dd v-text="item.sentimentItem"></dd>
-                            <dd class="lightThis" v-text="item.sentimentContent"></dd>
+                            <dd v-if="item.dataType=='change'" v-text="'变更后：'+item.contentB"></dd>
+                            <dd v-else v-text="item.contentA"></dd>
+                            <dd v-if="item.dataType=='change'" v-text="'变更前：'+item.contentA" class="lightThis"></dd>
+                            <dd v-else v-text="item.contentB"></dd>
                         </dl>
-                        <div class="date">
-                            <span>05/01</span>
-                            <br>
-                            <label v-text="item.sentimentDate"></label>
-                        </div>
+                        <v-date :date='item.dt'></v-date>
                     </div>
                 </div>
-                <a href="javascript:void(0);" class="more">点击加载更多</a>
+                <!-- <div class="rowList clear" v-for="(item,index) in monitorSummaryLists.changeList" :key="index">
+                                <div class="left event">
+                                    信息变更
+                                </div>
+                                <div class="left eventDetails">
+                                    <dl>
+                                        <dt>
+                                            <a href="javascript:;" @click="detail(item,'change')" v-text="item.companyName"></a>
+                                        </dt>
+                                        <dd v-text="item.changeItem"></dd>
+                                        <dd>变更后：
+                                            <span v-text="item.changeAfter"></span>
+                                        </dd>
+                                        <dd class="lightThis">变更前：
+                                            <span v-text="item.changeBefore"></span>
+                                        </dd>
+                                    </dl>
+                                    <v-date :date='item.changeDate'></v-date>
+                                </div>
+                            </div>
+                            <div class="rowList clear" v-for="(item,index) in monitorSummaryLists.riskList" :key="index">
+                                <div class="left event risk">
+                                    风险事件
+                                </div>
+                                <div class="left eventDetails">
+                                    <dl>
+                                        <dt>
+                                            <a href="javascript:;" @click="detail(item,'risk')" v-text="item.companyName"></a>
+                                        </dt>
+                                        <dd v-text="item.riskItem"></dd>
+                                        <dd class="lightThis" v-text="item.riskContent"></dd>
+                                    </dl>
+                                    <v-date :date='item.riskDate'></v-date>
+                                </div>
+                            </div>
+                            <div class="rowList clear" v-for="(item,index) in monitorSummaryLists.sentimentList" :key="index">
+                                <div class="left event track">
+                                    舆情变化
+                                </div>
+                                <div class="left eventDetails">
+                                    <dl>
+                                        <dt>
+                                            <a href="javascript:;" @click="detail(item,'track')" v-text="item.companyName"></a>
+                                        </dt>
+                                        <dd v-text="item.sentimentItem"></dd>
+                                        <dd class="lightThis" v-text="item.sentimentContent"></dd>
+                                    </dl>
+                                    <v-date :date='item.sentimentDate'></v-date>
+                                </div>
+                            </div> -->
+                <a href="javascript:void(0);" @click="loadMore()" v-if="hasNext" class="more">点击加载更多</a>
             </div>
         </div>
-        <LayerBox v-model="warningDetailVisible">
+        <LayerBox v-model="warningDetailVisibleChange">
             <div class="texttip">
                 <div :class="detailConfig.className" v-text="detailConfig.text"></div>
             </div>
-            <h3>国轩高科股份有限公司</h3>
-            <h6>预警时间：2017/06/20</h6>
-            <p>该公司位于地址江苏省南通市通州区十总镇东源大道1号欢迎实地了解具体业务,公司主要经营或服务范围是锂离子电池及其材料、电池、电机及整车控制系统的研发、制造与销售;锂离子电池应急电源、储能电池、电动工具电池的研发、制造与销售;高、低压开关及成套设备,数字化电器设备,配网智能化设备及元器件,三箱产品的研发、制造、销售、承装;太阳能、风能等可再生能源设备的研发、制造、销售与承装;节能环保电器及设备、船舶电器及设备的研发、制造、销售和安装;变压器、变电站、大型充电设备、车载充电机及车载高压箱的研发、制造、销售;自营和代理各类商品及技术的进出口业务(国家限定企业经营或禁止进出口的商品和技术除外);城市.... 您如果想进一步了解可以电话联系该公司。
-            </p>
+            <h3 v-text="monitorSummaryDetailExt.respondentName">--</h3>
+            <h6>预警时间：{{monitorSummaryDetailExt.dt}}</h6>
+            <table class="tbl" v-if="monitorSummaryDetailItems.change">
+                <tbody>
+                    <tr>
+                        <td class="thr">变更项目</td>
+                        <td>变更前</td>
+                        <td>变更后</td>
+                        <td>变更时间</td>
+                    </tr>
+                    <tr>
+                        <td class="thr" v-text="monitorSummaryDetailItems.change.changeItem"></td>
+                        <td v-text="monitorSummaryDetailItems.change.changeBefore"></td>
+                        <td v-text="monitorSummaryDetailItems.change.changeAfter">></td>
+                        <td v-text="monitorSummaryDetailItems.change.changeDt"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </LayerBox>
+        <LayerBox v-model="warningDetailVisibleBond">
+            <div class="texttip">
+                <div :class="detailConfig.className" v-text="detailConfig.text"></div>
+            </div>
+            <h3 v-text="monitorSummaryDetailExt.respondentName">--</h3>
+            <h6>预警时间：{{monitorSummaryDetailExt.dt}}</h6>
+            <table class="tbl" v-if="monitorSummaryDetailItems.bond">
+                <tbody>
+                    <tr>
+                        <td class="thr">企业名称</td>
+                        <td  v-text="monitorSummaryDetailItems.bond.companyName"></td>
+                        <td class="thr">工商注册号</td>
+                        <td  v-text="monitorSummaryDetailItems.bond.regNo"></td>
+                    </tr>
+                    <tr>
+                        <td class="thr">统一社会信用代码</td>
+                        <td  v-text="monitorSummaryDetailItems.bond.creditNo"></td>
+                        <td class="thr">省份</td>
+                        <td  v-text="monitorSummaryDetailItems.bond.province"></td>
+                    </tr>
+                    <tr>
+                        <td class="thr">组织机构代码</td>
+                        <td  v-text="monitorSummaryDetailItems.bond.orgCode"></td>
+                        <td class="thr">时间</td>
+                        <td  v-text="monitorSummaryDetailItems.bond.createdDt"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </LayerBox>
+        <LayerBox v-model="warningDetailVisibleDishonest">
+            <div class="texttip">
+                <div :class="detailConfig.className" v-text="detailConfig.text"></div>
+            </div>
+            <h3 v-text="monitorSummaryDetailExt.respondentName">--</h3>
+            <h6>预警时间：{{monitorSummaryDetailExt.dt}}</h6>
+            <table class="tbl" v-if="monitorSummaryDetailItems.dishonest">
+                <tbody>
+                    <tr>
+                        <td class="thr">案件号</td>
+                        <td class="tdr" v-text="monitorSummaryDetailItems.dishonest.caseNo"></td>
+                        <td class="thr">文档编号</td>
+                        <td class="tdr" v-text="monitorSummaryDetailItems.dishonest.docNo"></td>
+                    </tr>
+                    <tr>
+                        <td class="thr">法庭</td>
+                        <td class="tdr" v-text="monitorSummaryDetailItems.dishonest.court"></td>
+                        <td class="thr">省份</td>
+                        <td class="tdr" v-text="monitorSummaryDetailItems.dishonest.province"></td>
+                    </tr>
+                    <tr>
+                        <td class="thr">案件日期</td>
+                        <td class="tdr" v-text="monitorSummaryDetailItems.dishonest.caseDate"></td>
+                        <td class="thr">执行部门</td>
+                        <td class="tdr" v-text="monitorSummaryDetailItems.dishonest.exeDepartment "></td>
+                    </tr>
+                    <tr>
+                        <td class="thr">履行情况</td>
+                        <td class="tdr" v-text="monitorSummaryDetailItems.dishonest.performance"></td>
+                        <td class="thr">发布日期</td>
+                        <td class="tdr" v-text="monitorSummaryDetailItems.dishonest.publishDate"></td>
+                    </tr>
+                    <tr>
+                        <td class="thr">责任与义务</td>
+                        <td class="tdr" colspan="3" v-text="monitorSummaryDetailItems.dishonest.finalDuty"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </LayerBox>
+        <LayerBox v-model="warningDetailVisiblePenalty">
+            <div class="texttip">
+                <div :class="detailConfig.className" v-text="detailConfig.text"></div>
+            </div>
+            <h3 v-text="monitorSummaryDetailExt.respondentName">--</h3>
+            <h6>预警时间：{{monitorSummaryDetailExt.dt}}</h6>
+            <table class="tbl" v-if="monitorSummaryDetailItems.penalty">
+                <tbody>
+                    <tr>
+                        <td class="thr">主体名称</td>
+                        <td class="tdr" v-text="monitorSummaryDetailItems.penalty.penaltyName"></td>
+                        <td class="thr">公示类型</td>
+                        <td class="tdr" v-text="monitorSummaryDetailItems.penalty.penaltyType"></td>
+                    </tr>
+                    <tr>
+                        <td class="thr">处罚时间</td>
+                        <td class="tdr" v-text="monitorSummaryDetailItems.penalty.penaltyTime"></td>
+                        <td class="thr">行政类别/区域</td>
+                        <td class="tdr" v-text="monitorSummaryDetailItems.penalty.recordSource"></td>
+                    </tr>
+                    <tr>
+                        <td class="thr">处罚内容</td>
+                        <td class="tdr" colspan="3" v-text="monitorSummaryDetailItems.penalty.encryStr"></td>
+                    </tr>
+                    <tr>
+                        <td class="thr">全名</td>
+                        <td class="tdr" colspan="3" v-text="monitorSummaryDetailItems.penalty.fullname"></td>
+                    </tr>
+                </tbody>
+            </table>
         </LayerBox>
     </div>
 </template>
 <script> 
 import LayerBox from '@/components/LayerBox'
+import vDate from '@/components/_vdate'
+import vSummary from '@/components/_vsummary'
 import { mapGetters } from 'vuex'
 const fetchInitialData = async (store, config = { pageNo: 1 }) => {
-    const base = { ...config, pageSize: 10 }
+    const base = { ...config, pageSize: 5 }
     await store.dispatch('frontend/main/getMonitorSummaryLists', base)
+}
+const fetchInitialMoreData = async (store, config = { pageNo: 1 }) => {
+    const base = { ...config, pageSize: 5 }
+    await store.dispatch('frontend/main/getMonitorSummaryMoreLists', base)
 }
 export default {
     data() {
         return {
-            warningDetailVisible: false,
+            warningDetailVisibleChange: false,
+            warningDetailVisibleBond: false,
+            warningDetailVisibleDishonest: false,
+            warningDetailVisiblePenalty: false,
             detailConfig: {},
-            warningNoData: true
+            warningNoData: true,
+            hasNext: true,
+            monitorSummaryDetailExt: {}
         }
     },
     computed: {
         ...mapGetters({
-            monitorSummaryLists: 'frontend/main/getMonitorSummaryLists'
+            monitorSummaryLists: 'frontend/main/getMonitorSummaryLists',
+            monitorSummaryDetailItems: 'frontend/main/getMonitorSummaryDetailItems'
         })
     },
     components: {
-        LayerBox
+        LayerBox,
+        vDate,
+        vSummary
     },
     mounted() {
         fetchInitialData(this.$store, { pageNo: 1 })
@@ -200,39 +276,92 @@ export default {
     watch: {
         'monitorSummaryLists.totalRecord'() {
             this.showData()
+        },
+        'monitorSummaryLists.pageNo'() {
+             if (this.monitorSummaryLists.pageNo >= parseInt(this.monitorSummaryLists.totalPage)) {
+                this.hasNext = false
+            }
+        },
+        '$route'() {
+            //console.log('route 切换');
+            // fetchInitialData(this.$store, { pageNo: 1 })
         }
     },
     methods: {
-        showData(){
+        showData() {
             if (this.monitorSummaryLists.totalRecord > 0) {
                 this.warningNoData = false
-            }else{
+            } else {
                 this.warningNoData = true
             }
         },
-        detail(e, type) {
+        async detail(e) {
+            console.log(e)
+            this.monitorSummaryDetailExt = e
+            let dataType = e.dataType
 
-            if ('risk' == type) {
+            let config = {
+                dataType: dataType,
+                id: e.id
+            }
+            await this.$store.dispatch('frontend/main/getMonitorSummaryDetailItems', config)
+
+            if ('change' == dataType) {
                 this.detailConfig = {
-                    className: 'textrisk',
-                    text: '风险事件'
+                    className: 'textinfo',
+                    text: '信息变更'
                 }
-            } else if ('track' == type) {
+                this.warningDetailVisibleChange = true
+            } else if ('track' == dataType) {
                 this.detailConfig = {
                     className: 'texttrack',
                     text: '舆情变化'
                 }
             } else {
                 this.detailConfig = {
-                    className: 'textinfo',
-                    text: '信息变更'
+                    className: 'textrisk',
+                    text: '风险事件'
+                }
+                if ('bond' == dataType) {
+                    this.warningDetailVisibleBond = true
+                } else if ('dishonest' == dataType) {
+                    this.warningDetailVisibleDishonest = true
+                } else if ('penalty' == dataType) {
+                    this.warningDetailVisiblePenalty = true
                 }
             }
-            this.warningDetailVisible = true
+
+
         },
         followCompany() {
             this.$router.push({ path: "/FollowCompany" })
+        },
+        loadMore(pageNo = parseInt(this.monitorSummaryLists.pageNo) + 1) {
+            fetchInitialMoreData(this.$store, { pageNo })
         }
     },
 }
 </script>
+<style>
+table.tbl {
+    margin-top: 25px;
+    margin-bottom: 25px;
+    border-right: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+    border-collapse: collapse;
+}
+
+table.tbl tr td {
+    height: 45px;
+    min-width: 100px;
+    padding-left: 15px;
+    /*border-bottom: 1px solid #e5e5e5;*/
+    border-left: 1px solid #e5e5e5;
+    border-top: 1px solid #e5e5e5;
+}
+
+table.tbl tr td.thr {
+    width: 165px;
+    background-color: #f9f9f9;
+}
+</style>

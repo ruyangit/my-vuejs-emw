@@ -38,7 +38,7 @@
                 </tbody>
             </table>
             <div class="nocompany" v-if="followCompanyLists.companyList.length==0">
-                <img src="/static/images/notFollewed.png">
+                <img src="static/images/notFollewed.png">
             </div>
         </div>
         <SearchCompany v-model="searchVisible" @follow="follow" @searchVlidate="searchVlidate"></SearchCompany>

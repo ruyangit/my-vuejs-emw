@@ -3,17 +3,23 @@
  * 
  * baseUrl: 域名地址
  * routerMode: 路由模式
- * 
+ * productPath: 如果有项目名称245
  */
 
-let baseUrl = 'http://10.166.2.137:18080/credit-monitor';
-let routerMode = 'history';
+let baseUrl = '';
+let routerMode = 'hash';
+let productPath = '';
 
 if (process.env.NODE_ENV == 'development') {
+	baseUrl = 'http://10.166.2.245:18080/credit-monitor'
 } else if (process.env.NODE_ENV == 'production') {
+	// baseUrl = 'http://10.166.2.245:18080/credit-monitor'
+	baseUrl = '/credit-monitor'
+	productPath = '/credit-monitor'
 }
 
 export {
 	baseUrl,
 	routerMode,
+	productPath,
 }

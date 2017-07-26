@@ -2,7 +2,7 @@
     <div id="app">
         <div class="top clear">
             <header class="layout">
-                <img src="/static/images/logo.png" alt="" class="logo">
+                <img src="static/images/logo.png" alt="" class="logo">
                 <span class="ml15">企业监测预警系统</span>
                 <nav class="menu">
                     <ul class="nav" v-if="isLogin">
@@ -17,7 +17,7 @@
                                     <div class="accout-layer">
                                         <div class="arr"></div>
                                         <div class="ac-header">
-                                            <img src="/static/images/headscu.jpg">
+                                            <img src="static/images/headscu.jpg">
                                             <h3 v-text="userInfo.userName"></h3>
                                             <p>欢迎来到企业监测预警中心</p>
                                         </div>
@@ -97,7 +97,7 @@ export default {
         logout() {
             this.$store.commit("global/logout")
             // this.$router.path('/Login')
-            window.location.href = "/"
+            window.location.href = "/index.html"
         }
     }
 }

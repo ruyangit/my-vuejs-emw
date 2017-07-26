@@ -11,10 +11,10 @@ function resolve(dir) {
 }
 
 module.exports = {
-  performance: {
-    maxEntrypointSize: 300000,
-    hints: isProd ? 'warning' : false
-  },
+  // performance: {
+  //   maxEntrypointSize: 300000,
+  //   hints: isProd ? 'warning' : false
+  // },
   entry: {
     app: ['babel-polyfill', './src/main.js']
   },
