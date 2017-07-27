@@ -2,11 +2,11 @@
     <div class="user layout">
         <div class="user-line">
             <label for="">所属企业</label>
-            <input type="text" value="国轩高科股份有限公司" disabled>
+            <input type="text" disabled v-model="userInfo.companyName">
         </div>
         <div class="user-line">
             <label for="">用户名称</label>
-            <input type="text" value="GUOXUANGAOKE" disabled>
+            <input type="text"  v-model="userInfo.userName" disabled>
         </div>
         <div class="user-line">
             <label for="">登录密码</label>
@@ -15,12 +15,12 @@
         </div>
         <div class="user-line">
             <label for="">手机号</label>
-            <input type="text" value="138xxxx0928" disabled>
+            <input type="text" v-model="userInfo.mobile" disabled>
             <router-link to="/MyAccount/ResetPhone">修改</router-link>
         </div>
         <div class="user-line">
             <label for="">绑定邮箱</label>
-            <span>ADMIN@GUOXUAN.COM</span>
+            <span v-text="userInfo.email"></span>
             <router-link to="/MyAccount/ResetEmail">修改</router-link>
         </div>
         <div class="user-line">
@@ -30,9 +30,13 @@
     </div>
 </template>
 <script> 
+import { mapGetters } from 'vuex'
 export default {
-    methods: {
+    computed: {
+        ...mapGetters({
+            userInfo: 'global/getUserInfo'
+        })
+    },
 
-    }
 }
 </script>

@@ -2,7 +2,7 @@
 import axios from 'axios'
 import qs from 'qs'
 import store from '@/store'
-import { baseUrl } from './env'
+import { baseUrl, productPath } from './env'
 
 axios.interceptors.request.use(config => {
     store.dispatch("global/gProgress", 50)
@@ -32,13 +32,13 @@ function checkStatus(response) {
 }
 
 function checkCode(res) {
-    console.info(res.data)
+    console.warn(res)
     if (res.data.status != 'success') {
         console.warn(res.data.message || '系统繁忙，请稍后再试')
         store.dispatch('global/showMsg', res.data.message || '系统繁忙，请稍后再试')
-        if(res.data.message === 'session_out_time'){
+        if (res.data.message === 'session_out_time') {
             store.commit("global/logout")
-            window.location.href = "/index.html"
+            window.location.href = productPath + "/index.html"
         }
     }
     return res

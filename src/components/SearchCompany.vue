@@ -12,7 +12,7 @@
                 <div class="search-text">
                     <input type="text" v-model="searchText" :class="{'input': true, 'is-danger': errors.has('searchText') }" v-validate="'required|shlth:2'" name="searchText">
                 </div>
-                <button class="search" :disabled="sbtnDisabled" @click="search()" >搜索公司</button>
+                <button class="search" :disabled="sbtnDisabled" @click="search()">搜索公司</button>
                 <span v-show="errors.has('searchText')" class="help-tip">{{errors.first('searchText')}}</span>
             </div>
             <div class="search-list-title clear">
@@ -25,14 +25,16 @@
             <div class="search-list">
                 <div v-show="searchCompanyLists.companyList" class="search-list-line clear" v-for="(item,index) in searchCompanyLists.companyList" :key="index">
                     <div class="span-290 pd27" v-text="item.respondentName"></div>
-                    <div class="span-200 pd27" v-text="item.legalPerson"></div>
-                    <div class="span-200 pd27" v-text="item.foundedDt"></div>
-                    <div class="span-200 pd27" v-text="item.entStatus"></div>
+                    <div class="span-200 pd27" v-if="item.legalPerson" v-text="item.legalPerson"></div>
+                    <div class="span-200 pd27" v-else>&nbsp;</div>
+                    <div class="span-200 pd27" v-if="item.foundedDt" v-text="item.foundedDt"></div>
+                    <div class="span-200 pd27" v-else>&nbsp;</div>
+                    <div class="span-200 pd27" v-if="item.entStatus" v-text="item.entStatus"></div>
+                    <div class="span-200 pd27" v-else>&nbsp;</div>
                     <div class="span-180 pd20" v-if="item.followFlag">
-                        <button class="followed" >已关注</button>
+                        <button class="followed">已关注</button>
                     </div>
                     <div class="span-180 pd20" v-else>
-                        
                         <button class="follow" @click="follow(item)">关注</button>
                     </div>
                 </div>
@@ -41,7 +43,7 @@
             <a href="javascript:void(0);" @click="loadMore()" v-if="hasNext" class="click-more">点击加载更多</a>
         </div>
         <LayerBox v-model="layerBoxVisible">
-            
+    
         </LayerBox>
     </div>
 </template>
@@ -53,7 +55,6 @@ const fetchInitialData = async (store, config = { pageNo: 1 }) => {
     // this.sbtnDisabled = true
     const base = { ...config, pageSize: 50 }
     await store.dispatch('frontend/main/getSearchCompanyLists', base)
-    // this.sbtnDisabled = false
 }
 export default {
     name: 'SearchCompany',
@@ -84,10 +85,10 @@ export default {
     },
     watch: {
         'searchCompanyLists.needValid'() {
-            console.log(this.searchCompanyLists.needValid)
+            // console.log(this.searchCompanyLists.needValid)
         },
         'searchCompanyLists.pageNo'() {
-             if (this.searchCompanyLists.pageNo >= parseInt(this.searchCompanyLists.totalPage)) {
+            if (this.searchCompanyLists.pageNo >= parseInt(this.searchCompanyLists.totalPage)) {
                 this.hasNext = false
             }
         },
@@ -110,7 +111,13 @@ export default {
 
         },
         loadMore(pageNo = parseInt(this.searchCompanyLists.pageNo) + 1) {
-            fetchInitialData(this.$store, { pageNo, companyName: this.searchText})
+            this.$validator.validate('searchText', this.searchText).then(result => {
+                if (result) {
+                    fetchInitialData(this.$store, { pageNo, companyName: this.searchText })
+                    return
+                }
+            });
+            
         },
         searchVlidate() {
             this.$emit("searchVlidate")

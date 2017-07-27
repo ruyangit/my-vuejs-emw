@@ -52,9 +52,12 @@
             </div>
             <div class="search-list" style="height:100px">
                 <div class="search-list-line clear">
-                    <div class="span-320 pd27" v-text="followCompany.respondentName"></div>
-                    <div class="span-220 pd27" v-text="followCompany.legalPerson"></div>
-                    <div class="span-220 pd27" v-text="followCompany.entStatus"></div>
+                    <div class="span-320 pd27" v-if="followCompany.respondentName" v-text="followCompany.respondentName"></div>
+                    <div class="span-320 pd27" v-else>&nbsp;</div>
+                    <div class="span-220 pd27" v-if="followCompany.legalPerson" v-text="followCompany.legalPerson"></div>
+                    <div class="span-220 pd27" v-else>&nbsp;</div>
+                    <div class="span-220 pd27" v-if="followCompany.entStatus" v-text="followCompany.entStatus"></div>
+                    <div class="span-220 pd27" v-else>&nbsp;</div>
                 </div>
             </div>
             <p>关注时间：

@@ -46,6 +46,7 @@
 import './utils/validator.js'
 import { mapGetters } from 'vuex'
 import NProgress from 'nprogress'
+import { baseUrl, productPath } from './api/env.js'
 export default {
     name: 'app',
     data() {
@@ -96,8 +97,7 @@ export default {
     methods: {
         logout() {
             this.$store.commit("global/logout")
-            // this.$router.path('/Login')
-            window.location.href = "/index.html"
+            window.location.href = productPath + "/index.html"
         }
     }
 }

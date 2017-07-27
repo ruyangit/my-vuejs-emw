@@ -10,8 +10,8 @@
                     <div class="form-item">
                         <label for="">账号</label>
                         <div class="form-item-content">
-                            <input :class="{'input': true, 'is-danger': errors.has('loginForm.userName') }" type="tel" placeholder="请输入您的手机号码" v-validate="'required'" v-model="loginForm.userName" name="userName">
-                            <span v-show="errors.has('loginForm.userName')" class="help-tip is-danger">手机号码不能为空</span>
+                            <input :class="{'input': true, 'is-danger': errors.has('loginForm.userName') }" type="tel" placeholder="请输入您的帐号" v-validate="'required'" v-model="loginForm.userName" name="userName">
+                            <span v-show="errors.has('loginForm.userName')" class="help-tip is-danger">帐号不能为空</span>
                         </div>
                     </div>
                     <div class="form-item">
@@ -90,7 +90,7 @@ export default {
             this.imageCode = baseUrl + '/user/getCheckCodeImage.do?checkType=login&userName=' + this.loginForm.userName+'&_t='+ new Date().getTime();
         },
         async handleSubmit() {
-            console.log(this.loginForm)
+            // console.log(this.loginForm)
             const { data: { status, message, data } } = await api.post('/user/login.do', this.loginForm)
             if (status === 'success') {
                 //登录成功获取用户信息

@@ -11,11 +11,10 @@ let routerMode = 'hash';
 let productPath = '';
 
 if (process.env.NODE_ENV == 'development') {
-	baseUrl = 'http://10.166.2.245:18080/credit-monitor'
+	baseUrl = 'http://10.166.2.245:18080/credit_monitor'
 } else if (process.env.NODE_ENV == 'production') {
-	// baseUrl = 'http://10.166.2.245:18080/credit-monitor'
-	baseUrl = '/credit-monitor'
-	productPath = '/credit-monitor'
+	baseUrl = '/credit_monitor'
+	productPath = '/credit_monitor'
 }
 
 export {
