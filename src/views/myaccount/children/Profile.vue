@@ -25,7 +25,7 @@
         </div>
         <div class="user-line">
             <label for="">创建时间</label>
-            <span>2017/06/20 12:30:21</span>
+            <span v-text="userInfo.createDt"></span>
         </div>
     </div>
 </template>
