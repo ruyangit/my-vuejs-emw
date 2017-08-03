@@ -12,7 +12,7 @@
                 <div class="search-text">
                     <input type="text" v-model="searchText" :class="{'input': true, 'is-danger': errors.has('searchText') }" v-validate="'required|shlth:2'" name="searchText">
                 </div>
-                <button class="search" :disabled="sbtnDisabled" @click="search()">搜索公司</button>
+                <button class="search bth-style" :disabled="sbtnDisabled" @click="search()">搜索公司</button>
                 <span v-show="errors.has('searchText')" class="help-tip">{{errors.first('searchText')}}</span>
             </div>
             <div class="search-list-title clear">
@@ -40,7 +40,7 @@
                 </div>
                 <div v-show="searchCompanyLists.companyList.length==0" class="nocompany">请在上方输入您想要搜索的企业名称</div>
             </div>
-            <a href="javascript:void(0);" @click="loadMore()" v-if="hasNext" class="click-more">点击加载更多</a>
+            <a href="javascript:void(0);" @click="loadMore()" v-if="searchCompanyLists.companyList.length>0&&hasNext" class="click-more">点击加载更多</a>
         </div>
         <LayerBox v-model="layerBoxVisible">
     
@@ -90,6 +90,8 @@ export default {
         'searchCompanyLists.pageNo'() {
             if (this.searchCompanyLists.pageNo >= parseInt(this.searchCompanyLists.totalPage)) {
                 this.hasNext = false
+            } else {
+                this.hasNext = true
             }
         },
         value(val) {
@@ -132,5 +134,8 @@ export default {
 </script>
 
 <style scoped>
-
+    .bth-style {
+        border-radius: 0 3px 3px 0;
+        font-size: 16px;
+    }
 </style>

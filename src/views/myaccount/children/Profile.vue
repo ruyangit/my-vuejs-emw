@@ -15,7 +15,8 @@
         </div>
         <div class="user-line">
             <label for="">手机号</label>
-            <input type="text" v-model="userInfo.mobile" disabled>
+            <!-- <input type="text" v-model="userInfo.mobile" disabled> -->
+            <span>{{userInfo.mobile | formatPhone}}</span>
             <router-link to="/MyAccount/ResetPhone">修改</router-link>
         </div>
         <div class="user-line">

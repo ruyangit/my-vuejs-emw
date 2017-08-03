@@ -13,6 +13,7 @@ import VeeValidate from 'vee-validate'
 
 import "toastr/build/toastr.css"
 import "nprogress/nprogress.css"
+import * as filters from './utils/filters'
 
 Vue.config.productionTip = false
 
@@ -25,6 +26,11 @@ if (isLogin) {
   store.commit("global/isLogin", 'true')
   store.dispatch("global/getUserInfo")
 }
+
+// 添加全局过滤器
+Object.keys(filters).forEach(function (key, index, arr) {
+  Vue.filter(key, filters[key]);
+})
 
 const app = new Vue({
   router,

@@ -4,7 +4,7 @@
         </div>
         <div class="user layout">
             <form @submit.prevent="validateSubmit('forgontPassForm')" data-vv-scope="forgontPassForm">
-                <div class="user-modal" v-show="status">
+                <div class="user-modal userBox-shadow" v-show="status">
                     <div class="modal-line">
                         <label for="">手机号码：</label>
                         <input :disabled="mobileDisabled" :class="{'input': true, 'is-danger': errors.has('forgontPassForm.mobile') }" type="tel" placeholder="请输入您的手机号码" v-validate="'required|phone'" v-model="forgontPassForm.mobile" name="mobile">
@@ -98,12 +98,15 @@ export default {
 
 }
 </script>
-<style>
+<style scoped>
 
 .user .user-modal {
     position: relative;
     top: -150px;
     background-color: #fff;
     border: 1px solid #e5e5e5;
+}
+.user .userBox-shadow {
+    box-shadow: 0 0 10px #ccc;
 }
 </style>

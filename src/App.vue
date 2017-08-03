@@ -22,8 +22,8 @@
                                             <p>欢迎来到企业监测预警中心</p>
                                         </div>
                                         <div class="ac-body">
-                                            <p v-text="'所属企业：'+userInfo.companyName"></p>
-                                            <p v-text="'手机号：'+userInfo.mobile"></p>
+                                            <p v-text="'企业名称：'+userInfo.companyName"></p>
+                                            <p>手机号：{{userInfo.mobile | formatPhone}}</p>
                                             <p v-text="'邮箱：'+userInfo.email"></p>
                                         </div>
                                         <div class="ac-footer">
