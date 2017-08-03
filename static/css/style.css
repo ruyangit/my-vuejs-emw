@@ -129,7 +129,7 @@ a{
 	position: absolute;
   right: 0;
   top: 57px;
-  /*display: none;*/
+  /* display: none; */
   z-index: 100;
 }
 .menu .nav li a.my-accout .accout-layer{
@@ -170,14 +170,14 @@ a{
 .accout-layer .ac-footer button{
   text-align: center;
   color: #999;
-  line-height: 35px;
+  line-height: 78px;
   border:0;
   background: none;
   display: block;
-  width:100px;
-  margin:20px auto;
+  width:100%;
   font-size: 20px;
   cursor: pointer;
+  padding: 0;
 }
 .menu .nav li a.my-accout .accout-layer .arr{
   width: 0;
@@ -493,13 +493,14 @@ a{
   -webkit-transform: translate(-50%, -50%);
   -moz-transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
-  width: 1140px;
+  width: 1160px;
   border-radius: 3px;
   background: #fff;
   z-index: 100;
   padding: 30px;
   height: auto;
   max-height: 580px;
+  overflow: auto;
 }
 .event-con h3{
   text-align: center;

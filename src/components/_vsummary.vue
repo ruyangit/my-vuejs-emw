@@ -12,12 +12,12 @@
                     <dd>信息变更</dd>
                 </dl>
                 <dl class="track">
-                    <dt v-if="summary.riskToday" v-text="summary.riskToday">--</dt>
+                    <dt v-if="summary.sentimentToday" v-text="summary.sentimentToday">--</dt>
                     <dt v-else>--</dt>
                     <dd>舆情跟踪</dd>
                 </dl>
                 <dl class="risk">
-                    <dt v-if="summary.sentimentToday" v-text="summary.sentimentToday">--</dt>
+                    <dt v-if="summary.riskToday" v-text="summary.riskToday">--</dt>
                     <dt v-else>--</dt>
                     <dd>预警风险</dd>
                 </dl>
@@ -35,13 +35,13 @@
                     <dt v-else>--</dt>
                     <dd>信息变更</dd>
                 </dl>
-                <dl class="track">
-                    <dt v-if="summary.riskThirty" v-text="summary.riskThirty">--</dt>
+                <dl class="track">                    
+                    <dt v-if="summary.sentimentThirty" v-text="summary.sentimentThirty">--</dt>
                     <dt v-else>--</dt>
                     <dd>舆情跟踪</dd>
                 </dl>
                 <dl class="risk">
-                    <dt v-if="summary.sentimentThirty" v-text="summary.sentimentThirty">--</dt>
+                    <dt v-if="summary.riskThirty" v-text="summary.riskThirty">--</dt> 
                     <dt v-else>--</dt>
                     <dd>预警风险</dd>
                 </dl>
@@ -59,12 +59,12 @@
                     <dd>信息变更</dd>
                 </dl>
                 <dl class="track">
-                    <dt v-if="summary.riskNinety" v-text="summary.riskNinety">--</dt>
+                    <dt v-if="summary.sentimentNinety" v-text="summary.sentimentNinety">--</dt>
                     <dt v-else>--</dt>
                     <dd>舆情跟踪</dd>
                 </dl>
                 <dl class="risk">
-                    <dt v-if="summary.sentimentNinety" v-text="summary.sentimentNinety">--</dt>
+                    <dt v-if="summary.riskNinety" v-text="summary.riskNinety">--</dt>
                     <dt v-else>--</dt>
                     <dd>预警风险</dd>
                 </dl>

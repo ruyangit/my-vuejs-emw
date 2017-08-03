@@ -1,7 +1,7 @@
 <template>
     <div class="user layout">
         <div class="user-line">
-            <label for="">所属企业</label>
+            <label for="">企业名称</label>
             <input type="text" disabled v-model="userInfo.companyName">
         </div>
         <div class="user-line">

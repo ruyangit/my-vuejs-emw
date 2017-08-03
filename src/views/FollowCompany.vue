@@ -78,7 +78,7 @@
             <p>取消时间：
                 <label v-text="followDate"></label>
             </p>
-            <p>取消关注将无法及时获取该企业的最新信息，同时下月将取消计费。</p>
+            <p class="font-color"><img src="static/images/icon-details.png" alt="" >取消关注将无法及时获取该企业的最新信息，同时下月将自动停止计费。</p>
             <button class="btn" @click="confirmCancelFollow()">确认取消</button>
         </LayerBox>
         <LayerBox v-model="searchValidateVisible" :isClose="isClose">
@@ -300,5 +300,18 @@ table.company tr td.thr {
 
 .search-validate .validate a {
     margin-left: 15px;
+}
+.font-color {
+    font-size: 14px;
+    color: #bfbfbf;
+    position: relative;
+    padding-left: 20px;
+}
+.font-color img {
+    width: 13px;
+    height: 15px;
+    position: absolute;
+    top: 7px;
+    left: 0;
 }
 </style>

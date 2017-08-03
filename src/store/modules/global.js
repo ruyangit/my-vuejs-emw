@@ -2,7 +2,7 @@ import api from '@api'
 import toastr from 'toastr'
 import { inBrowser } from '@/utils'
 import { setStore, removeStore } from '@/utils/storage'
-toastr.options.positionClass = 'toast-bottom-left'
+toastr.options.positionClass = 'toast-top-center'
 const state = {
     progress: 0,
     isLogin: false,

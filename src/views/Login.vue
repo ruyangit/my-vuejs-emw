@@ -149,4 +149,8 @@ export default {
     margin: 10px auto;
     color: #ed3f14;
 }
+/*验证提示框toastr样式修改  */
+.toast-top-center {
+    top: 70px;
+}
 </style>

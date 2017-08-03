@@ -32,7 +32,7 @@
         <div v-if="!warningNoData">
             <v-summary :data="monitorSummaryLists.summary"></v-summary>
             <div class="list layout">
-                <div class="rowList clear" v-for="(item,index) in monitorSummaryLists.monitorList" :key="index">
+                <div class="rowList clear cursor" v-for="(item,index) in monitorSummaryLists.monitorList" :key="index" @click="detail(item)" >
                     <div class="left event" v-if="item.dataType=='change'">
                         信息变更
                     </div>
@@ -45,11 +45,11 @@
                     <div class="left eventDetails">
                         <dl>
                             <dt>
-                                <a href="javascript:;" @click="detail(item)" v-text="item.respondentName"></a>
+                                <a href="javascript:;" v-text="item.respondentName"></a>
                             </dt>
-                            <dd v-if="item.dataType=='change'" v-text="'变更后：'+item.contentB"></dd>
+                            <dd v-if="item.dataType=='change'" v-text="'变更后：'+item.contentB" class="txt-ellipsis"></dd>
                             <dd v-else v-text="item.contentA"></dd>
-                            <dd v-if="item.dataType=='change'" v-text="'变更前：'+item.contentA" class="lightThis"></dd>
+                            <dd v-if="item.dataType=='change'" v-text="'变更前：'+item.contentA" class="lightThis txt-ellipsis"></dd>
                             <dd v-else v-text="item.contentB"></dd>
                         </dl>
                         <v-date :date='item.dt'></v-date>
@@ -363,5 +363,14 @@ table.tbl tr td {
 table.tbl tr td.thr {
     width: 165px;
     background-color: #f9f9f9;
+}
+.txt-ellipsis{
+    width: 850px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.cursor {
+    cursor: pointer;
 }
 </style>
