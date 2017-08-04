@@ -107,7 +107,7 @@ a{
   height: 22px;
   display: block;
   float: left;
-  margin-top: 16px;
+  margin-top: 18px;
   margin-left: 42px;
   margin-right: 5px;
 }
@@ -154,6 +154,7 @@ a{
 }
 .accout-layer .ac-header h3{
   font-size: 24px;
+  line-height: 2;
 }
 .accout-layer .ac-header p{
   color: #999;
@@ -164,7 +165,7 @@ a{
   border-bottom: 1px solid #bbb
 }
 .accout-layer .ac-body p{
-  font-size:18px;
+  font-size:20px;
   line-height: 35px;
 }
 .accout-layer .ac-footer button{
@@ -227,7 +228,7 @@ a{
     background: #fff;
     float: right;
     margin-top:100px;
-    box-shadow: 2px 2px 2px 0 rgba(0,0,0,.3);
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
     padding: 32px 30px;
 }
 .login-box h1{
@@ -253,7 +254,7 @@ a{
   width: 100%;
   line-height: 60px;
   background: #49a0d5;
-  border-radius: 100px;
+  border-radius: 5px;
   border:0;
   margin:10px 0 20px 0;
   color: #fff;
@@ -401,6 +402,7 @@ a{
   border: 1px solid #bbb; 
   margin:20px auto;  
   position: relative;
+  border-radius: 4px;
 }
 .list .event{ 
   background: #00c1de;
@@ -500,7 +502,6 @@ a{
   padding: 30px;
   height: auto;
   max-height: 580px;
-  overflow: auto;
 }
 .event-con h3{
   text-align: center;
@@ -536,7 +537,7 @@ a{
   text-align: center;
   margin-top: 30px;
   width: 200px;
-  font-size: 24px
+  font-size: 20px
 }
 .event-con .texttip .texttrack{
   background: #e3894e;
@@ -547,7 +548,7 @@ a{
   text-align: center;
   margin-top: 30px;
   width: 200px;
-  font-size: 24px
+  font-size: 20px
 }
 .event-con .texttip .textrisk{
   background: #e96e74;
@@ -558,7 +559,7 @@ a{
   text-align: center;
   margin-top: 30px;
   width: 200px;
-  font-size: 24px
+  font-size: 20px;
 }
 button.btn{
   width: 385px;
@@ -976,7 +977,9 @@ table.list td a{
     line-height: 40px;
     border-radius: 0 3px 3px 0; 
 }
-
+.txtcenter {
+    text-align: center;
+  }
 
 .is-danger {
     /*border-color: red !important;*/

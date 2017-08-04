@@ -3,7 +3,7 @@
 <template>
     <div class="event-layer" v-show="visible">
         <div class="cover"></div>
-        <div class="event-con">
+        <div class="event-con overflow">
             <div>
                 <a href="javascript:void(0)" class="close" @click="close()">×</a>
                 <h3>添加企业关注</h3>
@@ -20,7 +20,7 @@
                 <div class="span-200">法定代表人</div>
                 <div class="span-200">成立时间</div>
                 <div class="span-200">登记状态</div>
-                <div class="span-200">选择关注</div>
+                <div class="span-200 txtcenter width-padding">选择关注</div>
             </div>
             <div class="search-list">
                 <div v-show="searchCompanyLists.companyList" class="search-list-line clear" v-for="(item,index) in searchCompanyLists.companyList" :key="index">
@@ -34,7 +34,7 @@
                     <div class="span-180 pd20" v-if="item.followFlag">
                         <button class="followed">已关注</button>
                     </div>
-                    <div class="span-180 pd20" v-else>
+                    <div class="span-180 pd20 txtcenter" v-else>
                         <button class="follow" @click="follow(item)">关注</button>
                     </div>
                 </div>
@@ -137,5 +137,12 @@ export default {
     .bth-style {
         border-radius: 0 3px 3px 0;
         font-size: 16px;
+    }   
+    .width-padding {
+        width: 170px;
+        padding-right: 30px;
+    }
+    .overflow {
+        overflow: visible;
     }
 </style>

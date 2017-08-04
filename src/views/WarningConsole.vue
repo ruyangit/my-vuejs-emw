@@ -32,15 +32,18 @@
         <div v-if="!warningNoData">
             <v-summary :data="monitorSummaryLists.summary"></v-summary>
             <div class="list layout">
-                <div class="rowList clear cursor" v-for="(item,index) in monitorSummaryLists.monitorList" :key="index" @click="detail(item)" >
-                    <div class="left event" v-if="item.dataType=='change'">
+                <div class="rowList clear cursor-boxshadow" v-for="(item,index) in monitorSummaryLists.monitorList" :key="index" @click="detail(item)" >
+                    <div class="left event positon-rela" v-if="item.dataType=='change'">
                         信息变更
+                        <div class="remove-line border1"></div>
                     </div>
-                    <div class="left event risk" v-else-if="item.dataType=='bond'||item.dataType=='dishonest'||item.dataType=='penalty'">
+                    <div class="left event risk positon-rela" v-else-if="item.dataType=='bond'||item.dataType=='dishonest'||item.dataType=='penalty'">
                         风险事件
+                        <div class="remove-line border2"></div>
                     </div>
-                    <div class="left event track" v-else-if="item.dataType=='track'">
+                    <div class="left event track positon-rela" v-else-if="item.dataType=='track'">
                         舆情变化
+                        <div class="remove-line border3"></div>
                     </div>
                     <div class="left eventDetails">
                         <dl>
@@ -115,8 +118,8 @@
             <h3 v-text="monitorSummaryDetailExt.respondentName">--</h3>
             <h6>预警时间：{{monitorSummaryDetailExt.dt}}</h6>
             <table class="tbl" v-if="monitorSummaryDetailItems.change">
-                <tbody>
-                    <tr>
+                <tbody class="change-table">
+                    <!-- <tr>
                         <td class="thr">变更项目</td>
                         <td>变更前</td>
                         <td>变更后</td>
@@ -127,6 +130,22 @@
                         <td v-text="monitorSummaryDetailItems.change.changeBefore"></td>
                         <td v-text="monitorSummaryDetailItems.change.changeAfter">></td>
                         <td v-text="monitorSummaryDetailItems.change.changeDt"></td>
+                    </tr> -->
+                     <tr>
+                        <td class="thr">变更项目</td>
+                        <td class="td-style" colspan="3" v-text="monitorSummaryDetailItems.change.changeItem"></td>
+                    </tr>
+                    <tr>
+                        <td class="thr">变更前</td>
+                         <td class="td-style" colspan="3"><textarea v-text="monitorSummaryDetailItems.change.changeBefore"></textarea></td>
+                    </tr> 
+                    <tr>
+                        <td class="thr">变更后</td>
+                         <td class="td-style" colspan="3"><textarea v-text="monitorSummaryDetailItems.change.changeAfter"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td class="thr">变更时间</td>
+                         <td class="td-style" colspan="3" v-text="monitorSummaryDetailItems.change.changeDt"></td>
                     </tr>
                 </tbody>
             </table>
@@ -194,7 +213,7 @@
                     </tr>
                     <tr>
                         <td class="thr">责任与义务</td>
-                        <td class="tdr" colspan="3" v-text="monitorSummaryDetailItems.dishonest.finalDuty"></td>
+                        <td class="tdr" colspan="3"><textarea class="txtarea" v-text="monitorSummaryDetailItems.dishonest.finalDuty"></textarea></td>
                     </tr>
                 </tbody>
             </table>
@@ -370,7 +389,50 @@ table.tbl tr td.thr {
     white-space: nowrap;
     text-overflow: ellipsis;
 }
-.cursor {
-    cursor: pointer;
+.cursor-boxshadow {
+    cursor: pointer;    
+    -webkit-box-shadow: 0 3px 5px #ccc;
+    -ms-box-shadow: 0 3px 5px #ccc;
+    -moz-box-shadow: 0 3px 5px #ccc;
+    -o-box-shadow: 0 3px 5px #ccc;
+    box-shadow: 0 3px 5px #ccc;
+}
+.change-table td {
+    text-align: center;
+}
+.change-table .td-style {
+    width: 600px;
+}
+.change-table textarea {
+    width: 600px;
+    height: 130px;
+    border: none;
+    padding: 10px;
+}
+.txtarea {
+    width: 600px;
+    height: 170px;
+    border: none;
+    font-size: 14px;
+}
+.positon-rela {
+    position: relative;
+}
+.remove-line {
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    width: 124px;
+    height: 124px;
+    border-radius: 4px;
+}
+.border1 {
+    border:1px solid #00c1de;
+}
+.border2 {
+    border:1px solid #e96e74;
+}
+.border3 {
+    border:1px solid #e3894e;
 }
 </style>

@@ -1,9 +1,10 @@
 <template>
     <div class="dataall layout clear">
         <div class="data">
-            <div class="titleline clear">
+            <div class="titleline clear position-rela">
                 <p class="title">今日</p>
                 <p class="extra" v-text="summary.today">--</p>
+                <div class="remove-line"></div>
             </div>
             <div class="content clear">
                 <dl class="infochange">
@@ -24,9 +25,10 @@
             </div>
         </div>
         <div class="data">
-            <div class="titleline clear">
+            <div class="titleline clear  position-rela">
                 <p class="title">近30天</p>
                 <p class="extra" v-text="summary.lastThirty">--</p>
+                <div class="remove-line"></div>
             </div>
     
             <div class="content">
@@ -48,9 +50,10 @@
             </div>
         </div>
         <div class="data">
-            <div class="titleline clear">
+            <div class="titleline clear position-rela">
                 <p class="title">近90天</p>
                 <p class="extra" v-text="summary.lastNinety">--</p>
+                <div class="remove-line"></div>
             </div>
             <div class="content">
                 <dl class="infochange clear">
@@ -88,3 +91,15 @@ export default {
 
 }
 </script>
+<style scoped>
+.position-rela {
+    position: relative;
+}
+.remove-line {
+    position: absolute;
+    width: 384px;
+    height: 50px;
+    border: 1px solid #49a0d5;
+    border-radius: 5px 5px 0 0;
+}
+</style>

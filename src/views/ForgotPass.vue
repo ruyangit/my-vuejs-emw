@@ -107,6 +107,10 @@ export default {
     border: 1px solid #e5e5e5;
 }
 .user .userBox-shadow {
+    -webkit-box-shadow: 0 0 10px #ccc;
+    -moz-box-shadow: 0 0 10px #ccc;
+    -ms-box-shadow: 0 0 10px #ccc;
+    -o-box-shadow: 0 0 10px #ccc;
     box-shadow: 0 0 10px #ccc;
 }
 </style>

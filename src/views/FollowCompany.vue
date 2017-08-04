@@ -63,10 +63,10 @@
             <p>关注时间：
                 <label v-text="followDate"></label>
             </p>
-            <p>关注后和可获取该企业信息，同时从关注日起开始按月计费。</p>
-            <div class="model-footer">
-                <button class="return" style="background-color:white" @click="backSearchFollow()">返回上一页</button>
-                <button class="btn" @click="confirmFollow()">确认关注</button>
+            <p class="font-color"><img src="static/images/icon-details.png" alt="" >关注后即可获取该企业最新信息，同时从关注日起开始按月计费。</p>
+            <div class="model-footer txtcenter">
+                <button class="return btn-return" style="background-color:white" @click="backSearchFollow()">返回上一页</button>
+                <button class="btn btn-sure" @click="confirmFollow()">确认关注</button>
             </div>
         </LayerBox>
         <LayerBox v-model="cancelFollowVisible" :isClose="isClose">
@@ -138,7 +138,7 @@
                     </tr>
                     <tr>
                         <td class="thr">经营范围</td>
-                        <td colspan="3" v-text="companyDetailItems.companyDetail.bizScope"></td>
+                        <td class="textarea-css" colspan="3"><textarea v-text="companyDetailItems.companyDetail.bizScope"></textarea></td>
                     </tr>
                 </tbody>
             </table>
@@ -313,5 +313,17 @@ table.company tr td.thr {
     position: absolute;
     top: 7px;
     left: 0;
+}
+.model-footer .btn-return,.model-footer .btn-sure {
+    width: 200px;
+}
+.model-footer .btn-return {
+    margin-right: 20px;
+}
+.textarea-css textarea{
+    width: 640px;
+    height: 90px;
+    border: none;
+    font-size: 14px;
 }
 </style>
