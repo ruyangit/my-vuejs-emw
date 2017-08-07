@@ -1,5 +1,5 @@
 <template>
-    <a href="javascript:;">
+    <a href="javascript:;" :class='{"bgGray": isChangeColor}'>
         {{time | change}}</a>
 </template>
 
@@ -9,6 +9,7 @@ export default {
     data() {
         return {
             time: '获取验证码',
+            isChangeColor: false
         }
     },
     props: {
@@ -25,13 +26,15 @@ export default {
     },
     methods: {
         countDown() {
-            this.time = 3;
+            this.time = 10;
+            this.isChangeColor = true
             let time = setInterval(() => {
                 this.time--
                 if (this.time == 0) {
                     this.$emit('countDown')
                     this.time = '获取验证码'
                     flag = true
+                    this.isChangeColor = false
                     clearInterval(time)
                 }
             }, 1000)
@@ -53,3 +56,8 @@ export default {
 
 }
 </script>
+<style>
+.bgGray {
+    background: #ccc!important;
+}
+</style>
