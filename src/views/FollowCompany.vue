@@ -63,10 +63,10 @@
             <p>关注时间：
                 <label v-text="followDate"></label>
             </p>
-            <p>关注后和可获取该企业信息，同时从关注日起开始按月计费。</p>
-            <div class="model-footer">
-                <button class="return" style="background-color:white" @click="backSearchFollow()">返回上一页</button>
-                <button class="btn" @click="confirmFollow()">确认关注</button>
+            <p class="font-color"><img src="static/images/icon-details.png" alt="" >关注后即可获取该企业最新信息，同时从关注日起开始按月计费。</p>
+            <div class="model-footer txtcenter">
+                <button class="return btn-return" style="background-color:white" @click="backSearchFollow()">返回上一页</button>
+                <button class="btn btn-sure" @click="confirmFollow()">确认关注</button>
             </div>
         </LayerBox>
         <LayerBox v-model="cancelFollowVisible" :isClose="isClose">
@@ -78,7 +78,7 @@
             <p>取消时间：
                 <label v-text="followDate"></label>
             </p>
-            <p>取消关注将无法及时获取该企业的最新信息，同时下月将取消计费。</p>
+            <p class="font-color"><img src="static/images/icon-details.png" alt="" >取消关注将无法及时获取该企业的最新信息，同时下月将自动停止计费。</p>
             <button class="btn" @click="confirmCancelFollow()">确认取消</button>
         </LayerBox>
         <LayerBox v-model="searchValidateVisible" :isClose="isClose">
@@ -138,7 +138,7 @@
                     </tr>
                     <tr>
                         <td class="thr">经营范围</td>
-                        <td colspan="3" v-text="companyDetailItems.companyDetail.bizScope"></td>
+                        <td class="textarea-css" colspan="3"><textarea v-text="companyDetailItems.companyDetail.bizScope"></textarea></td>
                     </tr>
                 </tbody>
             </table>
@@ -300,5 +300,30 @@ table.company tr td.thr {
 
 .search-validate .validate a {
     margin-left: 15px;
+}
+.font-color {
+    font-size: 14px;
+    color: #bfbfbf;
+    position: relative;
+    padding-left: 20px;
+}
+.font-color img {
+    width: 13px;
+    height: 15px;
+    position: absolute;
+    top: 7px;
+    left: 0;
+}
+.model-footer .btn-return,.model-footer .btn-sure {
+    width: 200px;
+}
+.model-footer .btn-return {
+    margin-right: 20px;
+}
+.textarea-css textarea{
+    width: 640px;
+    height: 90px;
+    border: none;
+    font-size: 14px;
 }
 </style>

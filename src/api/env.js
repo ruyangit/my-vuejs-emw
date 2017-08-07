@@ -11,7 +11,9 @@ let routerMode = 'hash';
 let productPath = '';
 
 if (process.env.NODE_ENV == 'development') {
-	baseUrl = 'http://10.166.2.245:18080/credit_monitor'
+	baseUrl = 'http://10.166.10.55:18080/credit_monitor'
+	// baseUrl = 'http://10.166.2.127:18080/credit_monitor'
+	// baseUrl = 'http://10.166.2.245:18080/credit_monitor'
 } else if (process.env.NODE_ENV == 'production') {
 	baseUrl = '/credit_monitor'
 	productPath = '/credit_monitor'

@@ -5,24 +5,21 @@
         </div>
         <div class="login layout clear">
             <form @submit.prevent="validateSubmit('loginForm')" data-vv-scope="loginForm">
-                <div class="login-box ">
+                <div class="login-box zb-login-box">
                     <h1>签约企业登录</h1>
                     <div class="form-item">
-                        <label for="">账号</label>
-                        <div class="form-item-content">
+                        <div class="form-item-content loginform">
                             <input :class="{'input': true, 'is-danger': errors.has('loginForm.userName') }" type="tel" placeholder="请输入您的帐号" v-validate="'required'" v-model="loginForm.userName" name="userName">
                             <span v-show="errors.has('loginForm.userName')" class="help-tip is-danger">帐号不能为空</span>
                         </div>
                     </div>
                     <div class="form-item">
-                        <label for="">密码</label>
-                        <div class="form-item-content">
+                        <div class="form-item-content loginform">
                             <input :class="{'input': true, 'is-danger': errors.has('loginForm.passWord') }" type="passWord" placeholder="请输入您的账号密码" v-validate="'required'" v-model="loginForm.passWord" name="passWord">
                             <span v-show="errors.has('loginForm.passWord')" class="help-tip is-danger">账号密码不能为空</span>
                         </div>
                     </div>
                     <div class="form-item" v-if="loginCode">
-                        <label for="">验证码</label>
                         <div class="form-item-content">
                             <img @click="verifCode()" :src="imageCode" style="width:80px;height:30px;position: absolute;right:0px;top:2px;">
                             <input :class="{'input': true, 'is-danger': errors.has('loginForm.loginCode') }" type="tel" placeholder="请输入您的验证码" v-validate="'required'" v-model="loginForm.loginCode" name="loginCode">
@@ -148,5 +145,23 @@ export default {
     line-height: 1;
     margin: 10px auto;
     color: #ed3f14;
+}
+/*验证提示框toastr样式修改  */
+.toast-top-center {
+    top: 70px;
+}
+.form-item .loginform input {
+    width: 353px;
+    height: 58px;
+    border: 1px solid #bbb;
+    border-radius: 5px;
+    padding-left: 15px;
+}
+.zb-login-box {
+    height: 450px;
+    background: pink;
+}
+.login-box .form-item .loginform {
+    margin-top: 10px;
 }
 </style>

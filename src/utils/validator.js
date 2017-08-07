@@ -19,7 +19,7 @@ Validator.extend('phone', {
 });
 Validator.extend('shlth', {
     getMessage(field, args) { // 添加到默认的英文错误消息里面
-        return '你输入的企业名称长度不能小于' + args[0]
+        return `关键字至少包含${args[0]}个中文字，请完善企业名称`
     },
     validate(value, args) {
         if (String(value).length >= Number(args[0])) {
