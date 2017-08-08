@@ -160,9 +160,9 @@
                 <tbody>
                     <tr>
                         <td class="thr">企业名称</td>
-                        <td  v-text="monitorSummaryDetailItems.bond.companyName"></td>
+                        <td class="w220" v-text="monitorSummaryDetailItems.bond.companyName"></td>
                         <td class="thr">工商注册号</td>
-                        <td  v-text="monitorSummaryDetailItems.bond.regNo"></td>
+                        <td class="w220" v-text="monitorSummaryDetailItems.bond.regNo"></td>
                     </tr>
                     <tr>
                         <td class="thr">统一社会信用代码</td>
@@ -240,7 +240,7 @@
                     </tr>
                     <tr>
                         <td class="thr">处罚内容</td>
-                        <td class="tdr" colspan="3" v-text="monitorSummaryDetailItems.penalty.encryStr"></td>
+                        <td class="tdr w600" colspan="3" v-text="monitorSummaryDetailItems.penalty.encryStr"></td>
                     </tr>
                     <tr>
                         <td class="thr">全名</td>
@@ -434,5 +434,11 @@ table.tbl tr td.thr {
 }
 .border3 {
     border:1px solid #e3894e;
+}
+.w600 {
+    width: 600px;
+}
+.w220 {
+    width: 220px;
 }
 </style>
