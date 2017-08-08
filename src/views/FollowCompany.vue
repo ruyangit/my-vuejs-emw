@@ -51,7 +51,7 @@
                 <div class="span-220">登记状态</div>
             </div>
             <div class="search-list" style="height:100px">
-                <div class="search-list-line clear">
+                <div class="search-list-line clear zb-bottom-line">
                     <div class="span-320 pd27" v-if="followCompany.respondentName" v-text="followCompany.respondentName"></div>
                     <div class="span-320 pd27" v-else>&nbsp;</div>
                     <div class="span-220 pd27" v-if="followCompany.legalPerson" v-text="followCompany.legalPerson"></div>
@@ -325,5 +325,11 @@ table.company tr td.thr {
     height: 90px;
     border: none;
     font-size: 14px;
+}
+.zb-bottom-line {
+    border-bottom: 1px dotted #bbb;
+}
+.event-con .zb-bottom-line div {
+    border-bottom: none;
 }
 </style>
