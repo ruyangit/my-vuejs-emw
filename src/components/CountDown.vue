@@ -26,7 +26,7 @@ export default {
     },
     methods: {
         countDown() {
-            this.time = 10;
+            this.time = 60;
             this.isChangeColor = true
             let time = setInterval(() => {
                 this.time--

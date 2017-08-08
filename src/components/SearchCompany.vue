@@ -31,7 +31,7 @@
                     <div class="span-200 pd27" v-else>&nbsp;</div>
                     <div class="span-200 pd27" v-if="item.entStatus" v-text="item.entStatus"></div>
                     <div class="span-200 pd27" v-else>&nbsp;</div>
-                    <div class="span-180 pd20 txtcenter" v-if="item.followFlag">``
+                    <div class="span-180 pd20 txtcenter" v-if="item.followFlag">
                         <button class="followed">已关注</button>
                     </div>
                     <div class="span-180 pd20 txtcenter" v-else>

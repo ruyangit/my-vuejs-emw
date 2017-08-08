@@ -32,7 +32,7 @@
         <div v-if="!warningNoData">
             <v-summary :data="monitorSummaryLists.summary"></v-summary>
             <div class="list layout">
-                <div class="rowList clear cursor-boxshadow" v-for="(item,index) in monitorSummaryLists.monitorList" :key="index" @click="detail(item)" >
+                <div class="rowList clear cursor hover-boxshadow" v-for="(item,index) in monitorSummaryLists.monitorList" :key="index" @click="detail(item)" >
                     <div class="left event positon-rela" v-if="item.dataType=='change'">
                         信息变更
                         <div class="remove-line border1"></div>
@@ -389,8 +389,10 @@ table.tbl tr td.thr {
     white-space: nowrap;
     text-overflow: ellipsis;
 }
-.cursor-boxshadow {
-    cursor: pointer;    
+.cursor {
+    cursor: pointer;        
+}
+.hover-boxshadow:hover {
     -webkit-box-shadow: 0 3px 5px #ccc;
     -ms-box-shadow: 0 3px 5px #ccc;
     -moz-box-shadow: 0 3px 5px #ccc;

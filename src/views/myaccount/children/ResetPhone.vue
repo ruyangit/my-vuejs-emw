@@ -76,8 +76,8 @@ export default {
                     //发送短信验证码接口
                     // this.shortMessage()
                     this.newstart = true
-                    this.oldValidDisabled = true
-                    this.newMobileDisabled = true
+                    this.oldValidDisabled = false
+                    this.newMobileDisabled = false
                 }
             });
             // var faa = this.$validator.validate('myForm.newValue', this.myForm.newValue)

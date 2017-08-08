@@ -585,22 +585,25 @@ button[disabled=disabled]{
   float: right;
   color: #999;
   font-size: 30px;
+  position: absolute;
+  top: 5px;
+  right: 25px;
 }
 
 .event-con .search-text{
   border-radius: 5px 0 0 5px;
   height: 53px;
-  border: 1px solid #bbb;
   float: left;
-  width: 1009px;
-  border-right: 0;
+  width: 1009px;  
 }
 
 .event-con .search-text input{
   border: none;
-  width: 1000px;
+  width: 1009px;
   height:53px;
   text-indent: 10px;
+  border: 1px solid #bbb;
+  border-right: 0;
 }
 .event-con .search-bar{
   margin-top: 20px;
