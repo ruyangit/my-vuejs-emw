@@ -23,7 +23,7 @@
                 <div class="span-200 txtcenter width-padding">选择关注</div>
             </div>
             <div class="search-list">
-                <div v-show="searchCompanyLists.companyList" class="search-list-line clear" v-for="(item,index) in searchCompanyLists.companyList" :key="index">
+                <div v-show="searchCompanyLists.companyList" class="search-list-line clear zb-bottom-line" v-for="(item,index) in searchCompanyLists.companyList" :key="index">
                     <div class="span-290 pd27" v-text="item.respondentName"></div>
                     <div class="span-200 pd27" v-if="item.legalPerson" v-text="item.legalPerson"></div>
                     <div class="span-200 pd27" v-else>&nbsp;</div>
@@ -31,7 +31,7 @@
                     <div class="span-200 pd27" v-else>&nbsp;</div>
                     <div class="span-200 pd27" v-if="item.entStatus" v-text="item.entStatus"></div>
                     <div class="span-200 pd27" v-else>&nbsp;</div>
-                    <div class="span-180 pd20" v-if="item.followFlag">
+                    <div class="span-180 pd20 txtcenter" v-if="item.followFlag">
                         <button class="followed">已关注</button>
                     </div>
                     <div class="span-180 pd20 txtcenter" v-else>
@@ -93,7 +93,8 @@ export default {
             }
 
         },
-        'searchCompanyLists.pageNo'() {
+        'searchCompanyLists'() {
+            console.log('---->searchCompanyLists')
             if (this.searchCompanyLists.pageNo >= parseInt(this.searchCompanyLists.totalPage)) {
                 this.hasNext = false
             } else {
@@ -150,17 +151,24 @@ export default {
 </script>
 
 <style scoped>
-.bth-style {
-    border-radius: 0 3px 3px 0;
-    font-size: 16px;
-}
 
-.width-padding {
-    width: 170px;
-    padding-right: 30px;
-}
+    .bth-style {
+        border-radius: 0 3px 3px 0;
+        font-size: 16px;
+    }   
+    .width-padding {
+        width: 170px;
+        padding-right: 30px;
+    }
+    .overflow {
+        overflow: visible;
+    }
+    .zb-bottom-line {
+        border-bottom: 1px dotted #bbb;
+        margin-right: 15px;
+    }
+    .event-con .zb-bottom-line div {
+        border-bottom: none;
+    }
 
-.overflow {
-    overflow: visible;
-}
 </style>

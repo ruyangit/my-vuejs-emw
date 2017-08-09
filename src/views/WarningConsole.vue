@@ -32,7 +32,7 @@
         <div v-if="!warningNoData">
             <v-summary :data="monitorSummaryLists.summary"></v-summary>
             <div class="list layout">
-                <div class="rowList clear cursor-boxshadow" v-for="(item,index) in monitorSummaryLists.monitorList" :key="index" @click="detail(item)" >
+                <div class="rowList clear cursor hover-boxshadow" v-for="(item,index) in monitorSummaryLists.monitorList" :key="index" @click="detail(item)" >
                     <div class="left event positon-rela" v-if="item.dataType=='change'">
                         信息变更
                         <div class="remove-line border1"></div>
@@ -160,9 +160,9 @@
                 <tbody>
                     <tr>
                         <td class="thr">企业名称</td>
-                        <td  v-text="monitorSummaryDetailItems.bond.companyName"></td>
+                        <td class="w220" v-text="monitorSummaryDetailItems.bond.companyName"></td>
                         <td class="thr">工商注册号</td>
-                        <td  v-text="monitorSummaryDetailItems.bond.regNo"></td>
+                        <td class="w220" v-text="monitorSummaryDetailItems.bond.regNo"></td>
                     </tr>
                     <tr>
                         <td class="thr">统一社会信用代码</td>
@@ -240,7 +240,7 @@
                     </tr>
                     <tr>
                         <td class="thr">处罚内容</td>
-                        <td class="tdr" colspan="3" v-text="monitorSummaryDetailItems.penalty.encryStr"></td>
+                        <td class="tdr w600" colspan="3" v-text="monitorSummaryDetailItems.penalty.encryStr"></td>
                     </tr>
                     <tr>
                         <td class="thr">全名</td>
@@ -389,8 +389,10 @@ table.tbl tr td.thr {
     white-space: nowrap;
     text-overflow: ellipsis;
 }
-.cursor-boxshadow {
-    cursor: pointer;    
+.cursor {
+    cursor: pointer;        
+}
+.hover-boxshadow:hover {
     -webkit-box-shadow: 0 3px 5px #ccc;
     -ms-box-shadow: 0 3px 5px #ccc;
     -moz-box-shadow: 0 3px 5px #ccc;
@@ -405,7 +407,7 @@ table.tbl tr td.thr {
 }
 .change-table textarea {
     width: 600px;
-    height: 130px;
+    height: 105px;
     border: none;
     padding: 10px;
 }
@@ -434,5 +436,11 @@ table.tbl tr td.thr {
 }
 .border3 {
     border:1px solid #e3894e;
+}
+.w600 {
+    width: 600px;
+}
+.w220 {
+    width: 220px;
 }
 </style>

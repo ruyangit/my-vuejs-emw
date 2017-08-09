@@ -5,7 +5,7 @@
         <div class="cover"></div>
         <div class="event-con" :style="'width:'+width+'px'">
             <slot></slot>
-            <button v-if="isClose" class="btn btn-cancel" @click="close()">关闭</button>
+            <button v-if="isClose" class="btn btn-cancel zb-btn" @click="close()">关闭</button>
         </div>
     </div>
 </template>
@@ -47,5 +47,7 @@ export default {
 </script>
 
 <style scoped>
-
+.zb-btn {
+    margin: 40px auto 0;
+}
 </style>
