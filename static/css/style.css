@@ -165,7 +165,7 @@ a{
   border-bottom: 1px solid #bbb
 }
 .accout-layer .ac-body p{
-  font-size:20px;
+  font-size:18px;
   line-height: 35px;
 }
 .accout-layer .ac-footer button{
@@ -499,7 +499,7 @@ a{
   border-radius: 3px;
   background: #fff;
   z-index: 100;
-  padding: 30px;
+  padding: 15px 30px;
   height: auto;
   max-height: 580px;
 }

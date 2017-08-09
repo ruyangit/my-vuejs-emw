@@ -407,7 +407,7 @@ table.tbl tr td.thr {
 }
 .change-table textarea {
     width: 600px;
-    height: 130px;
+    height: 105px;
     border: none;
     padding: 10px;
 }

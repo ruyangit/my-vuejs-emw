@@ -45,7 +45,7 @@
         <LayerBox v-model="confirmFollowVisible" :isClose="isClose">
             <h3>添加企业关注</h3>
             <p>确认关注企业信息</p>
-            <div class="search-list-title clear">
+            <!-- <div class="search-list-title clear">
                 <div class="span-320">企业名称</div>
                 <div class="span-220">法定代表人</div>
                 <div class="span-220">登记状态</div>
@@ -59,7 +59,27 @@
                     <div class="span-220 pd27" v-if="followCompany.entStatus" v-text="followCompany.entStatus"></div>
                     <div class="span-220 pd27" v-else>&nbsp;</div>
                 </div>
-            </div>
+            </div> -->
+             <table class="zb-table1">
+                <thead>
+                    <tr class="search-list-title clear">
+                        <td class="span-320">企业名称</td>
+                        <td class="span-220">法定代表人</td>
+                        <td class="span-220">登记状态</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="search-list-line clear zb-bottom-line">
+                        <td class="span-320"  v-if="followCompany.respondentName" v-text="followCompany.respondentName"></td>
+                        <td class="span-320" v-else>&nbsp;</td>
+                        <td v-if="followCompany.legalPerson" v-text="followCompany.legalPerson"></td>
+                        <td class="span-220" v-else>&nbsp;</td>
+                        <td class="span-220" v-if="followCompany.entStatus" v-text="followCompany.entStatus"></td>
+                        <td class="span-220" v-else>&nbsp;</td>
+                    </tr>
+                </tbody>
+            </table> 
+
             <p>关注时间：
                 <label v-text="followDate"></label>
             </p>
@@ -72,12 +92,24 @@
         <LayerBox v-model="cancelFollowVisible" :isClose="isClose">
             <a href="javascript:void(0)" class="close" @click="cancelFollowVisible=false">×</a>
             <h3>取消企业关注</h3>
-            <p>确认取消企业关注：
+            <!-- <p>确认取消企业关注：
                 <span v-text="followCompany.respondentName"></span>
             </p>
             <p>取消时间：
                 <label v-text="followDate"></label>
-            </p>
+            </p> -->
+
+            <table class="zb-table2">
+                <tr>
+                    <td class="w200 bgf9fafa">确认取消企业关注：</td>
+                    <td class="w600" v-text="followCompany.respondentName"></td>
+                </tr>
+                <tr>
+                    <td class="w200 bgf9fafa">取消时间：</td>
+                    <td class="w600" v-text="followDate"></td>
+                </tr>
+            </table>
+
             <p class="font-color"><img src="static/images/icon-details.png" alt="" >取消关注将无法及时获取该企业的最新信息，同时下月将自动停止计费。</p>
             <button class="btn" @click="confirmCancelFollow()">确认取消</button>
         </LayerBox>
@@ -331,5 +363,26 @@ table.company tr td.thr {
 }
 .event-con .zb-bottom-line div {
     border-bottom: none;
+}
+.zb-table1,.zb-table2 {
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+.zb-table1 thead {
+    background: #f9fafa;
+}
+.zb-table1 td,.zb-table2 td {
+    border: 1px solid #bbb;
+    height: 52px;
+    padding: 0 15px;
+}
+.zb-table2 .w200 {
+    width: 200px;
+}
+.zb-table2 .w600 {
+    width: 600px;
+}
+.zb-table2 .bgf9fafa {
+    background-color: #f9fafa;
 }
 </style>
