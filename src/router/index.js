@@ -56,9 +56,9 @@ const router = new VueRouter({
       component: MyAccount,
       children: [
         { name: 'Profile', path: 'Profile', component: Profile, },
-        { name: 'ResetPass', path: 'ResetPass', component: ResetPass, },
-        { name: 'ResetPhone', path: 'ResetPhone', component: ResetPhone, },
-        { name: 'ResetEmail', path: 'ResetEmail', component: ResetEmail, }
+        { name: 'ResetPass', path: 'ResetPass/:type', component: ResetPass, },
+        { name: 'ResetPhone', path: 'ResetPhone/:type', component: ResetPhone, },
+        { name: 'ResetEmail', path: 'ResetEmail/:type', component: ResetEmail, }
       ]
     },
 
