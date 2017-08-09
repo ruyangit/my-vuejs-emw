@@ -1,4 +1,4 @@
-import api from '@api'
+import {getUserInfo, sendSMSMsg} from '../../api/user'
 import toastr from 'toastr'
 import { inBrowser } from '@/utils'
 import { setStore, removeStore } from '@/utils/storage'
@@ -6,7 +6,8 @@ toastr.options.positionClass = 'toast-top-center'
 const state = {
     progress: 0,
     isLogin: false,
-    userInfo: null
+    userInfo: null,
+    codeInfo: null
 }
 
 const actions = {
@@ -28,10 +29,17 @@ const actions = {
         toastr.clear()
     },
     async['getUserInfo']({ commit }) {
-        const { data: { status, data } } = await api.post('/user/info.do')
+        const { data: { status, data } } = await getUserInfo()
         if (status === 'success') {
             commit('userInfo', data.userInfo)
         }
+    },
+    async['sendCode']({ commit }, {mobile, operateType, fun}) {
+      const { data: { status, data } } = await sendSMSMsg({mobile, operateType})
+      fun && fun()
+      if (status === 'success') {
+        commit('codeInfo', data)
+      }
     }
 }
 
@@ -51,7 +59,13 @@ const mutations = {
         state.userInfo = null
         removeStore('isLogin')
     },
-
+    ['codeInfo'] (state, {codeUuid, mobile, userName}) {
+      state.codeInfo = Object.assign({}, {codeUuid, mobile, userName})
+    },
+    ['updUserInfo'] (state, {key, val}) {
+      console.log('updUserInfo')
+      state.userInfo[key] = val
+    }
 }
 
 const getters = {
@@ -60,6 +74,9 @@ const getters = {
     },
     ['getUserInfo'](state) {
         return state.userInfo
+    },
+    ['getCodeInfo'](state) {
+      return state.codeInfo
     }
 }
 
