@@ -83,7 +83,8 @@
             <p>关注时间：
                 <label v-text="followDate"></label>
             </p>
-            <p class="font-color"><img src="static/images/icon-details.png" alt="" >关注后即可获取该企业最新信息，同时从关注日起开始按月计费。</p>
+            <p class="font-color">
+                <img src="static/images/icon-details.png" alt="">关注后即可获取该企业最新信息，同时从关注日起开始按月计费。</p>
             <div class="model-footer txtcenter">
                 <button class="return btn-return" style="background-color:white" @click="backSearchFollow()">返回上一页</button>
                 <button class="btn btn-sure" @click="confirmFollow()">确认关注</button>
@@ -97,6 +98,7 @@
             </p>
             <p>取消时间：
                 <label v-text="followDate"></label>
+
             </p> -->
 
             <table class="zb-table2">
@@ -111,6 +113,7 @@
             </table>
 
             <p class="font-color"><img src="static/images/icon-details.png" alt="" >取消关注将无法及时获取该企业的最新信息，同时下月将自动停止计费。</p>
+
             <button class="btn" @click="confirmCancelFollow()">确认取消</button>
         </LayerBox>
         <LayerBox v-model="searchValidateVisible" :isClose="isClose">
@@ -119,11 +122,11 @@
             <div class="search-validate">
                 <div class="modal-line">
                     <label for="">验证码：</label>
-                    <input type="tel">
+                    <input type="tel" placeholder="请输入您的验证码" v-model="validCode" name="validCode">
                 </div>
                 <div class="validate">
-                    <img>
-                    <a href="#">看不清？换一张</a>
+                    <img @click="verifCode()" :src="imageCode">
+                    <a href="#" @click="verifCode()">看不清？换一张</a>
                 </div>
             </div>
             <button class="btn" @click="confirmSearchValidate()">确认</button>
@@ -170,7 +173,9 @@
                     </tr>
                     <tr>
                         <td class="thr">经营范围</td>
-                        <td class="textarea-css" colspan="3"><textarea v-text="companyDetailItems.companyDetail.bizScope"></textarea></td>
+                        <td class="textarea-css" colspan="3">
+                            <textarea v-text="companyDetailItems.companyDetail.bizScope"></textarea>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -182,6 +187,7 @@ import { getDate } from '@/utils'
 import SearchCompany from '@/components/SearchCompany'
 import LayerBox from '@/components/LayerBox'
 import { mapGetters } from 'vuex'
+import { baseUrl } from '@api/env'
 import api from '@api'
 const fetchInitialData = async (store, config = { pageNo: 1 }) => {
     const base = { ...config, pageSize: 10 }
@@ -190,6 +196,8 @@ const fetchInitialData = async (store, config = { pageNo: 1 }) => {
 export default {
     data() {
         return {
+            validCode: '',
+            imageCode: '',
             isClose: false,
             searchVisible: false,
             searchValidateVisible: false,
@@ -204,6 +212,7 @@ export default {
         ...mapGetters({
             followCompanyLists: 'frontend/main/getFollowCompanyLists',
             companyDetailItems: 'frontend/main/getCompanyDetailItems',
+            userInfo: 'global/getUserInfo'
         })
     },
     components: {
@@ -211,6 +220,7 @@ export default {
         LayerBox
     },
     mounted() {
+        // this.verifCode()
         fetchInitialData(this.$store, { pageNo: 1 })
     },
     methods: {
@@ -219,7 +229,7 @@ export default {
             this.detailCompanyVisible = true
 
             const base = { respondentCode: e.respondentCode }
-            
+
             await this.$store.dispatch('frontend/main/getCompanyDetailItems', base)
         },
         follow(e) {
@@ -227,11 +237,18 @@ export default {
             this.confirmFollowVisible = true
         },
         searchVlidate() {
+            this.verifCode()
             this.searchValidateVisible = true
         },
         confirmSearchValidate() {
             this.searchValidateVisible = false
             this.searchVisible = true
+            //通知子组件执行搜索方法
+            if(validCode){
+                this.$store.dispatch('frontend/main/getValidCode', this.validCode)
+            }else{
+                alert('请输入图片验证码。')
+            }
         },
         backSearchFollow() {
             this.confirmFollowVisible = false
@@ -271,7 +288,12 @@ export default {
                 })
                 fetchInitialData(this.$store, { pageNo: 1 })
             }
-        }
+        },
+        verifCode() {
+            if (this.userInfo) {
+                this.imageCode = baseUrl + '/user/getCheckCodeImage.do?checkType=search&userName=' + this.userInfo.userName + '&_t=' + new Date().getTime();
+            }
+        },
     }
 
 }
@@ -333,12 +355,14 @@ table.company tr td.thr {
 .search-validate .validate a {
     margin-left: 15px;
 }
+
 .font-color {
     font-size: 14px;
     color: #bfbfbf;
     position: relative;
     padding-left: 20px;
 }
+
 .font-color img {
     width: 13px;
     height: 15px;
@@ -346,13 +370,17 @@ table.company tr td.thr {
     top: 7px;
     left: 0;
 }
-.model-footer .btn-return,.model-footer .btn-sure {
+
+.model-footer .btn-return,
+.model-footer .btn-sure {
     width: 200px;
 }
+
 .model-footer .btn-return {
     margin-right: 20px;
 }
-.textarea-css textarea{
+
+.textarea-css textarea {
     width: 640px;
     height: 90px;
     border: none;
