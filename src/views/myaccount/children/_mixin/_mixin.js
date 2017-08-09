@@ -35,9 +35,9 @@ export default {
      this.start = true
     },
     // 发送验证码
-    getCode({mobile}, fun) {
+    getCode({mobile, userName}, fun) {
       const operateType = this.typeValue[this.$route.params.type]
-      this.$store.dispatch('global/sendCode', {mobile, operateType, fun})
+      this.$store.dispatch('global/sendCode', {mobile, userName, operateType, fun})
     },
 
     backIndex () {

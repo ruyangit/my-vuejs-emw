@@ -52,9 +52,7 @@ export default {
              this.$validator.validate('myForm.newValue', this.myForm.newValue).then(result => {
                 if (result && !this.newstart) {
                     //发送短信验证码接口
-
-                    this.getCode({mobile: this.myForm.newValue}, this.initNewCountDown)
-
+                    this.getCode({mobile: this.myForm.newValue, userName: this.userInfo.userName}, this.initNewCountDown)
                 }
             });
         },

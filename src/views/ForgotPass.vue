@@ -6,6 +6,11 @@
             <form @submit.prevent="validateSubmit('forgontPassForm')" data-vv-scope="forgontPassForm">
                 <div class="user-modal userBox-shadow" v-show="status">
                     <div class="modal-line">
+                      <label>用户名：</label>
+                      <input :readonly="mobileReadonly" :class="{'input': true, 'is-danger': errors.has('forgontPassForm.userName') }" type="tel" placeholder="请输入您的帐号" v-validate="'required'" v-model="forgontPassForm.userName" name="userName">
+                      <span v-show="errors.has('forgontPassForm.userName')" class="help-tip">{{errors.first('forgontPassForm.userName')}}</span>
+                    </div>
+                    <div class="modal-line">
                         <label>手机号码：</label>
                         <input :readonly="mobileReadonly" :class="{'input': true, 'is-danger': errors.has('forgontPassForm.mobile') }" type="tel" placeholder="请输入您的手机号码" v-validate="'required|phone'" v-model="forgontPassForm.mobile" name="mobile">
                         <span v-show="errors.has('forgontPassForm.mobile')" class="help-tip">{{errors.first('forgontPassForm.mobile')}}</span>
@@ -54,6 +59,7 @@ export default {
                 mobile: '',
                 validValue: '',
                 newValue: '',
+                userName: ''
             }
         }
     },
