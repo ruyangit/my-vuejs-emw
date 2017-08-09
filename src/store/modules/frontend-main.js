@@ -1,6 +1,7 @@
 import api from '@api'
 
 const state = {
+    validCode: '',
     monitorSummaryLists: {
         summary: {},
         monitorList: [],
@@ -22,6 +23,7 @@ const state = {
     },
     searchCompanyLists: {
         companyList: [],
+        needValid: false,
         pageNo: 0,
         pageSize: 0,
         totalPage: 0,
@@ -44,6 +46,9 @@ const state = {
 }
 
 const actions = {
+    async['getValidCode']({ state }, validCode) {
+        state.validCode = validCode
+    },
     async['getMonitorSummaryLists']({ commit, state, rootState: { global, route: { fullPath } } }, config) {
         const path = fullPath
         const { data: { status, data } } = await api.post('/monitor/getSummary.do', { ...config })
@@ -188,6 +193,7 @@ const mutations = {
     },
     ['receiveSearchCompanyLists'](state, {
         companyList,
+        needValid,
         pageNo,
         pageSize,
         totalPage,
@@ -203,6 +209,7 @@ const mutations = {
         // console.log(companyList)
         state.searchCompanyLists = {
             companyList,
+            needValid,
             pageNo,
             pageSize,
             totalPage,
@@ -252,6 +259,9 @@ const mutations = {
 }
 
 const getters = {
+    ['getValidCode'](state) {
+        return state.validCode
+    },
     ['getMonitorSummaryLists'](state) {
         return state.monitorSummaryLists
     },

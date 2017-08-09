@@ -67,6 +67,7 @@ export default {
     computed: {
         ...mapGetters({
             searchCompanyLists: 'frontend/main/getSearchCompanyLists',
+            validCode: 'frontend/main/getValidCode'
         })
     },
     data() {
@@ -85,13 +86,28 @@ export default {
     },
     watch: {
         'searchCompanyLists.needValid'() {
-            // console.log(this.searchCompanyLists.needValid)
+            console.info('--------验证码验证--------', this.searchCompanyLists.needValid)
+
+            if (this.searchCompanyLists.needValid === true) {
+                this.searchVlidate()
+            }
+
         },
         'searchCompanyLists.pageNo'() {
             if (this.searchCompanyLists.pageNo >= parseInt(this.searchCompanyLists.totalPage)) {
                 this.hasNext = false
             } else {
                 this.hasNext = true
+            }
+        },
+        'validCode'() {
+            console.info('--------监听validCode--------', this.validCode)
+            if (this.validCode) {
+                fetchInitialData(this.$store, {
+                    pageNo: 1,
+                    companyName: this.searchText,
+                    validCode: this.validCode
+                })
             }
         },
         value(val) {
@@ -119,7 +135,7 @@ export default {
                     return
                 }
             });
-            
+
         },
         searchVlidate() {
             this.$emit("searchVlidate")
@@ -134,15 +150,17 @@ export default {
 </script>
 
 <style scoped>
-    .bth-style {
-        border-radius: 0 3px 3px 0;
-        font-size: 16px;
-    }   
-    .width-padding {
-        width: 170px;
-        padding-right: 30px;
-    }
-    .overflow {
-        overflow: visible;
-    }
+.bth-style {
+    border-radius: 0 3px 3px 0;
+    font-size: 16px;
+}
+
+.width-padding {
+    width: 170px;
+    padding-right: 30px;
+}
+
+.overflow {
+    overflow: visible;
+}
 </style>
