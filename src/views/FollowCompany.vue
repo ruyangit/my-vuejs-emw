@@ -156,20 +156,24 @@
                     <tr>
                         <td class="thr">公司类型</td>
                         <td v-text="companyDetailItems.companyDetail.enterpriseProperty"></td>
-                        <td class="thr">营业期限</td>
-                        <td v-text="companyDetailItems.companyDetail.operatingPeriodBegin"></td>
-                    </tr>
-                    <tr>
-                        <td class="thr">注册资金</td>
-                        <td v-text="companyDetailItems.companyDetail.registeredCapital"></td>
                         <td class="thr">发照日期</td>
                         <td v-text="companyDetailItems.companyDetail.orgNo"></td>
                     </tr>
                     <tr>
+                        <td class="thr">注册资金</td>
+                        <td v-text="companyDetailItems.companyDetail.registeredCapital"></td>
                         <td class="thr">登记机关</td>
                         <td v-text="companyDetailItems.companyDetail.regAuthority"></td>
+                    </tr>
+                    <tr>
+                        <td class="thr">经营起始日期</td>
+                        <td v-text="companyDetailItems.companyDetail.operatingPeriodBegin"></td>
+                        <td class="thr">经营结束日期</td>
+                        <td v-text="companyDetailItems.companyDetail.operatingPeriodEnd"></td>
+                    </tr>
+                     <tr>
                         <td class="thr">企业地址</td>
-                        <td v-text="companyDetailItems.companyDetail.address"></td>
+                        <td colspan="3" v-text="companyDetailItems.companyDetail.address"></td>
                     </tr>
                     <tr>
                         <td class="thr">经营范围</td>
