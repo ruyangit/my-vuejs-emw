@@ -42,11 +42,15 @@ export default {
         return {
             newstart: false,
             oldValidReadonly: false,
-            newMobileReadonly: false
+            newMobileReadonly: false,
+            oldcodeUuid: '',
+            oldmobile: '',
+            oldvalidValue: ''
         }
     },
     mixins: [myMixin],
     methods: {
+
         sendNewCode() {
              //前面发送ajax请求成功之后调用this.start = true开始短信倒计时
              this.$validator.validate('myForm.newValue', this.myForm.newValue).then(result => {
