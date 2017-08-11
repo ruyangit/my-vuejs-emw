@@ -69,7 +69,8 @@ export default {
                                         {validValue: this.myForm.validValue},
                                         {oldcodeUuid, oldmobile},
                                         {oldvalidValue: this.myForm.oldValue},
-                                        {userName: this.userInfo.userName}
+                                        {userName: this.userInfo.userName},
+                                        {oldValue: this.userInfo.mobile}
                                       )
             modifyMobile(parm).then(({data: { status, data }}) => {
               if (status === 'success') {
