@@ -4,7 +4,7 @@
 
 import {mapGetters} from 'vuex'
 import CountDown from '@/components/CountDown'
-import {userModify} from '@/api/user'
+import {modifyEmail, modifyMobile} from '@/api/user'
 
 export default {
   data () {
@@ -17,7 +17,6 @@ export default {
       },
       status: true,
       myForm: {
-        type: 'email',
         oldValue: '',
         newValue: '',
         validValue: ''
@@ -53,17 +52,48 @@ export default {
     validateSubmit(name, oldValue) {
       this.$validator.validateAll(name).then(result => {
         if (result) {
-          this.myForm.type = this.$route.params.type
-          this.myForm.oldValue = oldValue
-          const parm = Object.assign(this.myForm, this.codeInfo)
-          userModify(Object.assign(parm)).then(({data: { status, data }}) => {
-            if (status === 'success') {
-              this.$store.commit('global/updUserInfo', {key: this.myForm.type, val: this.myForm.newValue})
-              this.status = false
-            }
-          })
+          if ('email' === this.$route.params.type) {
+            this.myForm.oldValue = oldValue
+            const parm = Object.assign(this.myForm, this.getCodeInfo(this.userInfo.mobile))
+            modifyEmail(parm).then(({data: { status, data }}) => {
+              if (status === 'success') {
+                this.stateChange()
+              }
+            })
+          } else if ('mobile' === this.$route.params.type) {
+            const  {codeUuid: oldcodeUuid, mobile: oldmobile} = this.getCodeInfo(this.userInfo.mobile)
+            const  newcodeUuid = this.getCodeInfo(this.myForm.newValue)
+            const parm = Object.assign(
+                                        this.myForm,
+                                        {codeUuid: newcodeUuid.codeUuid , mobile: newcodeUuid.mobile},
+                                        {validValue: this.myForm.validValue},
+                                        {oldcodeUuid, oldmobile},
+                                        {oldvalidValue: this.myForm.oldValue},
+                                        {userName: this.userInfo.userName}
+                                      )
+            modifyMobile(parm).then(({data: { status, data }}) => {
+              if (status === 'success') {
+                this.stateChange()
+              }
+            })
+          }
         }
       });
+    },
+    getCodeInfo (val) {
+      let myCodeInfo = {}
+      this.codeInfo.find((item) => {
+        Object.keys(item).forEach((key) => {
+          if (key === val) {
+            Object.assign(myCodeInfo, item[key])
+          }
+        })
+      })
+      return myCodeInfo
+    },
+    stateChange () {
+      this.$store.commit('global/updUserInfo', {key: this.$route.params.type, val: this.myForm.newValue})
+      this.status = false
     }
   },
   components: {

@@ -7,7 +7,7 @@ const state = {
     progress: 0,
     isLogin: false,
     userInfo: null,
-    codeInfo: null
+    codeInfo: []
 }
 
 const actions = {
@@ -60,7 +60,21 @@ const mutations = {
         removeStore('isLogin')
     },
     ['codeInfo'] (state, {codeUuid, mobile, userName}) {
-      state.codeInfo = Object.assign({}, {codeUuid, mobile, userName})
+      const obj = {}
+      const tempCodeInfo = Object.assign({}, {codeUuid, mobile, userName})
+      if (state.codeInfo.length === 0) {
+        obj[mobile] = tempCodeInfo
+        state.codeInfo.push(obj)
+        return
+      }
+      state.codeInfo.find((item) => {
+        if (Reflect.has(item, mobile)) {
+          item[mobile] = tempCodeInfo
+        } else {
+          obj[mobile] = tempCodeInfo
+          state.codeInfo.push(obj)
+        }
+      })
     },
     ['updUserInfo'] (state, {key, val}) {
       console.log('updUserInfo')
