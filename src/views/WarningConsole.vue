@@ -137,11 +137,11 @@
                     </tr>
                     <tr>
                         <td class="thr">变更前</td>
-                         <td class="td-style" colspan="3"><textarea v-text="monitorSummaryDetailItems.change.changeBefore"></textarea></td>
+                         <td class="td-style" colspan="3"><div class="bigcontent" v-text="monitorSummaryDetailItems.change.changeBefore"></div></td>
                     </tr> 
                     <tr>
                         <td class="thr">变更后</td>
-                         <td class="td-style" colspan="3"><textarea v-text="monitorSummaryDetailItems.change.changeAfter"></textarea></td>
+                         <td class="td-style" colspan="3"><div class="bigcontent" v-text="monitorSummaryDetailItems.change.changeAfter"></div></td>
                     </tr>
                     <tr>
                         <td class="thr">变更时间</td>
@@ -213,7 +213,7 @@
                     </tr>
                     <tr>
                         <td class="thr">责任与义务</td>
-                        <td class="tdr" colspan="3"><textarea class="txtarea" v-text="monitorSummaryDetailItems.dishonest.finalDuty"></textarea></td>
+                        <td class="tdr" colspan="3"><div class="txtoverflow" v-text="monitorSummaryDetailItems.dishonest.finalDuty"></div></td>
                     </tr>
                 </tbody>
             </table>
@@ -405,17 +405,19 @@ table.tbl tr td.thr {
 .change-table .td-style {
     width: 600px;
 }
-.change-table textarea {
+.change-table .bigcontent {
     width: 600px;
     height: 105px;
-    border: none;
     padding: 10px;
+    overflow: auto;
+    text-align: left;
 }
-.txtarea {
+.txtoverflow {
     width: 600px;
     height: 170px;
-    border: none;
     font-size: 14px;
+    overflow: auto;
+    text-align: left;
 }
 .positon-rela {
     position: relative;

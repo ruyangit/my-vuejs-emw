@@ -40,7 +40,7 @@
                 </div>
                 <div v-show="searchCompanyLists.companyList.length==0" class="nocompany">请在上方输入您想要搜索的企业名称</div>
             </div>
-            <a href="javascript:void(0);" @click="loadMore()" v-if="searchCompanyLists.companyList.length>0&&hasNext" class="click-more">点击加载更多</a>
+            <a href="javascript:void(0);" @click="loadMore()" v-if="searchCompanyLists.companyList.length>0&&hasNext" class="click-more zb-click-more">点击加载更多</a>
         </div>
         <LayerBox v-model="layerBoxVisible">
     
@@ -170,5 +170,7 @@ export default {
     .event-con .zb-bottom-line div {
         border-bottom: none;
     }
-
+    .zb-click-more {
+        line-height: 30px;
+    }
 </style>
