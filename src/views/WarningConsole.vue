@@ -272,7 +272,7 @@ export default {
             warningDetailVisibleDishonest: false,
             warningDetailVisiblePenalty: false,
             detailConfig: {},
-            warningNoData: true,
+            warningNoData: false,
             hasNext: true,
             monitorSummaryDetailExt: {}
         }

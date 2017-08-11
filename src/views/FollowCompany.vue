@@ -138,8 +138,11 @@
                     <tr>
                         <td class="thr">企业名称</td>
                         <td class="tdr" v-text="companyDetailItems.companyDetail.respondentName"></td>
-                        <td class="thr">组织机构代码</td>
+                        <!--<td class="thr">组织机构代码</td>
                         <td class="tdr" v-text="companyDetailItems.companyDetail.orgNo"></td>
+                        -->
+                        <td class="thr">公司类型</td>
+                        <td v-text="companyDetailItems.companyDetail.enterpriseProperty"></td>
                     </tr>
                     <tr>
                         <td class="thr">统一信用社会代码</td>
@@ -153,12 +156,12 @@
                         <td class="thr">成立日期</td>
                         <td v-text="companyDetailItems.companyDetail.foundedDt"></td>
                     </tr>
-                    <tr>
+                   <!-- <tr>
                         <td class="thr">公司类型</td>
                         <td v-text="companyDetailItems.companyDetail.enterpriseProperty"></td>
                         <td class="thr">发照日期</td>
                         <td ></td>
-                    </tr>
+                    </tr>-->
                     <tr>
                         <td class="thr">注册资金</td>
                         <td v-text="companyDetailItems.companyDetail.registeredCapital"></td>
