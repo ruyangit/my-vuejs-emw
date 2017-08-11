@@ -27,13 +27,12 @@
     </div>
 </template>
 <script>
-import {userModify} from '@/api/user'
+import {modifyPwd} from '@/api/user'
 export default {
     data() {
         return {
             status: true,
             myForm: {
-                type: 'password',
                 oldValue: '',
                 newValue: ''
             }
@@ -46,7 +45,8 @@ export default {
         validateSubmit(name) {
           this.$validator.validateAll(name).then(result => {
             if (result) {
-              userModify(this.myForm).then(({data: { status, data }}) => {
+              this.myForm.userName = this.$store.state.global.userInfo.userName
+              modifyPwd(this.myForm).then(({data: { status, data }}) => {
                 if (status === 'success') {
                   this.status = false
                 }
