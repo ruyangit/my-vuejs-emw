@@ -173,8 +173,8 @@
                     </tr>
                     <tr>
                         <td class="thr">经营范围</td>
-                        <td class="textarea-css" colspan="3">
-                            <textarea v-text="companyDetailItems.companyDetail.bizScope"></textarea>
+                        <td class="bigtxt-css" colspan="3">
+                            <div v-text="companyDetailItems.companyDetail.bizScope"></div>
                         </td>
                     </tr>
                 </tbody>
@@ -380,11 +380,12 @@ table.company tr td.thr {
     margin-right: 20px;
 }
 
-.textarea-css textarea {
+.bigtxt-css div {
     width: 640px;
     height: 90px;
-    border: none;
     font-size: 14px;
+    overflow: auto;
+    text-align: left;
 }
 .zb-bottom-line {
     border-bottom: 1px dotted #bbb;
