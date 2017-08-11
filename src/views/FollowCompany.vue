@@ -145,7 +145,7 @@
                         <td class="thr">统一信用社会代码</td>
                         <td v-text="companyDetailItems.companyDetail.creditNo"></td>
                         <td class="thr">经营状态</td>
-                        <td v-text="companyDetailItems.companyDetail.orgNo"></td>
+                        <td v-text="companyDetailItems.companyDetail.entStatus"></td>
                     </tr>
                     <tr>
                         <td class="thr">注册号</td>
@@ -157,7 +157,7 @@
                         <td class="thr">公司类型</td>
                         <td v-text="companyDetailItems.companyDetail.enterpriseProperty"></td>
                         <td class="thr">发照日期</td>
-                        <td v-text="companyDetailItems.companyDetail.orgNo"></td>
+                        <td ></td>
                     </tr>
                     <tr>
                         <td class="thr">注册资金</td>
